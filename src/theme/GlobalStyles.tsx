@@ -1,9 +1,11 @@
 'use client';
 
-import { createGlobalStyle } from 'styled-components';
+import { Global, css } from '@emotion/react';
 
-const GlobalStyle = createGlobalStyle`
-  html, body, #__next {
+const globalStyles = css`
+  html,
+  body,
+  #__next {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -23,5 +25,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
   }
 `;
+
+const GlobalStyle = () => <Global styles={globalStyles} />;
 
 export default GlobalStyle;

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const Test: React.FC<React.PropsWithChildren> = ({ children }) => {
   return <TestWrapper>{children ?? 'Test'}</TestWrapper>;

@@ -14,7 +14,7 @@
 $ git clone https://github.com/2024S-Style-Transfer/visual-fable-front.git
 ```
 
-2. Install package (* yarn을 추천드립니다.)
+2. Install package (\* yarn을 추천드립니다.)
 
 ```cmd
 $ yarn
@@ -46,9 +46,15 @@ $ npm run build
 
 ---
 
+## path
+
+- /generate: 이미지 생성 페이지
+
 ## Used Tech Stack List
+
 - Next.js(v14) & TypeScript(v5)
-- styled-components
+- emotion.js & mui
 - zustand
+- axios
 - @tanstack/react-query
 - ...

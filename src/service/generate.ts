@@ -1,9 +1,8 @@
 import { ExampleItem, GenerateImagesResponse } from '@/types/service';
 import { client } from './client';
 
-// TODO: url 체크 필요
 const generateExampleImages = async (text: string) => {
-  const response = await client.post<ExampleItem[]>('/example-images', {
+  const response = await client.post<ExampleItem[]>('/images', {
     text,
   });
 

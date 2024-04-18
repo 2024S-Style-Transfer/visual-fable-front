@@ -97,10 +97,10 @@ const GenerateStep: React.FC = () => {
       setIsGlobalLoading(true);
 
       // FIXME: API 호출로 변경 필요
-      // const data = await generateImages(selectedExampleItem, filteredFableTexts);
+      // const data = await generateImages(selectedExampleItem?.data, filteredFableTexts);
       // setGeneratedItems(data.generatedItems);
       await wait(1);
-      console.log(selectedExampleItem, filteredFableTexts);
+      console.log(selectedExampleItem?.data, filteredFableTexts);
       setGeneratedItems(MOCK_GENERATED_ITEMS);
       setStep(STEP.DONE);
     } catch (error) {

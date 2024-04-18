@@ -1,28 +1,38 @@
-import { ExampleItem, GenerateImagesResponse } from '@/types/service';
+import {
+  ExampleItem,
+  GenerateExampleImagesRequest,
+  GenerateImagesRequest,
+  GenerateImagesResponse,
+} from '@/types/service';
 import { client } from './client';
 import { v4 as uuidv4 } from 'uuid';
+import { AxiosResponse } from 'axios';
 
 const generateExampleImages = async (text: string) => {
-  const response = await client.post<ExampleItem[]>('/images', {
-    text,
-  });
+  const response = await client.post<ExampleItem[], AxiosResponse<ExampleItem[]>, GenerateExampleImagesRequest>(
+    '/images',
+    { text }
+  );
 
   return response.data;
 };
 
-// FIXME: 스키마 체크 필요
-const generateImages = async (exampleImage: ExampleItem, texts: string[]) => {
+const generateImages = async (exampleImageData: string, texts: string[]) => {
   const randomProjectId = uuidv4();
 
-  const promptTexts = texts.map((promptText, index) => ({
+  const basicItems = texts.map((promptText, index) => ({
     index,
     promptText,
   }));
 
-  const response = await client.post<GenerateImagesResponse>('/generate-images', {
+  const response = await client.post<
+    GenerateImagesResponse,
+    AxiosResponse<GenerateImagesResponse>,
+    GenerateImagesRequest
+  >('/generate-images', {
     projectId: randomProjectId,
-    exampleImage,
-    promptTexts,
+    exampleImage: exampleImageData,
+    basicItems,
   });
 
   return response.data;

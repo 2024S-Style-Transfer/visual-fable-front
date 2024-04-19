@@ -9,61 +9,7 @@ import useGenerateStore, { STEP } from '@/store/generateStore';
 import { IconButton } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { GeneratedItem } from '@/types/service';
-
-// FIXME: API 호출 적용 시 데이터 교체 필요
-const MOCK_GENERATED_ITEMS: GeneratedItem[] = [
-  {
-    id: '1',
-    promptText: 'promptText1',
-    generatedImage: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '2',
-    promptText: 'promptText2',
-    generatedImage: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '3',
-    promptText: 'promptText3',
-    generatedImage: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '4',
-    promptText: 'promptText4',
-    generatedImage: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '5',
-    promptText: 'promptText5',
-    generatedImage: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '6',
-    promptText: 'promptText6',
-    generatedImage: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '7',
-    promptText: 'promptText7',
-    generatedImage: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '8',
-    promptText: 'promptText8',
-    generatedImage: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '9',
-    promptText: 'promptText9',
-    generatedImage: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '10',
-    promptText: 'promptText10',
-    generatedImage: 'https://via.placeholder.com/150',
-  },
-];
+import { MOCK_GENERATED_ITEMS } from '@/mock/data';
 
 const GenerateStep: React.FC = () => {
   const { setIsGlobalLoading } = useGlobalState();

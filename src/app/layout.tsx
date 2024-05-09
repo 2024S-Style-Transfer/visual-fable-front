@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import StyledComponentsRegistry from '@/lib/registry';
 import localFont from 'next/font/local';
 import GlobalStyle from '@/theme/GlobalStyles';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const pretendard = localFont({
   src: './fonts/PretendardVariable.woff2',
@@ -19,13 +20,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const googleClientId = process.env.GOOGLE_CLIENT_ID!;
+
   return (
     <html lang="ko">
       <body className={pretendard.className} suppressHydrationWarning={true}>
-        <StyledComponentsRegistry>
-          <GlobalStyle />
-          {children}
-        </StyledComponentsRegistry>
+        <GoogleOAuthProvider clientId={googleClientId}>
+          <StyledComponentsRegistry>
+            <GlobalStyle />
+            {children}
+          </StyledComponentsRegistry>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

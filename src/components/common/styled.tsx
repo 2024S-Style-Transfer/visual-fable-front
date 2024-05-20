@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
-import {css} from '@emotion/react';
+import { css } from '@emotion/react';
 import { ColorTheme } from '../../theme/theme';
 import { Button as MuiButton, TextareaAutosize as MuiTextarea } from '@mui/material';
 import { ButtonProps as MuiButtonProps } from '@mui/material';
-import {RedHatText} from './fontsGroup'
+import { RedHatText } from '../../theme/fontsGroup';
 
 const shadowOpts = css`
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-`
+`;
 const SectionTitle = styled.p`
   color: ${ColorTheme.textColor}
   font-size: 20px;
@@ -33,18 +33,17 @@ const TextArea = styled(MuiTextarea)`
 `;
 
 interface ButtonProps extends MuiButtonProps {
-  PreDr?: boolean;        //Pregenerate 단계 생성 버튼
-  Dr?: boolean;           //기본 생성 버튼
-  Cancel?: boolean;       //취소 및 로그아웃 버튼
-  Storage?: boolean;      //My storage 이동 버튼
+  PreDr?: boolean; //Pregenerate 단계 생성 버튼
+  Dr?: boolean; //기본 생성 버튼
+  Cancel?: boolean; //취소 및 로그아웃 버튼
+  Storage?: boolean; //My storage 이동 버튼
 }
 
 const Button = styled(MuiButton)<ButtonProps>`
-  width: ${props => (props.PreDr? "10.2%" : "13.1%")};
-  height: ${props => (props.PreDr? "100px": "54px")};
+  width: ${(props) => (props.PreDr ? '10.2%' : '13.1%')};
+  height: ${(props) => (props.PreDr ? '100px' : '54px')};
   border-radius: 20px;
-  background-color : 
-    ${props => (props.PreDr || props.Dr ? ColorTheme.primaryColor : ColorTheme.negativeColor)};
+  background-color: ${(props) => (props.PreDr || props.Dr ? ColorTheme.primaryColor : ColorTheme.negativeColor)};
 `;
 
 const BannerContents = styled.div`
@@ -55,23 +54,29 @@ const BannerContents = styled.div`
   font-size: 3.75rem;
   flex-direction: column;
   font-weight: bold;
-
-`
+`;
 const BannerText = styled.div`
   text-align: center;
-  color: ${props => props.className === "highlight" ? ColorTheme.textColor : ColorTheme.textColor};
-  background-image: ${props => props.className === "highlight" ? `linear-gradient(to right, ${ColorTheme.primaryColor}, ${ColorTheme.secondaryColor})` : "none"};
-  background-clip: ${props => props.className === "highlight" ? "text" : "none"};
-  -webkit-background-clip: ${props => props.className === "highlight" ? "text" : "none"};
-  -webkit-text-fill-color: ${props => props.className === "highlight" ? "transparent" : "inherit"};
+  color: ${ColorTheme.textColor};
+  background-image: none;
+  background-clip: none;
+  -webkit-background-clip: none;
+  -webkit-text-fill-color: inherit;
+
+  &.highlight {
+    background-image: linear-gradient(to right, ${ColorTheme.primaryColor}, ${ColorTheme.secondaryColor});
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 `;
 
 // 균등 정렬 아티클
-const Contents= styled.div`
+const Contents = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-`
+`;
 
 // 네비게이터 아래 섹션(10column) 공통 스타일.
 const Section = styled.section`
@@ -80,10 +85,9 @@ const Section = styled.section`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-`
+`;
 
 // 각 page의 중앙 정렬을 위한 wrapper(공통 스타일 적용)
-// TODO: 실제 디자인 작업 후에는 내부 스타일 수정 필요 - (완)
 const CommonWrapper = styled.section`
   width: 100%;
   padding: 60px;
@@ -91,11 +95,7 @@ const CommonWrapper = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: auto; 
-`
+  overflow: auto;
+`;
 
-
-
-
-
-export {shadowOpts, SectionTitle, TextArea, Button, BannerContents, BannerText, Contents, Section, CommonWrapper};
+export { shadowOpts, SectionTitle, TextArea, Button, BannerContents, BannerText, Contents, Section, CommonWrapper };

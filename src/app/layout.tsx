@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import StyledComponentsRegistry from '@/lib/registry';
-import { pretendard } from '@/components/common/fontsGroup';
+import { pretendard } from '@/theme/fontsGroup';
 import GlobalStyle from '@/theme/GlobalStyles';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 

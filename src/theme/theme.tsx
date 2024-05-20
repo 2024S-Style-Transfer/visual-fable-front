@@ -8,6 +8,6 @@ const ColorTheme = {
     placeholderColor : "#1c2025",        //placeholder 색상 = 회색 
     shadowColor : "#f3f6f9",         // 카드 그림자 색상 - 회색
     tempColor : "#FFB7B7"            // 임시 색상 - 빨강
-  }
+  } as const;
 
 export {ColorTheme};

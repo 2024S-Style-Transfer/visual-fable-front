@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Button, CommonWrapper, TextArea, BannerContents, BannerText, Contents, Section} from '../common/styled';
+import { Button, CommonWrapper, TextArea, BannerContents, BannerText, Contents, Section } from '../common/styled';
 import { Card, CardContents, CardImage, CardText, CardTitle } from '../common/cards';
 import Navigator from '../common/Navigator';
-import { RedHatText } from '../common/fontsGroup';
+import { RedHatText } from '../../theme/fontsGroup';
 import useGlobalStore from '@/store/globalStore';
 import { wait } from '@/utils/time';
 import ExampleImageSelectModal from '../modals/ExampleImageSelectModal';
@@ -41,21 +41,21 @@ const PreGenerateStep: React.FC = () => {
   return (
     <>
       <PreGenerateStepWrapper>
-        <Navigator/>
+        <Navigator />
         <Section>
-          <Banner/>
+          <Banner />
           <InputArea>
             <PreDrTextArea
-            placeholder="예시 이미지를 받을 텍스트를 입력해주세요."
-            value={exampleText}
-            onChange={(e) => setExampleText(e.target.value)}
+              placeholder="예시 이미지를 받을 텍스트를 입력해주세요."
+              value={exampleText}
+              onChange={(e) => setExampleText(e.target.value)}
             />
-          
+
             <PreDrButton PreDr variant="contained" onClick={handleCreateExampleImages}>
               생성
             </PreDrButton>
           </InputArea>
-          <Cards/>
+          <Cards />
         </Section>
       </PreGenerateStepWrapper>
       {isExampleImageModalOpen && (
@@ -67,17 +67,19 @@ const PreGenerateStep: React.FC = () => {
 
 const PreGenerateStepWrapper = styled(CommonWrapper)``;
 
-const Banner= ()=>{
-  return(<>
-    <BannerContents className={RedHatText.className}>
-      <BannerText>Create your</BannerText>
-      <BannerText className="highlight">own Fable images</BannerText>
-    </BannerContents>
-  </>)
-}
+const Banner = () => {
+  return (
+    <>
+      <BannerContents className={RedHatText.className}>
+        <BannerText>Create your</BannerText>
+        <BannerText className="highlight">own Fable images</BannerText>
+      </BannerContents>
+    </>
+  );
+};
 
-const Cards = ()=>{
-  return(<>
+const Cards = () => {
+  return (
     <Contents>
       <Card>
         <CardContents>
@@ -94,27 +96,26 @@ const Cards = ()=>{
         <CardImage>Continue with google</CardImage>
       </Card>
     </Contents>
-  </>)
-}
-
+  );
+};
 
 // 프롬프트 전체 구역
 const InputArea = styled.div`
   width: 100%;
   height: 100px;
-  display:flex;
+  display: flex;
   margin-bottom: 120px;
-`
+`;
 
 //!! 버튼 배치 조정 예정
 const PreDrButton = styled(Button)`
-  float:right;
-`
+  float: right;
+`;
 
 const PreDrTextArea = styled(TextArea)`
-  float:left;
+  float: left;
   width: 89.8%;
   min-height: 100px;
-`
+`;
 
 export default PreGenerateStep;

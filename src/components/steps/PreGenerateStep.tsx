@@ -1,8 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { Button, CommonWrapper, TextArea, BannerContents, BannerText, Contents, Section } from '../common/styled';
+import {
+  Button,
+  CommonWrapper,
+  TextArea,
+  TextAreaBorder,
+  BannerContents,
+  BannerText,
+  Contents,
+  Section,
+  shadowOpts,
+  calculateHeight,
+} from '../common/styled';
 import { Card, CardContents, CardImage, CardText, CardTitle } from '../common/cards';
 import Navigator from '../common/Navigator';
 import { RedHatText } from '../../theme/fontsGroup';
@@ -16,9 +27,15 @@ const PreGenerateStep: React.FC = () => {
   const { setIsGlobalLoading } = useGlobalStore();
 
   const [exampleText, setExampleText] = useState<string>('');
+  const [textAreaHeight, setTextAreaHeight] = useState<number>(100);
 
   const [isExampleImageModalOpen, setIsExampleImageModalOpen] = useState<boolean>(false);
   const [exampleItems, setExampleItems] = useState<ExampleItem[]>([]);
+
+  // exampleText의 길이에 따라 높이를 동적으로 계산
+  useEffect(() => {
+    setTextAreaHeight(calculateHeight(exampleText));
+  }, [exampleText]);
 
   const handleCreateExampleImages = async () => {
     try {
@@ -44,15 +61,17 @@ const PreGenerateStep: React.FC = () => {
         <Navigator />
         <Section>
           <Banner />
-          <InputArea>
-            <PreDrTextArea
-              placeholder="예시 이미지를 받을 텍스트를 입력해주세요."
-              value={exampleText}
-              onChange={(e) => setExampleText(e.target.value)}
-            />
+          <InputArea style={{ marginBottom: `${textAreaHeight - 20}px` }}>
+            <PreDrTextAreaBorder style={{ height: `${textAreaHeight}px` }}>
+              <PreDrTextArea
+                placeholder="예시 이미지를 받을 텍스트를 입력해주세요."
+                value={exampleText}
+                onChange={(e) => setExampleText(e.target.value)}
+              />
+            </PreDrTextAreaBorder>
 
-            <PreDrButton PreDr variant="contained" onClick={handleCreateExampleImages}>
-              생성
+            <PreDrButton className="Dr" style={{ height: `${textAreaHeight}px` }} onClick={handleCreateExampleImages}>
+              Draw
             </PreDrButton>
           </InputArea>
           <Cards />
@@ -104,18 +123,28 @@ const InputArea = styled.div`
   width: 100%;
   height: 100px;
   display: flex;
-  margin-bottom: 120px;
+  position: relative;
 `;
 
-//!! 버튼 배치 조정 예정
-const PreDrButton = styled(Button)`
-  float: right;
-`;
-
-const PreDrTextArea = styled(TextArea)`
-  float: left;
+const PreDrTextAreaBorder = styled(TextAreaBorder)`
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 89.8%;
-  min-height: 100px;
+  z-index: 1;
+`;
+const PreDrTextArea = styled(TextArea)`
+  width: 100%;
+  height: 99%;
+`;
+
+const PreDrButton = styled(Button)`
+  width: 100%;
+  position: absolute;
+  text-align: right;
+  padding-right: 1.8%;
+  font-size: 1.75rem;
+  font-weight: bold;
 `;
 
 export default PreGenerateStep;

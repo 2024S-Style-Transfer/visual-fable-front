@@ -85,7 +85,7 @@ const GenerateStep: React.FC = () => {
         </IconButton>
       </IndexChangeButtonWrapper>
 
-      <Button variant="contained" onClick={handleCreateTextToImages} disabled={disabledConfirm}>
+      <Button onClick={handleCreateTextToImages} disabled={disabledConfirm}>
         생성
       </Button>
     </GenerateStepWrapper>

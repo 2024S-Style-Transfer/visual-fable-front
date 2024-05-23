@@ -1,8 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { Button, CommonWrapper, TextArea, SectionTitle } from '../common/styled';
+import {
+  Button,
+  CommonWrapper,
+  TextArea,
+  TextAreaBorder,
+  BannerContents,
+  BannerText,
+  Contents,
+  Section,
+  shadowOpts,
+  calculateHeight,
+} from '../common/styled';
+import { Card, CardContents, CardImage, CardText, CardTitle } from '../common/cards';
+import Navigator from '../common/Navigator';
+import { RedHatText } from '../../theme/fontsGroup';
 import useGlobalStore from '@/store/globalStore';
 import { wait } from '@/utils/time';
 import ExampleImageSelectModal from '../modals/ExampleImageSelectModal';
@@ -13,9 +27,15 @@ const PreGenerateStep: React.FC = () => {
   const { setIsGlobalLoading } = useGlobalStore();
 
   const [exampleText, setExampleText] = useState<string>('');
+  const [textAreaHeight, setTextAreaHeight] = useState<number>(100);
 
   const [isExampleImageModalOpen, setIsExampleImageModalOpen] = useState<boolean>(false);
   const [exampleItems, setExampleItems] = useState<ExampleItem[]>([]);
+
+  // exampleText의 길이에 따라 높이를 동적으로 계산
+  useEffect(() => {
+    setTextAreaHeight(calculateHeight(exampleText));
+  }, [exampleText]);
 
   const handleCreateExampleImages = async () => {
     try {
@@ -38,15 +58,24 @@ const PreGenerateStep: React.FC = () => {
   return (
     <>
       <PreGenerateStepWrapper>
-        <SectionTitle>예시 텍스트 입력</SectionTitle>
-        <TextArea
-          placeholder="예시 이미지를 받을 텍스트를 입력해주새요."
-          value={exampleText}
-          onChange={(e) => setExampleText(e.target.value)}
-        />
-        <Button variant="contained" onClick={handleCreateExampleImages}>
-          생성
-        </Button>
+        <Navigator />
+        <Section>
+          <Banner />
+          <InputArea style={{ marginBottom: `${textAreaHeight - 20}px` }}>
+            <PreDrTextAreaBorder style={{ height: `${textAreaHeight}px` }}>
+              <PreDrTextArea
+                placeholder="예시 이미지를 받을 텍스트를 입력해주세요."
+                value={exampleText}
+                onChange={(e) => setExampleText(e.target.value)}
+              />
+            </PreDrTextAreaBorder>
+
+            <PreDrButton className="Dr" style={{ height: `${textAreaHeight}px` }} onClick={handleCreateExampleImages}>
+              Draw
+            </PreDrButton>
+          </InputArea>
+          <Cards />
+        </Section>
       </PreGenerateStepWrapper>
       {isExampleImageModalOpen && (
         <ExampleImageSelectModal exampleItems={exampleItems} onClose={() => setIsExampleImageModalOpen(false)} />
@@ -56,5 +85,66 @@ const PreGenerateStep: React.FC = () => {
 };
 
 const PreGenerateStepWrapper = styled(CommonWrapper)``;
+
+const Banner = () => {
+  return (
+    <>
+      <BannerContents className={RedHatText.className}>
+        <BannerText>Create your</BannerText>
+        <BannerText className="highlight">own Fable images</BannerText>
+      </BannerContents>
+    </>
+  );
+};
+
+const Cards = () => {
+  return (
+    <Contents>
+      <Card>
+        <CardContents>
+          <CardTitle>About visual Fable</CardTitle>
+          <CardText>원하는 스타일로 자신의 동화 이미지를 만드세요.</CardText>
+        </CardContents>
+        <CardImage></CardImage>
+      </Card>
+      <Card>
+        <CardContents>
+          <CardTitle>Premium benefits</CardTitle>
+          <CardText>로그인한 유저는 더 많은 혜택을 누릴 수 있습니다.</CardText>
+        </CardContents>
+        <CardImage>Continue with google</CardImage>
+      </Card>
+    </Contents>
+  );
+};
+
+// 프롬프트 전체 구역
+const InputArea = styled.div`
+  width: 100%;
+  height: 100px;
+  display: flex;
+  position: relative;
+`;
+
+const PreDrTextAreaBorder = styled(TextAreaBorder)`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 89.8%;
+  z-index: 1;
+`;
+const PreDrTextArea = styled(TextArea)`
+  width: 100%;
+  height: 99%;
+`;
+
+const PreDrButton = styled(Button)`
+  width: 100%;
+  position: absolute;
+  text-align: right;
+  padding-right: 1.8%;
+  font-size: 1.75rem;
+  font-weight: bold;
+`;
 
 export default PreGenerateStep;

@@ -1,11 +1,11 @@
+/* api 테스트 중
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import useGenerateStore, { STEP } from '@/store/generateStore';
 import useGlobalStore from '@/store/globalStore';
 import { ExampleItem } from '@/types/service';
-import { wait } from '@/utils/time';
 import styled from '@emotion/styled';
 import { Button, Dialog, DialogActions } from '@mui/material';
-import { CARD_DATA } from './CARD_DATA';
+import api from './api'; // API 클라이언트 임포트
 
 interface useIntersectionObserverProps {
   root?: null;
@@ -39,16 +39,38 @@ const ExampleImageSelectModal: React.FC<Props> = ({ exampleItems, onClose }) => 
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [itemIndex, setItemIndex] = useState(6);
-  const [data, setData] = useState(CARD_DATA.slice(0, 6));
+  const [data, setData] = useState<ExampleItem[]>([]);
   const [itemPage, setItemPage] = useState(0);
-  const testFetch = (delay = 1000) => new Promise((res) => setTimeout(res, delay));
+
+  const fetchData = async (text: string, page: number, size: number) => {
+    setIsGlobalLoading(true);
+    try {
+      const response = await api.post('/exampleImages', { text, page, size });
+      return response.data.content;
+    } catch (error) {
+      console.error(error);
+      return [];
+    } finally {
+      setIsGlobalLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const initialFetch = async () => {
+      const initialData = await fetchData('', 0, 6);
+      setData(initialData);
+      setItemIndex(6);
+      setItemPage(1);
+    };
+    initialFetch();
+  }, []);
 
   const getMoreItem = async () => {
     setIsLoaded(true);
-    //FIXME : 추후 API 요청으로 수정후 setdata로 변경.
-    await testFetch();
-    setData(data.concat(CARD_DATA.slice(itemIndex, itemIndex + 6)));
-    setItemIndex((i) => i + 6);
+    const moreData = await fetchData('', itemPage, 6);
+    setData((prevData) => [...prevData, ...moreData]);
+    setItemIndex((prevIndex) => prevIndex + 6);
+    setItemPage((prevPage) => prevPage + 1);
     setIsLoaded(false);
   };
 
@@ -60,7 +82,6 @@ const ExampleImageSelectModal: React.FC<Props> = ({ exampleItems, onClose }) => 
     }
   };
 
-  //현재 대상 및 option을 props로 전달
   const { setTarget } = useIntersectionObserver({
     root: null,
     rootMargin: '0px',
@@ -76,10 +97,7 @@ const ExampleImageSelectModal: React.FC<Props> = ({ exampleItems, onClose }) => 
   const handleConfirmExampleItem = async () => {
     try {
       setIsGlobalLoading(true);
-
-      // FIXME: API 호출로 변경 필요
       await wait(3);
-      // await api.post('/api/step/1', { exampleImageId: selectedExampleItemId });
       setStep(STEP.GENERATE);
     } catch (error) {
       console.error(error);
@@ -115,7 +133,6 @@ const ExampleImageSelectModal: React.FC<Props> = ({ exampleItems, onClose }) => 
   );
 };
 
-// TODO: 추후 next/image로 변경
 const SelectableImage = styled.img<{ $isSelected: boolean }>`
   border: 2px solid ${({ $isSelected }) => ($isSelected ? 'blue' : 'transparent')};
   cursor: pointer;
@@ -125,6 +142,7 @@ const SelectableImage = styled.img<{ $isSelected: boolean }>`
   margin-bottom: 3.7%;
   background-color: pink;
 `;
+
 const ImagesBox = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -136,18 +154,19 @@ const ImagesBox = styled.div`
   display: flex;
   text-align: center;
 `;
-//
+
 const Title = styled.p`
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 3.1%;
 `;
+
 const ExampleImageSelectModalWrapper = styled.section`
   background-color: #fff;
-
   height: 89.1%;
   margin: 3.1%;
   overflow: hidden;
 `;
 
 export default ExampleImageSelectModal;
+*/

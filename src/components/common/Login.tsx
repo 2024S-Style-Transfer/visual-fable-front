@@ -3,6 +3,8 @@
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import useGlobalState from '@/store/globalStore';
 import { wait } from '@/utils/time';
+import styled from '@emotion/styled';
+import { SvgGoogleLogo } from '@/svgs';
 
 const Login: React.FC = () => {
   const { setIsGlobalLoading } = useGlobalState();
@@ -22,14 +24,29 @@ const Login: React.FC = () => {
   };
 
   return (
-    <GoogleLogin
-      onSuccess={handleLogin}
-      onError={() => {
-        console.log('Login Failed');
-        setIsGlobalLoading(false);
-      }}
-    />
+    <LoginWrapper>
+      <SvgGoogleLogo />
+
+      <GoogleLogin
+        type="standard"
+        shape="pill"
+        auto_select={false}
+        onSuccess={handleLogin}
+        onError={() => {
+          console.log('Login Failed');
+          setIsGlobalLoading(false);
+        }}
+      />
+    </LoginWrapper>
   );
 };
+
+const LoginWrapper = styled.div`
+  text-align: center;
+
+  svg {
+    margin-bottom: 10px;
+  }
+`;
 
 export default Login;

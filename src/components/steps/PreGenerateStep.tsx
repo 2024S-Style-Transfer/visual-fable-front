@@ -11,7 +11,6 @@ import {
   BannerText,
   Contents,
   Section,
-  shadowOpts,
   calculateHeight,
 } from '../common/styled';
 import { Card, CardContents, CardImage, CardText, CardTitle } from '../common/cards';
@@ -22,6 +21,8 @@ import { wait } from '@/utils/time';
 import ExampleImageSelectModal from '../modals/ExampleImageSelectModal';
 import { ExampleItem } from '@/types/service';
 import { MOCK_EXAMPLE_IMAGES } from '@/mock/data';
+import Login from '../common/Login';
+import { SvgUserIcon } from '@/svgs';
 
 const PreGenerateStep: React.FC = () => {
   const { setIsGlobalLoading } = useGlobalStore();
@@ -98,6 +99,13 @@ const Banner = () => {
 };
 
 const Cards = () => {
+  const { isLogin, setIsLogin } = useGlobalStore();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLogin(false);
+  };
+
   return (
     <Contents>
       <Card>
@@ -107,16 +115,70 @@ const Cards = () => {
         </CardContents>
         <CardImage></CardImage>
       </Card>
-      <Card>
-        <CardContents>
-          <CardTitle>Premium benefits</CardTitle>
-          <CardText>로그인한 유저는 더 많은 혜택을 누릴 수 있습니다.</CardText>
-        </CardContents>
-        <CardImage>Continue with google</CardImage>
-      </Card>
+      <UserCard>
+        {!isLogin && (
+          <>
+            <CardContents>
+              <CardTitle>Premium benefits</CardTitle>
+              <CardText>로그인한 유저는 더 많은 혜택을 누릴 수 있습니다.</CardText>
+            </CardContents>
+
+            <Login />
+          </>
+        )}
+        {isLogin && (
+          <>
+            <UserCardContents>
+              <UserHelloText>
+                강종연 <span> 님 환영합니다!</span>
+              </UserHelloText>
+              <UserButtonWrapper>
+                <Button className="Cancel" onClick={handleLogout}>
+                  Logout
+                </Button>
+                <Button className="Storage">My storage</Button>
+              </UserButtonWrapper>
+            </UserCardContents>
+
+            <SvgUserIcon />
+          </>
+        )}
+      </UserCard>
     </Contents>
   );
 };
+const UserCardContents = styled(CardContents)`
+  width: 100%;
+  max-width: 304px;
+`;
+const UserButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+
+  & > button {
+    width: 100%;
+    max-width: 144px;
+    height: 54px;
+  }
+`;
+const UserHelloText = styled.p`
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 28px;
+
+  & > span {
+    font-size: 18px;
+    font-weight: 500;
+  }
+`;
+const UserCard = styled(Card)`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+`;
 
 // 프롬프트 전체 구역
 const InputArea = styled.div`

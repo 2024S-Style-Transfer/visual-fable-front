@@ -21,13 +21,13 @@ const DoneStep: React.FC = () => {
       const textPage = (
         <PageWrapper key={item.id + 'page'}>
           {item.promptText}
-          <PageFooter>{index + 1}</PageFooter>
+          <PageFooter>{index * 2 + 1}</PageFooter>
         </PageWrapper>
       );
       const imgPage = (
         <PageWrapper key={item.id + 'img'}>
           <img src={item.generatedImage} alt="generated" />
-          <PageFooter $isRightmost>{index + 2}</PageFooter>
+          <PageFooter $isRightmost>{index * 2 + 2}</PageFooter>
         </PageWrapper>
       );
 
@@ -66,6 +66,10 @@ const DoneStep: React.FC = () => {
         ref={(component) => (flipBookRef.current = component)}
         width={550}
         height={733}
+        minWidth={315}
+        maxWidth={1000}
+        minHeight={400}
+        maxHeight={1533}
         size="stretch"
         maxShadowOpacity={0.5}
         mobileScrollSupport={true}

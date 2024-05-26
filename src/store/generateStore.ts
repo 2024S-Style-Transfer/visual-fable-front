@@ -1,3 +1,4 @@
+import { MAX_GENERATE_TEXT_LENGTH } from '@/constants/generate';
 import { ExampleItem, GeneratedItem } from '@/types/service';
 import { create } from 'zustand';
 
@@ -32,7 +33,7 @@ const DEFAULT_STATE: State = {
   step: STEP.PRE_GENERATE,
 
   selectedExampleItem: null,
-  fableTexts: new Array(10).fill(''),
+  fableTexts: new Array(5).fill(''),
 
   generatedItems: [],
 } as const;
@@ -46,7 +47,7 @@ const useGenerateStore = create<State & Action>((set) => ({
   setTargetFableText: (index, text) => {
     set((state) => {
       const newValue = [...state.fableTexts];
-      newValue[index] = text;
+      newValue[index] = text.slice(0, MAX_GENERATE_TEXT_LENGTH);
       return { fableTexts: newValue };
     });
   },

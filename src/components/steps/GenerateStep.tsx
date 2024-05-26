@@ -6,10 +6,9 @@ import { CommonWrapper, TextArea, SectionTitle, Button } from '../common/styled'
 import useGlobalState from '@/store/globalStore';
 import { wait } from '@/utils/time';
 import useGenerateStore, { STEP } from '@/store/generateStore';
-import { IconButton } from '@mui/material';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { MOCK_GENERATED_ITEMS } from '@/mock/data';
+import { MAX_GENERATE_TEXT_LENGTH } from '@/constants/generate';
+import { IndexButton, IndexButtonWrapper } from '../common/IndexButton';
 
 const GenerateStep: React.FC = () => {
   const { setIsGlobalLoading } = useGlobalState();
@@ -72,48 +71,88 @@ const GenerateStep: React.FC = () => {
     <GenerateStepWrapper>
       <SectionTitle>텍스트 입력</SectionTitle>
 
-      <TextAreaTitle>텍스트 {currentIndex + 1}</TextAreaTitle>
-      <TextArea
-        placeholder={`${currentIndex + 1}번째 텍스트를 입력해주새요.`}
-        value={fableTexts[currentIndex]}
-        onChange={(e) => setTargetFableText(currentIndex, e.target.value)}
-      />
-      <IndexChangeButtonWrapper>
-        <IconButton
-          aria-label="arrow-back"
-          onClick={() => handleChangeIndex(currentIndex - 1)}
-          disabled={currentIndex === 0}
-          color="primary"
-        >
-          <ArrowBackIosNewIcon />
-        </IconButton>
-        <IconButton
-          aria-label="arrow-forward"
-          onClick={() => handleChangeIndex(currentIndex + 1)}
-          disabled={currentIndex === 9}
-          color="primary"
-        >
-          <ArrowForwardIosIcon />
-        </IconButton>
-      </IndexChangeButtonWrapper>
+      <TextAreaWrapper>
+        <TextAreaHeaderWrapper>
+          <TextAreaTitle>프롬프트</TextAreaTitle>
 
-      <Button onClick={handleCreateTextToImages} disabled={disabledConfirm}>
-        생성
-      </Button>
+          <IndexButtonWrapper>
+            {fableTexts.map((text, index) => (
+              <IndexButton
+                key={index}
+                $status={index === currentIndex ? 'current' : text === '' ? 'empty' : 'filled'}
+                onClick={() => handleChangeIndex(index)}
+              >
+                {index + 1}
+              </IndexButton>
+            ))}
+          </IndexButtonWrapper>
+        </TextAreaHeaderWrapper>
+
+        <GenerateTextArea
+          placeholder="Enter the text to be generated."
+          value={fableTexts[currentIndex]}
+          onChange={(e) => setTargetFableText(currentIndex, e.target.value)}
+        />
+        <CounterWrapper>
+          <CounterText>
+            {fableTexts[currentIndex].length} / {MAX_GENERATE_TEXT_LENGTH}
+          </CounterText>
+        </CounterWrapper>
+
+        <FooterButtonWrapper>
+          <Button className="Cancel" onClick={handleCreateTextToImages}>
+            취소
+          </Button>
+          <Button className="Dr" onClick={handleCreateTextToImages} disabled={disabledConfirm}>
+            생성
+          </Button>
+        </FooterButtonWrapper>
+      </TextAreaWrapper>
     </GenerateStepWrapper>
   );
 };
 
-const IndexChangeButtonWrapper = styled.div`
-  margin: 12px 0;
+const FooterButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ${Button} + ${Button} {
+    margin-left: 12px;
+  }
+`;
+const CounterText = styled.p`
+  font-size: 28px;
+  color: #aaaaaa;
+  margin-right: 24px;
+`;
+const CounterWrapper = styled.div`
+  margin: 12px 0 24px;
   width: 100%;
   display: flex;
   justify-content: flex-end;
 `;
+const GenerateTextArea = styled(TextArea)`
+  min-height: 387px;
+  max-height: 387px;
+`;
 const TextAreaTitle = styled.p`
-  font-size: 12px;
-  color: blue;
-  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 700;
+`;
+const TextAreaHeaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 28px;
+`;
+const TextAreaWrapper = styled.div`
+  width: 100%;
+  padding: 32px 24px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 4px 4px 4px 0px #0000001a;
 `;
 const GenerateStepWrapper = styled(CommonWrapper)``;
 

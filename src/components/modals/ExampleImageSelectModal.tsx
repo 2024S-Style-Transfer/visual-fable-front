@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import useGenerateStore, { STEP } from '@/store/generateStore';
 import useGlobalStore from '@/store/globalStore';
 import { ExampleItem } from '@/types/service';
 import { wait } from '@/utils/time';
 import styled from '@emotion/styled';
-import { Button, Dialog, DialogActions } from '@mui/material';
+import { Dialog, DialogActions } from '@mui/material';
 import { CARD_DATA } from './CARD_DATA';
+import { Button } from '../common/styled';
 
 interface useIntersectionObserverProps {
   root?: null;
@@ -105,8 +106,10 @@ const ExampleImageSelectModal: React.FC<Props> = ({ exampleItems, onClose }) => 
           <div ref={setTarget}></div>
         </ImagesBox>
         <DialogActions>
-          <Button onClick={handleClose}>취소</Button>
-          <Button onClick={handleConfirmExampleItem} variant="contained" disabled={!selectedExampleItem}>
+          <Button className="Cancel" onClick={handleClose}>
+            취소
+          </Button>
+          <Button className="Dr" onClick={handleConfirmExampleItem} disabled={!selectedExampleItem}>
             선택
           </Button>
         </DialogActions>

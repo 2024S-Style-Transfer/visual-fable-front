@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { CommonWrapper, TextArea, SectionTitle, Button } from '../common/styled';
 import useGlobalState from '@/store/globalStore';
@@ -55,6 +55,18 @@ const GenerateStep: React.FC = () => {
       setIsGlobalLoading(false);
     }
   };
+
+  useEffect(() => {
+    const preventClose = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+
+    window.addEventListener('beforeunload', preventClose);
+    return () => {
+      window.removeEventListener('beforeunload', preventClose);
+    };
+  }, []);
 
   return (
     <GenerateStepWrapper>

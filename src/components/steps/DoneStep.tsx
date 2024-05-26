@@ -2,14 +2,16 @@
 
 import React, { useMemo, useState } from 'react';
 import styled from '@emotion/styled';
-import useGenerateStore from '@/store/generateStore';
 import HTMLFlipBook from 'react-pageflip';
 import { IndexButton, IndexButtonWrapper, getIndexButtonStatus } from '../common/IndexButton';
 import useGlobalStore from '@/store/globalStore';
+import { GeneratedItem } from '@/types/service';
 
-const DoneStep: React.FC = () => {
+type Props = {
+  generatedItems: GeneratedItem[];
+};
+const DoneStep: React.FC<Props> = ({ generatedItems }) => {
   const { isLogin } = useGlobalStore();
-  const { generatedItems } = useGenerateStore();
 
   const flipBookRef = React.useRef(null);
   const [pageNumber, setPageNumber] = useState<number>(0);

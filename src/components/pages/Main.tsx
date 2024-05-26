@@ -7,7 +7,7 @@ import DoneStep from '../steps/DoneStep';
 import useGenerateStore, { STEP } from '@/store/generateStore';
 
 const Main: React.FC = () => {
-  const { step, clearStore } = useGenerateStore();
+  const { step, clearStore, generatedItems } = useGenerateStore();
 
   useEffect(() => {
     return clearStore;
@@ -17,7 +17,7 @@ const Main: React.FC = () => {
     <>
       {step === STEP.PRE_GENERATE && <PreGenerateStep />}
       {step === STEP.GENERATE && <GenerateStep />}
-      {step === STEP.DONE && <DoneStep />}
+      {step === STEP.DONE && <DoneStep generatedItems={generatedItems} />}
     </>
   );
 };

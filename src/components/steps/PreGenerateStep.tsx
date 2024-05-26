@@ -14,12 +14,10 @@ import {
 import { Card, CardContents, CardImage, CardText, CardTitle } from '../common/cards';
 import { RedHatText } from '../../theme/fontsGroup';
 import useGlobalStore from '@/store/globalStore';
-import { wait } from '@/utils/time';
 import ExampleImageSelectModal from '../modals/ExampleImageSelectModal';
-import { ExampleItem } from '@/types/service';
-import { MOCK_EXAMPLE_IMAGES } from '@/mock/data';
 import Login from '../common/Login';
 import { SvgUserIcon } from '@/svgs';
+import axios, { AxiosResponse } from 'axios';
 
 const PreGenerateStep: React.FC = () => {
   const { setIsGlobalLoading } = useGlobalStore();
@@ -28,7 +26,7 @@ const PreGenerateStep: React.FC = () => {
   const [textAreaHeight, setTextAreaHeight] = useState<number>(100);
 
   const [isExampleImageModalOpen, setIsExampleImageModalOpen] = useState<boolean>(false);
-  const [exampleItems, setExampleItems] = useState<ExampleItem[]>([]);
+  const [modalResponse, setmodalResponse] = useState<AxiosResponse>();
 
   // exampleText의 길이에 따라 높이를 동적으로 계산
   useEffect(() => {
@@ -39,12 +37,17 @@ const PreGenerateStep: React.FC = () => {
     try {
       setIsGlobalLoading(true);
 
-      // FIXME: API 호출로 변경 필요
+      // FIXME: // FIXME: 추후 도메인 변경 필요
       // const data = await generateExampleImages(exampleText);
       // setExampleImages(data);
-      await wait(1);
-      console.log(exampleText);
-      setExampleItems(MOCK_EXAMPLE_IMAGES);
+
+      // Postman 활용한 api test용
+      // 참고 : https://www.postman.com/orbital-module-specialist-3006193/workspace/my-workspace
+      const response = await axios.post(
+        `https://cda4a83b-0e18-443b-a847-adbbb6c61377.mock.pstmn.io/api/images?page=${0}&size=${6}`,
+        { exampleText }
+      );
+      setmodalResponse(response);
       setIsExampleImageModalOpen(true);
     } catch (error) {
       console.error(error);
@@ -71,7 +74,11 @@ const PreGenerateStep: React.FC = () => {
       </InputArea>
       <Cards />
       {isExampleImageModalOpen && (
-        <ExampleImageSelectModal exampleItems={exampleItems} onClose={() => setIsExampleImageModalOpen(false)} />
+        <ExampleImageSelectModal
+          exampleText={exampleText}
+          modalResponse={modalResponse}
+          onClose={() => setIsExampleImageModalOpen(false)}
+        />
       )}
     </>
   );

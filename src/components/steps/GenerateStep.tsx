@@ -8,10 +8,10 @@ import { wait } from '@/utils/time';
 import useGenerateStore, { STEP } from '@/store/generateStore';
 import { MOCK_GENERATED_ITEMS } from '@/mock/data';
 import { MAX_GENERATE_TEXT_LENGTH } from '@/constants/generate';
-import { IndexButton, IndexButtonWrapper } from '../common/IndexButton';
+import { IndexButton, IndexButtonWrapper, getIndexButtonStatus } from '../common/IndexButton';
 
 const GenerateStep: React.FC = () => {
-  const { setIsGlobalLoading } = useGlobalState();
+  const { setIsGlobalLoading, isLogin } = useGlobalState();
   const { fableTexts, setTargetFableText, selectedExampleItem, setStep, setGeneratedItems } = useGenerateStore();
 
   // 현재 입력하고 있는 텍스트 index
@@ -79,7 +79,7 @@ const GenerateStep: React.FC = () => {
             {fableTexts.map((text, index) => (
               <IndexButton
                 key={index}
-                $status={index === currentIndex ? 'current' : text === '' ? 'empty' : 'filled'}
+                $status={getIndexButtonStatus({ targetText: text, targetIndex: index, currentIndex, isLogin })}
                 onClick={() => handleChangeIndex(index)}
               >
                 {index + 1}

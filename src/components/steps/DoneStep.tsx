@@ -1,58 +1,112 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from '@emotion/styled';
-import { CommonWrapper, SectionTitle } from '../common/styled';
 import useGenerateStore from '@/store/generateStore';
+import HTMLFlipBook from 'react-pageflip';
+import { IndexButton, IndexButtonWrapper, getIndexButtonStatus } from '../common/IndexButton';
+import useGlobalStore from '@/store/globalStore';
 
 const DoneStep: React.FC = () => {
+  const { isLogin } = useGlobalStore();
   const { generatedItems } = useGenerateStore();
 
-  return (
-    <DoneStepWrapper>
-      <SectionTitle>입력된 텍스트와 생성된 이미지</SectionTitle>
-      {generatedItems.map((item) => (
-        <GeneratedItemWrapper key={item.id}>
-          <PromptText>{item.promptText}</PromptText>
-          {/* TODO: 추후 next/image 적용 */}
+  const flipBookRef = React.useRef(null);
+  const [pageNumber, setPageNumber] = useState<number>(0);
+
+  const pages = useMemo(() => {
+    const pageArray: React.JSX.Element[] = [];
+
+    generatedItems.forEach((item, index) => {
+      const textPage = (
+        <PageWrapper key={item.id + 'page'}>
+          {item.promptText}
+          <PageFooter>{index + 1}</PageFooter>
+        </PageWrapper>
+      );
+      const imgPage = (
+        <PageWrapper key={item.id + 'img'}>
           <img src={item.generatedImage} alt="generated" />
-        </GeneratedItemWrapper>
-      ))}
-    </DoneStepWrapper>
+          <PageFooter $isRightmost>{index + 2}</PageFooter>
+        </PageWrapper>
+      );
+
+      pageArray.push(...[textPage, imgPage]);
+    });
+
+    return pageArray;
+  }, [generatedItems]);
+
+  return (
+    <>
+      <IndexWrapper>
+        {generatedItems.map(({ promptText }, index) => (
+          <IndexButton
+            key={index}
+            $status={getIndexButtonStatus({
+              targetText: promptText,
+              targetIndex: index,
+              currentIndex: pageNumber / 2,
+              isLogin: isLogin,
+            })}
+            onClick={() => {
+              if (!flipBookRef.current) {
+                return;
+              }
+
+              flipBookRef.current?.pageFlip?.()?.turnToPage(index * 2);
+            }}
+          >
+            {index + 1}
+          </IndexButton>
+        ))}
+      </IndexWrapper>
+
+      <HTMLFlipBook
+        ref={(component) => (flipBookRef.current = component)}
+        width={550}
+        height={733}
+        size="stretch"
+        maxShadowOpacity={0.5}
+        mobileScrollSupport={true}
+        onFlip={(e) => setPageNumber(e.data)}
+      >
+        {pages}
+      </HTMLFlipBook>
+    </>
   );
 };
 
-const PromptText = styled.div`
-  width: 60%;
-  min-height: 200px;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.5;
-  padding: 8px 12px;
-  border-radius: 8px;
-  color: #1c2025;
-  background: #fff;
-  border: 1px solid #dae2ed;
-  box-shadow: 0px 2px 2px #f3f6f9;
+const PageFooter = styled.div<{ $isRightmost?: boolean }>`
+  position: absolute;
+  bottom: 0;
+  height: 30px;
+  border-top: 1px solid #f4e8d7;
+  font-size: 80%;
+  color: #998466;
+
+  ${({ $isRightmost }) => ($isRightmost ? 'right: 20px;' : 'left: 20px;')}
 `;
-const GeneratedItemWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
+const PageWrapper = styled.div`
+  padding: 20px;
+  background-color: #fdfaf7;
+  color: #785e3a;
+  border: 1px solid #c2b5a3;
+  overflow: hidden;
+  position: relative;
+  transform-style: preserve-3d;
+  border-right: 0;
+  box-shadow: inset -7px 0 30px -7px rgba(0, 0, 0, 0.4);
+
+  img {
+    width: 100%;
+  }
+`;
+const IndexWrapper = styled(IndexButtonWrapper)`
   width: 100%;
-  gap: 16px;
+  justify-content: flex-end;
 
-  & > img {
-    width: 40%;
-  }
-
-  & + & {
-    margin-top: 16px;
-  }
-`;
-
-const DoneStepWrapper = styled(CommonWrapper)`
-  overflow-y: auto;
-  justify-content: flex-start;
+  margin-bottom: 8px;
 `;
 
 export default DoneStep;

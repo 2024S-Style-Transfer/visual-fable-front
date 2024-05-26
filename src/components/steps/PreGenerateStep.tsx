@@ -4,17 +4,14 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import {
   Button,
-  CommonWrapper,
   TextArea,
   TextAreaBorder,
   BannerContents,
   BannerText,
   Contents,
-  Section,
   calculateHeight,
 } from '../common/styled';
 import { Card, CardContents, CardImage, CardText, CardTitle } from '../common/cards';
-import Navigator from '../common/Navigator';
 import { RedHatText } from '../../theme/fontsGroup';
 import useGlobalStore from '@/store/globalStore';
 import { wait } from '@/utils/time';
@@ -58,26 +55,21 @@ const PreGenerateStep: React.FC = () => {
 
   return (
     <>
-      <PreGenerateStepWrapper>
-        <Navigator />
-        <Section>
-          <Banner />
-          <InputArea style={{ marginBottom: `${textAreaHeight - 20}px` }}>
-            <PreDrTextAreaBorder style={{ height: `${textAreaHeight}px` }}>
-              <PreDrTextArea
-                placeholder="예시 이미지를 받을 텍스트를 입력해주세요."
-                value={exampleText}
-                onChange={(e) => setExampleText(e.target.value)}
-              />
-            </PreDrTextAreaBorder>
+      <Banner />
+      <InputArea style={{ marginBottom: `${textAreaHeight - 20}px` }}>
+        <PreDrTextAreaBorder style={{ height: `${textAreaHeight}px` }}>
+          <PreDrTextArea
+            placeholder="예시 이미지를 받을 텍스트를 입력해주세요."
+            value={exampleText}
+            onChange={(e) => setExampleText(e.target.value)}
+          />
+        </PreDrTextAreaBorder>
 
-            <PreDrButton className="Dr" style={{ height: `${textAreaHeight}px` }} onClick={handleCreateExampleImages}>
-              Draw
-            </PreDrButton>
-          </InputArea>
-          <Cards />
-        </Section>
-      </PreGenerateStepWrapper>
+        <PreDrButton className="Dr" style={{ height: `${textAreaHeight}px` }} onClick={handleCreateExampleImages}>
+          Draw
+        </PreDrButton>
+      </InputArea>
+      <Cards />
       {isExampleImageModalOpen && (
         <ExampleImageSelectModal exampleItems={exampleItems} onClose={() => setIsExampleImageModalOpen(false)} />
       )}
@@ -85,16 +77,12 @@ const PreGenerateStep: React.FC = () => {
   );
 };
 
-const PreGenerateStepWrapper = styled(CommonWrapper)``;
-
 const Banner = () => {
   return (
-    <>
-      <BannerContents className={RedHatText.className}>
-        <BannerText>Create your</BannerText>
-        <BannerText className="highlight">own Fable images</BannerText>
-      </BannerContents>
-    </>
+    <BannerContents className={RedHatText.className}>
+      <BannerText>Create your</BannerText>
+      <BannerText className="highlight">own Fable images</BannerText>
+    </BannerContents>
   );
 };
 

@@ -1,16 +1,12 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import styled from '@emotion/styled';
 import PreGenerateStep from '../steps/PreGenerateStep';
 import GenerateStep from '../steps/GenerateStep';
 import DoneStep from '../steps/DoneStep';
-import useGlobalStore from '@/store/globalStore';
-import { GlobalLoading } from '../common/Loading';
 import useGenerateStore, { STEP } from '@/store/generateStore';
 
 const Main: React.FC = () => {
-  const { isGlobalLoading } = useGlobalStore();
   const { step, clearStore } = useGenerateStore();
 
   useEffect(() => {
@@ -19,16 +15,11 @@ const Main: React.FC = () => {
   }, []);
   return (
     <>
-      <MainWrapper>
-        {step === STEP.PRE_GENERATE && <PreGenerateStep />}
-        {step === STEP.GENERATE && <GenerateStep />}
-        {step === STEP.DONE && <DoneStep />}
-      </MainWrapper>
-      {isGlobalLoading && <GlobalLoading />}
+      {step === STEP.PRE_GENERATE && <PreGenerateStep />}
+      {step === STEP.GENERATE && <GenerateStep />}
+      {step === STEP.DONE && <DoneStep />}
     </>
   );
 };
-
-const MainWrapper = styled.section``;
 
 export default Main;

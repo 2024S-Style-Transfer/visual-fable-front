@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { CommonWrapper, TextArea, SectionTitle, Button } from '../common/styled';
+import { TextArea, Button, TextAreaBorder } from '../common/styled';
 import useGlobalState from '@/store/globalStore';
 import { wait } from '@/utils/time';
 import useGenerateStore, { STEP } from '@/store/generateStore';
@@ -12,7 +12,8 @@ import { IndexButton, IndexButtonWrapper, getIndexButtonStatus } from '../common
 
 const GenerateStep: React.FC = () => {
   const { setIsGlobalLoading, isLogin } = useGlobalState();
-  const { fableTexts, setTargetFableText, selectedExampleItem, setStep, setGeneratedItems } = useGenerateStore();
+  const { fableTexts, setTargetFableText, selectedExampleItem, setStep, setGeneratedItems, clearStore } =
+    useGenerateStore();
 
   // 현재 입력하고 있는 텍스트 index
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -27,6 +28,10 @@ const GenerateStep: React.FC = () => {
     }
 
     setCurrentIndex(targetIndex);
+  };
+
+  const handleCancel = () => {
+    clearStore();
   };
 
   const handleCreateTextToImages = async () => {
@@ -68,47 +73,45 @@ const GenerateStep: React.FC = () => {
   }, []);
 
   return (
-    <GenerateStepWrapper>
-      <SectionTitle>텍스트 입력</SectionTitle>
+    <TextAreaWrapper>
+      <TextAreaHeaderWrapper>
+        <TextAreaTitle>프롬프트</TextAreaTitle>
 
-      <TextAreaWrapper>
-        <TextAreaHeaderWrapper>
-          <TextAreaTitle>프롬프트</TextAreaTitle>
+        <IndexButtonWrapper>
+          {fableTexts.map((text, index) => (
+            <IndexButton
+              key={index}
+              $status={getIndexButtonStatus({ targetText: text, targetIndex: index, currentIndex, isLogin })}
+              onClick={() => handleChangeIndex(index)}
+            >
+              {index + 1}
+            </IndexButton>
+          ))}
+        </IndexButtonWrapper>
+      </TextAreaHeaderWrapper>
 
-          <IndexButtonWrapper>
-            {fableTexts.map((text, index) => (
-              <IndexButton
-                key={index}
-                $status={getIndexButtonStatus({ targetText: text, targetIndex: index, currentIndex, isLogin })}
-                onClick={() => handleChangeIndex(index)}
-              >
-                {index + 1}
-              </IndexButton>
-            ))}
-          </IndexButtonWrapper>
-        </TextAreaHeaderWrapper>
-
+      <TextAreaBorder>
         <GenerateTextArea
           placeholder="Enter the text to be generated."
           value={fableTexts[currentIndex]}
           onChange={(e) => setTargetFableText(currentIndex, e.target.value)}
         />
-        <CounterWrapper>
-          <CounterText>
-            {fableTexts[currentIndex].length} / {MAX_GENERATE_TEXT_LENGTH}
-          </CounterText>
-        </CounterWrapper>
+      </TextAreaBorder>
+      <CounterWrapper>
+        <CounterText>
+          {fableTexts[currentIndex].length} / {MAX_GENERATE_TEXT_LENGTH}
+        </CounterText>
+      </CounterWrapper>
 
-        <FooterButtonWrapper>
-          <Button className="Cancel" onClick={handleCreateTextToImages}>
-            취소
-          </Button>
-          <Button className="Dr" onClick={handleCreateTextToImages} disabled={disabledConfirm}>
-            생성
-          </Button>
-        </FooterButtonWrapper>
-      </TextAreaWrapper>
-    </GenerateStepWrapper>
+      <FooterButtonWrapper>
+        <Button className="Cancel" onClick={handleCancel}>
+          취소
+        </Button>
+        <Button className="Dr" onClick={handleCreateTextToImages} disabled={disabledConfirm}>
+          생성
+        </Button>
+      </FooterButtonWrapper>
+    </TextAreaWrapper>
   );
 };
 
@@ -154,6 +157,5 @@ const TextAreaWrapper = styled.div`
   border-radius: 10px;
   box-shadow: 4px 4px 4px 0px #0000001a;
 `;
-const GenerateStepWrapper = styled(CommonWrapper)``;
 
 export default GenerateStep;

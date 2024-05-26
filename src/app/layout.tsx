@@ -4,6 +4,7 @@ import { pretendard } from '@/theme/fontsGroup';
 import GlobalStyle from '@/theme/GlobalStyles';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import AuthGuard from '@/utils/AuthGuard';
+import DefaultLayout from '@/components/templates/DefaultLayout';
 
 export const metadata: Metadata = {
   title: 'visual fable',
@@ -24,7 +25,8 @@ export default function RootLayout({
           <AuthGuard>
             <StyledComponentsRegistry>
               <GlobalStyle />
-              {children}
+
+              <DefaultLayout>{children}</DefaultLayout>
             </StyledComponentsRegistry>
           </AuthGuard>
         </GoogleOAuthProvider>

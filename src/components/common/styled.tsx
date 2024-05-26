@@ -5,12 +5,6 @@ import { ColorTheme } from '../../theme/theme';
 const shadowOpts = css`
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
-const SectionTitle = styled.p`
-  color: ${ColorTheme.textColor};
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 12px;
-`;
 
 // exampleText의 길이에 따라 <TextAreaBorder>, <TextArea> 높이를 동적으로 계산
 const calculateHeight = (exampleText: string) => {
@@ -100,11 +94,9 @@ const Button = styled.button`
 
 const BannerContents = styled.div`
   width: 100%;
-  height: 320px;
-  display: flex;
-  justify-content: center;
+  padding-bottom: 80px;
+  text-align: center;
   font-size: 3.75rem;
-  flex-direction: column;
   font-weight: bold;
 `;
 const BannerText = styled.div`
@@ -132,6 +124,7 @@ const Contents = styled.div`
 
 // 네비게이터 아래 섹션(10column) 공통 스타일.
 const Section = styled.section`
+  margin-top: 80px;
   width: 76.2%;
   display: flex;
   align-items: center;
@@ -152,7 +145,6 @@ const CommonWrapper = styled.section`
 
 export {
   shadowOpts,
-  SectionTitle,
   TextArea,
   TextAreaBorder,
   Button,

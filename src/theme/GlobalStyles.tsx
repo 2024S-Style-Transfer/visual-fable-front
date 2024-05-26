@@ -24,6 +24,13 @@ const globalStyles = css`
   p {
     margin: 0;
   }
+  button {
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: none;
+  }
 `;
 
 const GlobalStyle = () => <Global styles={globalStyles} />;

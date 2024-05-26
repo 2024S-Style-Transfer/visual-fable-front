@@ -13,7 +13,7 @@ type Props = {
 const DoneStep: React.FC<Props> = ({ generatedItems }) => {
   const { isLogin } = useGlobalStore();
 
-  const flipBookRef = React.useRef(null);
+  const flipBookRef = React.useRef<any>(null);
   const [pageNumber, setPageNumber] = useState<number>(0);
 
   const pages = useMemo(() => {
@@ -76,6 +76,20 @@ const DoneStep: React.FC<Props> = ({ generatedItems }) => {
         maxShadowOpacity={0.5}
         mobileScrollSupport={true}
         onFlip={(e) => setPageNumber(e.data)}
+        startPage={0}
+        drawShadow={true}
+        className=""
+        style={{}}
+        flippingTime={1000}
+        usePortrait={true}
+        startZIndex={0}
+        autoSize={true}
+        clickEventForward={true}
+        useMouseEvents={true}
+        swipeDistance={30}
+        showPageCorners={true}
+        disableFlipByClick={false}
+        showCover={true}
       >
         {pages}
       </HTMLFlipBook>

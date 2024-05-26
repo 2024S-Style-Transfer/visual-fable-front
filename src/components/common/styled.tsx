@@ -6,11 +6,11 @@ const shadowOpts = css`
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 const SectionTitle = styled.p`
-    color: ${ColorTheme.textColor}
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 12px;
-  `;
+  color: ${ColorTheme.textColor};
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+`;
 
 // exampleText의 길이에 따라 <TextAreaBorder>, <TextArea> 높이를 동적으로 계산
 const calculateHeight = (exampleText: string) => {
@@ -45,27 +45,14 @@ const TextArea = styled.textarea`
     outline: none;
   }
 `;
-interface ButtonProps {
-  Dr?: boolean; //기본 생성 버튼
-  Cancel?: boolean; //취소 및 로그아웃 버튼
-  Storage?: boolean; //My storage 이동 버튼
-}
 
-const Button = styled.button<ButtonProps>`
-  width: 13.1%;
-  height: 100px;
+const Button = styled.button`
+  width: 144px;
+  height: 54px;
   border-radius: 20px;
   border: 0px;
   font-size: 1.125rem;
-  ${shadowOpts}
-
-  &:active {
-    cursor: pointer;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
+  ${shadowOpts};
 
   &.Dr {
     background-color: ${ColorTheme.primaryColor};

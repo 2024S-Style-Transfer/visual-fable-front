@@ -24,3 +24,19 @@ export interface GenerateImagesResponse {
   id: string;
   generatedItems: GeneratedItem[];
 }
+
+export interface ProjectInterface {
+  projectId: string;
+  exampleImage: string;
+  name: string;
+  description: string;
+  generatedItems: GeneratedItem[];
+  createdAt: string;
+}
+
+export interface UserResponse {
+  id: string;
+  email: string;
+  name: string;
+  projects: ProjectInterface[];
+}

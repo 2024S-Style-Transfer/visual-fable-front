@@ -21,6 +21,7 @@ const Login: React.FC = () => {
       // FIXME: API 호출로 변경 필요
       // const data = await authenticateUserWithGoogle(credentialResponse.credential);
       // localStorage.setItem('token', data.accessToken);
+      localStorage.setItem('token', credentialResponse.credential);
       setIsLogin(true);
 
       await wait(1);

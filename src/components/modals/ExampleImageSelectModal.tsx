@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import useGenerateStore, { STEP } from '@/store/generateStore';
 import useGlobalStore from '@/store/globalStore';
 import { ExampleItem } from '@/types/service';
-import { wait } from '@/utils/time';
 import styled from '@emotion/styled';
-import { Dialog, DialogActions } from '@mui/material';
-import { CARD_DATA } from './CARD_DATA';
 import { Button } from '../common/styled';
 import { ColorTheme } from '@/theme/theme';
+import axios, { AxiosResponse } from 'axios';
+import { wait } from '@/utils/time';
+import { Dialog, DialogActions } from '@mui/material';
+
+const SIZE = 6;
 
 interface useIntersectionObserverProps {
   root?: null;
@@ -31,38 +35,78 @@ const useIntersectionObserver = ({ root, rootMargin, threshold, onIntersect }: u
 };
 
 type Props = {
-  exampleItems: ExampleItem[];
+  modalResponse?: AxiosResponse<any, any>;
+  exampleText: string;
   onClose: () => void;
 };
 
-const ExampleImageSelectModal: React.FC<Props> = ({ exampleItems, onClose }) => {
-  const { setIsGlobalLoading } = useGlobalStore();
+const ExampleImageSelectModal: React.FC<Props> = ({ modalResponse, exampleText, onClose }) => {
+  const { isGlobalLoading, setIsGlobalLoading } = useGlobalStore();
   const { setStep, selectedExampleItem, setSelectedExampleItem } = useGenerateStore();
 
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [itemIndex, setItemIndex] = useState(6);
-  const [data, setData] = useState(CARD_DATA.slice(0, 6));
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isPageEnd, setIsPageEnd] = useState<boolean>(false);
+  const [itemIndex, setItemIndex] = useState<number>(6);
+  const [data, setData] = useState<ExampleItem[]>([]);
   const [itemPage, setItemPage] = useState(0);
   const testFetch = (delay = 1000) => new Promise((res) => setTimeout(res, delay));
 
-  const getMoreItem = async () => {
-    setIsLoaded(true);
-    //FIXME : 추후 API 요청으로 수정후 setdata로 변경.
-    await testFetch();
-    setData(data.concat(CARD_DATA.slice(itemIndex, itemIndex + 6)));
-    setItemIndex((i) => i + 6);
-    setIsLoaded(false);
-  };
-
-  const onIntersect: IntersectionObserverCallback = async ([entry], observer) => {
-    if (entry.isIntersecting && !isLoaded) {
-      observer.unobserve(entry.target);
-      await getMoreItem();
-      observer.observe(entry.target);
+  // initial modal page
+  useEffect(() => {
+    if (modalResponse?.data?.content) {
+      const moreItems: ExampleItem[] = modalResponse.data.content.map((item: any) => ({
+        id: item.id,
+        data: item.data,
+      }));
+      setData((prevData) => [...prevData, ...moreItems]);
+      setItemIndex(data.length);
+      setItemPage(1);
+      if (modalResponse?.data?.last == true || itemIndex < 6) {
+        setIsPageEnd(true);
+      }
     }
-  };
+  }, []);
 
-  //현재 대상 및 option을 props로 전달
+  const getMoreItem = useCallback(async () => {
+    if (!isGlobalLoading) {
+      try {
+        setIsLoaded(true);
+        // FIXME: 추후 도메인 변경 필요
+        // Postman 활용한 api test용
+        // 참고 : https://www.postman.com/orbital-module-specialist-3006193/workspace/my-workspace
+        const moreDataResponse = await axios.post(
+          `https://cda4a83b-0e18-443b-a847-adbbb6c61377.mock.pstmn.io/api/images?page=${itemPage}&size=${SIZE}`,
+          { exampleText }
+        );
+        const moreItems: ExampleItem[] = moreDataResponse.data.content.map((item: any) => ({
+          id: item.id,
+          data: item.data,
+        }));
+        setData((prevData) => [...prevData, ...moreItems]);
+        setItemIndex((prevItemIndex) => prevItemIndex + moreItems.length);
+        setItemPage((prevItemPage) => prevItemPage + 1);
+        if (moreDataResponse?.data?.last == true || moreItems.length < 6) {
+          setIsPageEnd(true);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoaded(false);
+      }
+    }
+  }, [isGlobalLoading, itemPage, exampleText]);
+
+  const onIntersect: IntersectionObserverCallback = useCallback(
+    async ([entry], observer) => {
+      if (entry.isIntersecting && !isLoaded && !isPageEnd) {
+        observer.unobserve(entry.target);
+        await getMoreItem();
+        observer.observe(entry.target);
+      }
+    },
+    [getMoreItem, isPageEnd]
+  );
+
   const { setTarget } = useIntersectionObserver({
     root: null,
     rootMargin: '0px',
@@ -99,7 +143,7 @@ const ExampleImageSelectModal: React.FC<Props> = ({ exampleItems, onClose }) => 
             <SelectableImage
               key={e.id}
               src={e.data}
-              alt={`example ${e.id}`}
+              alt={`example ${e.id} Base 64`}
               $isSelected={selectedExampleItem?.id === e.id}
               onClick={() => setSelectedExampleItem(e)}
             />
@@ -125,13 +169,13 @@ const SelectableImage = styled.img<{ $isSelected: boolean }>`
   cursor: pointer;
   width: 200px;
   height: 200px;
-  margin-left: 10%;
   margin-bottom: 3.7%;
   background-color: pink;
   border-radius: 10px;
 `;
 const ImagesBox = styled.div`
   display: flex;
+  justyfy-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 3.1%;
@@ -141,7 +185,7 @@ const ImagesBox = styled.div`
   display: flex;
   text-align: center;
 `;
-//
+
 const Title = styled.p`
   font-size: 24px;
   font-weight: bold;
@@ -149,9 +193,8 @@ const Title = styled.p`
 `;
 const ExampleImageSelectModalWrapper = styled.section`
   background-color: #fff;
-
   height: 89.1%;
-  margin: 3.1%;
+  margin: 4.2% 3.1% 4.2% 15%;
   overflow: hidden;
 `;
 

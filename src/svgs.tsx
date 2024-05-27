@@ -94,8 +94,8 @@ export const SvgMainLogo = () => (
     />
     <defs>
       <linearGradient id="b" x1="44.712" x2="178" y1="10.198" y2="10.198" gradientUnits="userSpaceOnUse">
-        <stop offset=".301" stop-color="#FF8700" />
-        <stop offset=".666" stop-color="#172EFF" />
+        <stop offset=".301" stopColor="#FF8700" />
+        <stop offset=".666" stopColor="#172EFF" />
       </linearGradient>
       <pattern id="a" width="1" height="1" patternContentUnits="objectBoundingBox">
         <use xlinkHref="#c" transform="matrix(.00465 0 0 .0061 0 -.157)" />

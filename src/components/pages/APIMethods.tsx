@@ -113,6 +113,7 @@ const ExampleBox = styled.div`
   background-color: #e5e5e5;
   border-radius: 10px;
   padding: 16px;
+  white-space: pre;
 `;
 const ExampleTitle = styled.p`
   padding: 8px;

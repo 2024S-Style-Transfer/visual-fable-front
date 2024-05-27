@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { shadowOpts } from './styled';
 import { ColorTheme } from '../../theme/theme';
-import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 const NAV_ITEMS = [
   {
@@ -19,30 +19,17 @@ const NAV_ITEMS = [
   },
 ] as const;
 
-const Navigator = () => {
-  const pathname = usePathname();
-  const router = useRouter();
+const Navigator = () => (
+  <Nav>
+    <Logo />
 
-  const handleNavClick = (path: string) => {
-    if (path === pathname) {
-      return;
-    }
-
-    router.push(path);
-  };
-
-  return (
-    <Nav>
-      <Logo />
-
-      {NAV_ITEMS.map((item) => (
-        <NavText key={item.name} onClick={() => handleNavClick(item.path)}>
-          {item.name}
-        </NavText>
-      ))}
-    </Nav>
-  );
-};
+    {NAV_ITEMS.map((item) => (
+      <NavText key={item.name} href={item.path}>
+        {item.name}
+      </NavText>
+    ))}
+  </Nav>
+);
 const Nav = styled.div`
   position: relative;
   display: flex;
@@ -52,7 +39,6 @@ const Nav = styled.div`
   height: 80px;
   border-radius: 20px;
   ${shadowOpts};
-  cursor: pointer;
 `;
 
 const Logo = styled.div`
@@ -63,8 +49,9 @@ const Logo = styled.div`
   position: absolute;
   left: 7.6%;
 `;
-const NavText = styled.a`
+const NavText = styled(Link)`
   font-size: 1.125rem;
   margin-right: 1.3%;
+  /* ${shadowOpts}; */
 `;
 export default Navigator;

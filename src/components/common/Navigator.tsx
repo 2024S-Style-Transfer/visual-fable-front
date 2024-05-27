@@ -2,14 +2,44 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { shadowOpts } from './styled';
 import { ColorTheme } from '../../theme/theme';
+import { useRouter, usePathname } from 'next/navigation';
+
+const NAV_ITEMS = [
+  {
+    name: 'Home',
+    path: '/',
+  },
+  {
+    name: 'About Us',
+    path: '/about',
+  },
+  {
+    name: 'API Docs',
+    path: '/methods',
+  },
+] as const;
 
 const Navigator = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleNavClick = (path: string) => {
+    if (path === pathname) {
+      return;
+    }
+
+    router.push(path);
+  };
+
   return (
     <Nav>
       <Logo />
-      <NavText>Home</NavText>
-      <NavText>About Us</NavText>
-      <NavText>API Docs</NavText>
+
+      {NAV_ITEMS.map((item) => (
+        <NavText key={item.name} onClick={() => handleNavClick(item.path)}>
+          {item.name}
+        </NavText>
+      ))}
     </Nav>
   );
 };
@@ -21,7 +51,8 @@ const Nav = styled.div`
   width: 91.7%;
   height: 80px;
   border-radius: 20px;
-  ${shadowOpts}
+  ${shadowOpts};
+  cursor: pointer;
 `;
 
 const Logo = styled.div`

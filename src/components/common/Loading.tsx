@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
+import { ColorTheme } from '@/theme/theme';
 
 const GlobalLoading: React.FC = () => (
   <BackDrop>
@@ -16,12 +17,11 @@ const rotation = keyframes`
     }
 `;
 
-// TODO: 디자인 결정 이후 메인 컬러 변경
 const Loader = styled.div`
   width: 48px;
   height: 48px;
   border: 5px solid #fff;
-  border-bottom-color: #ff3d00;
+  border-bottom-color: ${ColorTheme.primaryColor};
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;

@@ -7,11 +7,13 @@ import {
 import { client } from './client';
 import { v4 as uuidv4 } from 'uuid';
 import { AxiosResponse } from 'axios';
+import { serviceHeaderWithAuth } from '@/utils/serviceHeaderWithAuth';
 
 const generateExampleImages = async (text: string) => {
   const response = await client.post<ExampleItem[], AxiosResponse<ExampleItem[]>, GenerateExampleImagesRequest>(
     '/images',
-    { text }
+    { text },
+    { ...serviceHeaderWithAuth() }
   );
 
   return response.data;
@@ -29,11 +31,15 @@ const generateImages = async (exampleImageData: string, texts: string[]) => {
     GenerateImagesResponse,
     AxiosResponse<GenerateImagesResponse>,
     GenerateImagesRequest
-  >('/generate-images', {
-    projectId: randomProjectId,
-    exampleImage: exampleImageData,
-    basicItems,
-  });
+  >(
+    '/generate-images',
+    {
+      projectId: randomProjectId,
+      exampleImage: exampleImageData,
+      basicItems,
+    },
+    { ...serviceHeaderWithAuth() }
+  );
 
   return response.data;
 };

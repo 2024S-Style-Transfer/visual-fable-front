@@ -9,8 +9,10 @@ import { Button } from '../common/styled';
 import axios, { AxiosResponse } from 'axios';
 import { wait } from '@/utils/time';
 import { Dialog, DialogActions } from '@mui/material';
+import { ColorTheme } from '@/theme/theme';
 
 const size = 6;
+
 
 interface useIntersectionObserverProps {
   root?: null;
@@ -164,12 +166,13 @@ const ExampleImageSelectModal: React.FC<Props> = ({ modalResponse, exampleText, 
 
 // TODO: 추후 next/image로 변경
 const SelectableImage = styled.img<{ $isSelected: boolean }>`
-  border: 2px solid ${({ $isSelected }) => ($isSelected ? 'blue' : 'transparent')};
+  border: 2px solid ${({ $isSelected }) => ($isSelected ? `${ColorTheme.primaryColor}` : 'transparent')};
   cursor: pointer;
   width: 200px;
   height: 200px;
   margin-bottom: 3.7%;
   background-color: pink;
+  border-radius: 10px;
 `;
 const ImagesBox = styled.div`
   display: flex;

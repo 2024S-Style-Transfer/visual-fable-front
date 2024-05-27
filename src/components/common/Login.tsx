@@ -5,17 +5,26 @@ import useGlobalState from '@/store/globalStore';
 import { wait } from '@/utils/time';
 import styled from '@emotion/styled';
 import { SvgGoogleLogo } from '@/svgs';
+import { authenticateUserWithGoogle } from '@/service/user';
 
 const Login: React.FC = () => {
-  const { setIsGlobalLoading } = useGlobalState();
+  const { setIsGlobalLoading, setIsLogin } = useGlobalState();
 
   const handleLogin = async (credentialResponse: CredentialResponse) => {
+    if (!credentialResponse.credential) {
+      return;
+    }
+
     try {
       setIsGlobalLoading(true);
 
       // FIXME: API 호출로 변경 필요
+      // const data = await authenticateUserWithGoogle(credentialResponse.credential);
+      // localStorage.setItem('token', data.accessToken);
+      localStorage.setItem('token', credentialResponse.credential);
+      setIsLogin(true);
+
       await wait(1);
-      console.log(credentialResponse);
     } catch (error) {
       console.error(error);
     } finally {

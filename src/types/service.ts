@@ -34,9 +34,33 @@ export interface ProjectInterface {
   createdAt: string;
 }
 
+export interface AuthenticateUserWithGoogleRequest {
+  code: string;
+}
+export interface AuthenticateUserWithGoogleResponse {
+  accessToken: string;
+}
+
 export interface UserResponse {
   id: string;
   email: string;
   name: string;
   projects: ProjectInterface[];
+}
+
+export const HTTP_METHOD = {
+  GET: 'GET',
+  POST: 'POST',
+  PUT: 'PUT',
+  PATCH: 'PATCH',
+  DELETE: 'DELETE',
+} as const;
+export interface ApiMethodItem {
+  httpMethod: keyof typeof HTTP_METHOD;
+  url: string;
+  example: string;
+}
+export interface ApiMethodCategory {
+  name: string;
+  methods: ApiMethodItem[];
 }

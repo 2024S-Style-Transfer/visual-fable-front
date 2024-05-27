@@ -3,17 +3,35 @@ import styled from '@emotion/styled';
 import { shadowOpts } from './styled';
 import { ColorTheme } from '../../theme/theme';
 import { SvgMainLogo } from '@/svgs';
+import Link from 'next/link';
 
-const Navigator = () => {
-  return (
-    <Nav>
-      <Logo><SvgMainLogo/></Logo>
-      <NavText>Home</NavText>
-      <NavText>About Us</NavText>
-      <NavText>API Docs</NavText>
-    </Nav>
-  );
-};
+const NAV_ITEMS = [
+  {
+    name: 'Home',
+    path: '/',
+  },
+  {
+    name: 'About Us',
+    path: '/about',
+  },
+  {
+    name: 'API Docs',
+    path: '/methods',
+  },
+] as const;
+
+const Navigator = () => (
+  <Nav>
+    <Logo>
+      <SvgMainLogo />
+    </Logo>
+    {NAV_ITEMS.map((item) => (
+      <NavText key={item.name}>
+        <StyledLink href={item.path}>{item.name}</StyledLink>
+      </NavText>
+    ))}
+  </Nav>
+);
 const Nav = styled.div`
   position: relative;
   display: flex;
@@ -22,16 +40,20 @@ const Nav = styled.div`
   width: 91.7%;
   height: 80px;
   border-radius: 20px;
-  ${shadowOpts}
+  ${shadowOpts};
 `;
-
 
 const Logo = styled.div`
   position: absolute;
   left: 7.6%;
 `;
-const NavText = styled.a`
+const NavText = styled.div`
   font-size: 1.125rem;
   margin-right: 1.3%;
+`;
+
+const StyledLink = styled.a`
+  text-decoration: none;
+  color: inherit;
 `;
 export default Navigator;

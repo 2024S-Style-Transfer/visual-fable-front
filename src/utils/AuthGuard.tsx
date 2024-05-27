@@ -19,9 +19,9 @@ const AuthGuard: React.FC<React.PropsWithChildren> = ({ children }) => {
     }
   };
 
-  handleSetIsLogin();
-
   useEffect(() => {
+    handleSetIsLogin();
+
     window.addEventListener('storage', handleSetIsLogin);
 
     return () => {

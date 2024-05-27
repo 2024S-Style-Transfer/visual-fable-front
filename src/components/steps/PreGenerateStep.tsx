@@ -20,6 +20,7 @@ import { ExampleItem } from '@/types/service';
 import { MOCK_EXAMPLE_IMAGES } from '@/mock/data';
 import Login from '../common/Login';
 import { SvgUserIcon } from '@/svgs';
+import { useRouter } from 'next/navigation';
 
 const PreGenerateStep: React.FC = () => {
   const { setIsGlobalLoading } = useGlobalStore();
@@ -87,11 +88,17 @@ const Banner = () => {
 };
 
 const Cards = () => {
+  const router = useRouter();
+
   const { isLogin, setIsLogin } = useGlobalStore();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLogin(false);
+  };
+
+  const handleLinkToStorage = () => {
+    router.push('/storage');
   };
 
   return (
@@ -124,7 +131,9 @@ const Cards = () => {
                 <Button className="Cancel" onClick={handleLogout}>
                   Logout
                 </Button>
-                <Button className="Storage">My storage</Button>
+                <Button className="Storage" onClick={handleLinkToStorage}>
+                  My storage
+                </Button>
               </UserButtonWrapper>
             </UserCardContents>
 

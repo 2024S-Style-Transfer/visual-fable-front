@@ -1,8 +1,10 @@
 'use client';
 
 import { MOCK_USER_DATA } from '@/mock/data';
+import { getUserInfo } from '@/service/user';
 import useGlobalStore from '@/store/globalStore';
 import { UserResponse } from '@/types/service';
+import { wait } from '@/utils/time';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -16,6 +18,9 @@ const Storage: React.FC = () => {
 
   // FIXME: API 호출 적용 시 데이터 교체 필요
   const loadUserData = async () => {
+    // const userInfo = await getUserInfo();
+    // setUserData(userInfo);
+    await wait(1);
     setUserData(MOCK_USER_DATA);
   };
 

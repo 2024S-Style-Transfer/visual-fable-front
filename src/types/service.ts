@@ -34,6 +34,13 @@ export interface ProjectInterface {
   createdAt: string;
 }
 
+export interface AuthenticateUserWithGoogleRequest {
+  code: string;
+}
+export interface AuthenticateUserWithGoogleResponse {
+  accessToken: string;
+}
+
 export interface UserResponse {
   id: string;
   email: string;
@@ -53,7 +60,6 @@ export interface ApiMethodItem {
   url: string;
   example: string;
 }
-
 export interface ApiMethodCategory {
   name: string;
   methods: ApiMethodItem[];

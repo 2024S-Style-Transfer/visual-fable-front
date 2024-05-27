@@ -7,6 +7,7 @@ import styled from '@emotion/styled';
 import { Dialog, DialogActions } from '@mui/material';
 import { CARD_DATA } from './CARD_DATA';
 import { Button } from '../common/styled';
+import { ColorTheme } from '@/theme/theme';
 
 interface useIntersectionObserverProps {
   root?: null;
@@ -120,13 +121,14 @@ const ExampleImageSelectModal: React.FC<Props> = ({ exampleItems, onClose }) => 
 
 // TODO: 추후 next/image로 변경
 const SelectableImage = styled.img<{ $isSelected: boolean }>`
-  border: 2px solid ${({ $isSelected }) => ($isSelected ? 'blue' : 'transparent')};
+  border: 2px solid ${({ $isSelected }) => ($isSelected ? `${ColorTheme.primaryColor}` : 'transparent')};
   cursor: pointer;
   width: 200px;
   height: 200px;
   margin-left: 10%;
   margin-bottom: 3.7%;
   background-color: pink;
+  border-radius: 10px;
 `;
 const ImagesBox = styled.div`
   display: flex;

@@ -19,6 +19,7 @@ import Login from '../common/Login';
 import { SvgUserIcon } from '@/svgs';
 import { useRouter } from 'next/navigation';
 import axios, { AxiosResponse } from 'axios';
+import { SvgBookIcon } from '@/svgs';
 
 const PreGenerateStep: React.FC = () => {
   const { setIsGlobalLoading } = useGlobalStore();
@@ -89,6 +90,7 @@ const Banner = () => {
   return (
     <BannerContents className={RedHatText.className}>
       <BannerText>Create your</BannerText>
+      
       <BannerText className="highlight">own Fable images</BannerText>
     </BannerContents>
   );
@@ -115,7 +117,9 @@ const Cards = () => {
           <CardTitle>About visual Fable</CardTitle>
           <CardText>원하는 스타일로 자신의 동화 이미지를 만드세요.</CardText>
         </CardContents>
-        <CardImage></CardImage>
+        <CardImage>
+          <SvgBookIcon />
+        </CardImage>
       </Card>
       <UserCard>
         {!isLogin && (

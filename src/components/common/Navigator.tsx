@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { shadowOpts } from './styled';
-import { ColorTheme } from '../../theme/theme';
 import Link from 'next/link';
+import { SvgMainLogo } from '@/svgs';
 
 const NAV_ITEMS = [
   {
@@ -21,7 +21,9 @@ const NAV_ITEMS = [
 
 const Navigator = () => (
   <Nav>
-    <Logo />
+    <Logo>
+      <SvgMainLogo />
+    </Logo>
 
     {NAV_ITEMS.map((item) => (
       <NavText key={item.name} href={item.path}>
@@ -42,10 +44,6 @@ const Nav = styled.div`
 `;
 
 const Logo = styled.div`
-  width: 7.6%;
-  height: 16px;
-  background-image: '../../../public/logo.png';
-  background-color: ${ColorTheme.tempColor};
   position: absolute;
   left: 7.6%;
 `;

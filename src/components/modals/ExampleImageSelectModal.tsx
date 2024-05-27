@@ -11,7 +11,7 @@ import { wait } from '@/utils/time';
 import { Dialog, DialogActions } from '@mui/material';
 import { ColorTheme } from '@/theme/theme';
 
-const size = 6;
+const SIZE = 6;
 
 
 interface useIntersectionObserverProps {
@@ -76,7 +76,7 @@ const ExampleImageSelectModal: React.FC<Props> = ({ modalResponse, exampleText, 
         // Postman 활용한 api test용
         // 참고 : https://www.postman.com/orbital-module-specialist-3006193/workspace/my-workspace
         const moreDataResponse = await axios.post(
-          `https://cda4a83b-0e18-443b-a847-adbbb6c61377.mock.pstmn.io/api/images?page=${itemPage}&size=${size}`,
+          `https://cda4a83b-0e18-443b-a847-adbbb6c61377.mock.pstmn.io/api/images?page=${itemPage}&size=${SIZE}`,
           { exampleText }
         );
         const moreItems: ExampleItem[] = moreDataResponse.data.content.map((item: any) => ({

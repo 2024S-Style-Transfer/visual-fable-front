@@ -26,8 +26,8 @@ const Navigator = () => (
       <SvgMainLogo />
     </Logo>
     {NAV_ITEMS.map((item) => (
-      <NavText key={item.name}>
-        <StyledLink href={item.path}>{item.name}</StyledLink>
+      <NavText key={item.name} href={item.path}>
+        {item.name}
       </NavText>
     ))}
   </Nav>
@@ -47,7 +47,7 @@ const Logo = styled.div`
   position: absolute;
   left: 7.6%;
 `;
-const NavText = styled.div`
+const NavText = styled(Link)`
   font-size: 1.125rem;
   margin-right: 1.3%;
 `;

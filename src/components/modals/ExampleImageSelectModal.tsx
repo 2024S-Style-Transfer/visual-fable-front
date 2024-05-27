@@ -142,7 +142,7 @@ const ExampleImageSelectModal: React.FC<Props> = ({ modalResponse, exampleText, 
             <SelectableImage
               key={e.id}
               src={e.data}
-              alt={`example ${e.id}`}
+              alt={`example ${e.id} Base 64`}
               $isSelected={selectedExampleItem?.id === e.id}
               onClick={() => setSelectedExampleItem(e)}
             />
@@ -168,12 +168,12 @@ const SelectableImage = styled.img<{ $isSelected: boolean }>`
   cursor: pointer;
   width: 200px;
   height: 200px;
-  margin-left: 10%;
   margin-bottom: 3.7%;
   background-color: pink;
 `;
 const ImagesBox = styled.div`
   display: flex;
+  justyfy-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 3.1%;
@@ -183,7 +183,7 @@ const ImagesBox = styled.div`
   display: flex;
   text-align: center;
 `;
-//
+
 const Title = styled.p`
   font-size: 24px;
   font-weight: bold;
@@ -191,9 +191,8 @@ const Title = styled.p`
 `;
 const ExampleImageSelectModalWrapper = styled.section`
   background-color: #fff;
-
   height: 89.1%;
-  margin: 3.1%;
+  margin: 4.2% 3.1% 4.2% 15%;
   overflow: hidden;
 `;
 

@@ -2,11 +2,12 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { shadowOpts } from './styled';
 import { ColorTheme } from '../../theme/theme';
+import { SvgMainLogo } from '@/svgs';
 
 const Navigator = () => {
   return (
     <Nav>
-      <Logo />
+      <Logo><SvgMainLogo/></Logo>
       <NavText>Home</NavText>
       <NavText>About Us</NavText>
       <NavText>API Docs</NavText>
@@ -24,11 +25,8 @@ const Nav = styled.div`
   ${shadowOpts}
 `;
 
+
 const Logo = styled.div`
-  width: 7.6%;
-  height: 16px;
-  background-image: '../../../public/logo.png';
-  background-color: ${ColorTheme.tempColor};
   position: absolute;
   left: 7.6%;
 `;

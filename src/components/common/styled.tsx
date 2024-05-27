@@ -96,12 +96,16 @@ const BannerContents = styled.div`
   width: 100%;
   padding-bottom: 80px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+`;
+const BannerText = styled.h1`
+  display: inline-block;
   font-size: 3.75rem;
   font-weight: bold;
-`;
-const BannerText = styled.div`
   text-align: center;
   color: ${ColorTheme.textColor};
+  margin: 0;
   background-image: none;
   background-clip: none;
   -webkit-background-clip: none;

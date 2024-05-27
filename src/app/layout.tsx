@@ -9,6 +9,7 @@ import DefaultLayout from '@/components/templates/DefaultLayout';
 export const metadata: Metadata = {
   title: 'visual fable',
   description: '당신의 시각적 이야기를 만들어 드립니다.',
+  icons: { icon: '/favicon.svg' },
 };
 
 export default function RootLayout({

@@ -36,6 +36,8 @@ const Storage: React.FC = () => {
     }
 
     loadUserData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>

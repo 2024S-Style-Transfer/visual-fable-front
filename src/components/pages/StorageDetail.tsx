@@ -27,6 +27,8 @@ const StorageDetail: React.FC<Props> = ({ id }) => {
     }
 
     loadGeneratedItems();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <DoneStep generatedItems={generatedItems} />;

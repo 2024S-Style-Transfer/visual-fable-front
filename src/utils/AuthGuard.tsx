@@ -27,6 +27,8 @@ const AuthGuard: React.FC<React.PropsWithChildren> = ({ children }) => {
     return () => {
       window.removeEventListener('storage', handleSetIsLogin);
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <Fragment>{children}</Fragment>;
 };

@@ -13,7 +13,7 @@ type Props = {
 const DoneStep: React.FC<Props> = ({ generatedItems }) => {
   const { isLogin } = useGlobalStore();
 
-  const flipBookRef = React.useRef<any>(null);
+  const flipBookRef = React.useRef(null);
   const [pageNumber, setPageNumber] = useState<number>(0);
 
   const pages = useMemo(() => {

@@ -17,9 +17,11 @@ import useGlobalStore from '@/store/globalStore';
 import ExampleImageSelectModal from '../modals/ExampleImageSelectModal';
 import Login from '../common/Login';
 import { SvgUserIcon } from '@/svgs';
-import axios, { AxiosResponse } from 'axios';
 import { SvgBookIcon } from '@/svgs';
+import { generateExampleImages } from '@/service/generate';
+import { ExampleResponse, GenerateExampleImagesRequest } from '@/types/service';
 
+const SIZE = 6;
 const PreGenerateStep: React.FC = () => {
   const { setIsGlobalLoading } = useGlobalStore();
 
@@ -27,7 +29,7 @@ const PreGenerateStep: React.FC = () => {
   const [textAreaHeight, setTextAreaHeight] = useState<number>(100);
 
   const [isExampleImageModalOpen, setIsExampleImageModalOpen] = useState<boolean>(false);
-  const [modalResponse, setmodalResponse] = useState<AxiosResponse>();
+  const [ExampleResponseData, setExampleResponseData] = useState<ExampleResponse>({} as ExampleResponse);
 
   // exampleText의 길이에 따라 높이를 동적으로 계산
   useEffect(() => {
@@ -37,18 +39,8 @@ const PreGenerateStep: React.FC = () => {
   const handleCreateExampleImages = async () => {
     try {
       setIsGlobalLoading(true);
-
-      // FIXME: // FIXME: 추후 도메인 변경 필요
-      // const data = await generateExampleImages(exampleText);
-      // setExampleImages(data);
-
-      // Postman 활용한 api test용
-      // 참고 : https://www.postman.com/orbital-module-specialist-3006193/workspace/my-workspace
-      const response = await axios.post(
-        `https://cda4a83b-0e18-443b-a847-adbbb6c61377.mock.pstmn.io/api/images?page=${0}&size=${6}`,
-        { exampleText }
-      );
-      setmodalResponse(response);
+      const exampleResponseData = await generateExampleImages(0, SIZE, exampleText);
+      setExampleResponseData(exampleResponseData);
       setIsExampleImageModalOpen(true);
     } catch (error) {
       console.error(error);
@@ -77,7 +69,7 @@ const PreGenerateStep: React.FC = () => {
       {isExampleImageModalOpen && (
         <ExampleImageSelectModal
           exampleText={exampleText}
-          modalResponse={modalResponse}
+          exampleResponse={ExampleResponseData}
           onClose={() => setIsExampleImageModalOpen(false)}
         />
       )}

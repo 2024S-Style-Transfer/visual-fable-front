@@ -1,13 +1,7 @@
-import {
-  Button,
-  TextArea,
-  TextAreaBorder,
-  BannerContents,
-  BannerText,
-  Contents,
-  calculateHeight,
-} from '../common/styled';
-import { Card, CardContents, CardTitle, CardText, CardImage } from '../common/cards';
+'use client';
+
+import { Button, BannerContents, BannerText, Contents } from '../common/styled';
+import { Card, CardContents, CardText, CardImage } from '../common/cards';
 import { RedHatText } from '../../theme/fontsGroup';
 import styled from '@emotion/styled';
 

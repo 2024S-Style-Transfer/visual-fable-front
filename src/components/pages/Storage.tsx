@@ -3,7 +3,6 @@
 import { MOCK_PROJECT_LIST, MOCK_USER_DATA } from '@/mock/data';
 import { getUserInfo } from '@/service/user';
 import { getUserProjectList } from '@/service/project';
-import useGlobalStore from '@/store/globalStore';
 import { ProjectResponse, UserResponse } from '@/types/service';
 import { wait } from '@/utils/time';
 import { css } from '@emotion/react';
@@ -14,8 +13,6 @@ import React, { useEffect, useState } from 'react';
 
 const Storage: React.FC = () => {
   const router = useRouter();
-
-  const { isLogin } = useGlobalStore();
 
   const [userData, setUserData] = useState<UserResponse | null>(null);
   const [projectList, setProjectList] = useState<ProjectResponse[]>([]);
@@ -39,7 +36,7 @@ const Storage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!isLogin) {
+    if (!localStorage.getItem('token')) {
       alert('로그인이 필요합니다.');
       window.location.href = '/';
     }

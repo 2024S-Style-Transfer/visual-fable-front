@@ -52,8 +52,4 @@ const NavText = styled(Link)`
   margin-right: 1.3%;
 `;
 
-const StyledLink = styled.a`
-  text-decoration: none;
-  color: inherit;
-`;
 export default Navigator;

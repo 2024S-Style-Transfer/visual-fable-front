@@ -1,17 +1,28 @@
 'use client';
 
+import { MOCK_USER_DATA } from '@/mock/data';
+import { getUserInfo } from '@/service/user';
 import useGlobalStore from '@/store/globalStore';
 import { Fragment, useEffect } from 'react';
 
 const AuthGuard: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const { setIsLogin } = useGlobalStore();
+  const { setIsLogin, setUserData } = useGlobalStore();
 
-  const handleSetIsLogin = () => {
+  const handleSetIsLogin = async () => {
     if (typeof window === 'undefined') {
       return;
     }
 
-    setIsLogin(!!localStorage.getItem('token'));
+    if (!!localStorage.getItem('token')) {
+      // const userData = await getUserInfo();
+      // setUserData(userData);
+
+      setUserData(MOCK_USER_DATA);
+      setIsLogin(true);
+    } else {
+      setUserData(null);
+      setIsLogin(false);
+    }
   };
 
   useEffect(() => {

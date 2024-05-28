@@ -5,10 +5,11 @@ import useGlobalState from '@/store/globalStore';
 import { wait } from '@/utils/time';
 import styled from '@emotion/styled';
 import { SvgGoogleLogo } from '@/svgs';
-import { authenticateUserWithGoogle } from '@/service/user';
+import { authenticateUserWithGoogle, getUserInfo } from '@/service/user';
+import { MOCK_USER_DATA } from '@/mock/data';
 
 const Login: React.FC = () => {
-  const { setIsGlobalLoading, setIsLogin } = useGlobalState();
+  const { setIsGlobalLoading, setIsLogin, setUserData } = useGlobalState();
 
   const handleLogin = async (credentialResponse: CredentialResponse) => {
     if (!credentialResponse.credential) {
@@ -19,10 +20,15 @@ const Login: React.FC = () => {
       setIsGlobalLoading(true);
 
       // FIXME: API 호출로 변경 필요
-      // const data = await authenticateUserWithGoogle(credentialResponse.credential);
-      // localStorage.setItem('token', data.accessToken);
+      // const { accessToken } = await authenticateUserWithGoogle(credentialResponse.credential);
+      // localStorage.setItem('token', accessToken);
+
+      // const userData = await getUserInfo();
+      // setUserData(userData);
+
       localStorage.setItem('token', credentialResponse.credential);
       setIsLogin(true);
+      setUserData(MOCK_USER_DATA);
 
       await wait(1);
     } catch (error) {

@@ -98,11 +98,12 @@ const Banner = () => {
 const Cards = () => {
   const router = useRouter();
 
-  const { isLogin, setIsLogin } = useGlobalStore();
+  const { isLogin, setIsLogin, userData, setUserData } = useGlobalStore();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLogin(false);
+    setUserData(null);
   };
 
   const handleLinkToStorage = () => {
@@ -126,7 +127,7 @@ const Cards = () => {
             <>
               <UserCardContents>
                 <UserHelloText>
-                  강종연 <span> 님 환영합니다!</span>
+                  {userData?.name} <span> 님 환영합니다!</span>
                 </UserHelloText>
                 <UserButtonWrapper>
                   <Button className="Cancel" onClick={handleLogout}>

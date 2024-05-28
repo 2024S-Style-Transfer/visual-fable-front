@@ -1,29 +1,23 @@
 'use client';
 
-import { MOCK_PROJECT_LIST, MOCK_USER_DATA } from '@/mock/data';
-import { getUserInfo } from '@/service/user';
+import { MOCK_PROJECT_LIST } from '@/mock/data';
 import { getUserProjectList } from '@/service/project';
-import { ProjectResponse, UserResponse } from '@/types/service';
+import { ProjectResponse } from '@/types/service';
 import { wait } from '@/utils/time';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import useGlobalStore from '@/store/globalStore';
 
 const Storage: React.FC = () => {
-  const router = useRouter();
+  const { userData } = useGlobalStore();
 
-  const [userData, setUserData] = useState<UserResponse | null>(null);
+  const router = useRouter();
   const [projectList, setProjectList] = useState<ProjectResponse[]>([]);
 
   // FIXME: API 호출 적용 시 데이터 교체 필요
-  const loadUserData = async () => {
-    // const userInfo = await getUserInfo();
-    // setUserData(userInfo);
-    await wait(1);
-    setUserData(MOCK_USER_DATA);
-  };
   const loadProjectList = async () => {
     // const projects = await getUserProjectList();
     // setProjectList(projects);
@@ -41,9 +35,7 @@ const Storage: React.FC = () => {
       window.location.href = '/';
     }
 
-    loadUserData();
     loadProjectList();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

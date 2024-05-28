@@ -1,9 +1,4 @@
-import {
-  AuthenticateUserWithGoogleRequest,
-  AuthenticateUserWithGoogleResponse,
-  ProjectInterface,
-  UserResponse,
-} from '@/types/service';
+import { AuthenticateUserWithGoogleRequest, AuthenticateUserWithGoogleResponse, UserResponse } from '@/types/service';
 import { client } from './client';
 import { AxiosResponse } from 'axios';
 import { serviceHeaderWithAuth } from '@/utils/serviceHeaderWithAuth';
@@ -23,9 +18,4 @@ const getUserInfo = async () => {
   return response.data;
 };
 
-const getUserProjects = async () => {
-  const response = await client.get<ProjectInterface[]>('/user/projects', { ...serviceHeaderWithAuth() });
-  return response.data;
-};
-
-export { authenticateUserWithGoogle, getUserInfo, getUserProjects };
+export { authenticateUserWithGoogle, getUserInfo };

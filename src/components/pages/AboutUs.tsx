@@ -20,7 +20,9 @@ const AboutUs: React.FC = () => {
       <div style={{ width: 40 }}></div>
       <AuCard>
         <CardContents>
-          <CardText>2. OpneAI CLIP 모델을 사용하여 각 이미지와 텍스트 사이 유사도를 계산하여 유사도가 높은 장르로 분류.</CardText>
+          <CardText>
+            2. OpneAI CLIP 모델을 사용하여 각 이미지와 텍스트 사이 유사도를 계산하여 유사도가 높은 장르로 분류.
+          </CardText>
         </CardContents>
         <CardImage></CardImage>
       </AuCard>
@@ -78,15 +80,15 @@ const Banner = () => {
   );
 };
 
-const AuCard= styled(Card)`
+const AuCard = styled(Card)`
   width: 100%;
-`
+`;
 
 const AuH3 = styled.h3`
-  margin-bottom : 80px;
-`
+  margin-bottom: 80px;
+`;
 const AuSpan = styled.span`
-  margin-bottom : 80px;
-`
+  margin-bottom: 80px;
+`;
 
 export default AboutUs;

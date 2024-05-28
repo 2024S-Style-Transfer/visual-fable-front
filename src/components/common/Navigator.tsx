@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { shadowOpts } from './styled';
-import { ColorTheme } from '../../theme/theme';
 import { SvgMainLogo } from '@/svgs';
 import Link from 'next/link';
 
@@ -25,6 +24,7 @@ const Navigator = () => (
     <Logo>
       <SvgMainLogo />
     </Logo>
+
     {NAV_ITEMS.map((item) => (
       <NavText key={item.name} href={item.path}>
         {item.name}

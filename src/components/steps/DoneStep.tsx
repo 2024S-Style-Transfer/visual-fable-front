@@ -6,6 +6,8 @@ import HTMLFlipBook from 'react-pageflip';
 import { IndexButton, IndexButtonWrapper, getIndexButtonStatus } from '../common/IndexButton';
 import useGlobalStore from '@/store/globalStore';
 import { GeneratedItem } from '@/types/service';
+import Image from 'next/image';
+import { PageFlipRef } from '@/types/pageflip';
 
 type Props = {
   generatedItems: GeneratedItem[];
@@ -13,7 +15,7 @@ type Props = {
 const DoneStep: React.FC<Props> = ({ generatedItems }) => {
   const { isLogin } = useGlobalStore();
 
-  const flipBookRef = React.useRef(null);
+  const flipBookRef = React.useRef<PageFlipRef>(null);
   const [pageNumber, setPageNumber] = useState<number>(0);
 
   const pages = useMemo(() => {
@@ -28,7 +30,7 @@ const DoneStep: React.FC<Props> = ({ generatedItems }) => {
       );
       const imgPage = (
         <PageWrapper key={item.id + 'img'}>
-          <img src={item.generatedImage} alt="generated" />
+          <Image src={item.generatedImage} alt="generatedImage" width={100} height={100} />
           <PageFooter $isRightmost>{index * 2 + 2}</PageFooter>
         </PageWrapper>
       );
@@ -65,7 +67,7 @@ const DoneStep: React.FC<Props> = ({ generatedItems }) => {
       </IndexWrapper>
 
       <HTMLFlipBook
-        ref={(component) => (flipBookRef.current = component)}
+        ref={flipBookRef}
         width={550}
         height={733}
         minWidth={315}
@@ -74,8 +76,24 @@ const DoneStep: React.FC<Props> = ({ generatedItems }) => {
         maxHeight={1533}
         size="stretch"
         maxShadowOpacity={0.5}
-        mobileScrollSupport={true}
         onFlip={(e) => setPageNumber(e.data)}
+        // 여기부터는 default 값만 지정(typescript 오류 제거를 위함.)
+        style={{}}
+        className="page-flip"
+        drawShadow={true}
+        flippingTime={100}
+        usePortrait={true}
+        startZIndex={0}
+        autoSize={true}
+        showCover={false}
+        mobileScrollSupport={true}
+        swipeDistance={30}
+        clickEventForward={true}
+        useMouseEvents={true}
+        renderOnlyPageLengthChange={false}
+        startPage={1}
+        showPageCorners={true}
+        disableFlipByClick={false}
       >
         {pages}
       </HTMLFlipBook>
@@ -106,6 +124,7 @@ const PageWrapper = styled.div`
 
   img {
     width: 100%;
+    height: auto;
   }
 `;
 const IndexWrapper = styled(IndexButtonWrapper)`

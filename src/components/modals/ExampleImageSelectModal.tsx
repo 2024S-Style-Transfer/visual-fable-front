@@ -1,14 +1,16 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import useGenerateStore, { STEP } from '@/store/generateStore';
 import useGlobalStore from '@/store/globalStore';
 import { ExampleItem, ExampleResponse } from '@/types/service';
 import styled from '@emotion/styled';
 import { Button } from '../common/styled';
+import { ColorTheme } from '@/theme/theme';
 import { wait } from '@/utils/time';
 import { Dialog, DialogActions } from '@mui/material';
-import { ColorTheme } from '@/theme/theme';
+
+const SIZE = 6;
 import { generateExampleImages } from '@/service/generate';
 
 interface useIntersectionObserverProps {
@@ -18,7 +20,6 @@ interface useIntersectionObserverProps {
   onIntersect: IntersectionObserverCallback;
 }
 
-const SIZE = 6;
 const useIntersectionObserver = ({ root, rootMargin, threshold, onIntersect }: useIntersectionObserverProps) => {
   const [target, setTarget] = useState<HTMLElement | null | undefined>(null);
 

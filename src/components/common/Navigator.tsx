@@ -19,14 +19,21 @@ const NAV_ITEMS = [
   },
 ] as const;
 
+const handleHomeClick = (textname: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+  if (textname === 'Home') {
+    e.preventDefault(); // Prevent default link behavior
+    window.location.href = '/';
+  }
+};
+
 const Navigator = () => (
-  <Nav>
-    <Logo>
+  <Nav >
+    <Logo href={'/'} onClick={handleHomeClick('Home')}>
       <SvgMainLogo />
     </Logo>
 
     {NAV_ITEMS.map((item) => (
-      <NavText key={item.name} href={item.path}>
+      <NavText key={item.name} href={item.path} onClick={handleHomeClick(item.name)}>
         {item.name}
       </NavText>
     ))}
@@ -43,10 +50,11 @@ const Nav = styled.div`
   ${shadowOpts};
 `;
 
-const Logo = styled.div`
+const Logo = styled(Link)`
   position: absolute;
   left: 7.6%;
 `;
+
 const NavText = styled(Link)`
   font-size: 1.125rem;
   margin-right: 1.3%;

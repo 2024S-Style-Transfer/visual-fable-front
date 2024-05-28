@@ -6,6 +6,7 @@ import HTMLFlipBook from 'react-pageflip';
 import { IndexButton, IndexButtonWrapper, getIndexButtonStatus } from '../common/IndexButton';
 import useGlobalStore from '@/store/globalStore';
 import { GeneratedItem } from '@/types/service';
+import Image from 'next/image';
 
 type Props = {
   generatedItems: GeneratedItem[];
@@ -28,7 +29,7 @@ const DoneStep: React.FC<Props> = ({ generatedItems }) => {
       );
       const imgPage = (
         <PageWrapper key={item.id + 'img'}>
-          <img src={item.generatedImage} alt="generated" />
+          <Image src={item.generatedImage} alt="generatedImage" width={100} height={100} />
           <PageFooter $isRightmost>{index * 2 + 2}</PageFooter>
         </PageWrapper>
       );
@@ -106,6 +107,7 @@ const PageWrapper = styled.div`
 
   img {
     width: 100%;
+    height: auto;
   }
 `;
 const IndexWrapper = styled(IndexButtonWrapper)`

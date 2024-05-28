@@ -6,6 +6,7 @@ import useGlobalStore from '@/store/globalStore';
 import { UserResponse } from '@/types/service';
 import { wait } from '@/utils/time';
 import styled from '@emotion/styled';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -46,7 +47,7 @@ const Storage: React.FC = () => {
       <StorageDataWrapper>
         {userData?.projects.map((project) => (
           <StorageItem key={project.projectId} onClick={() => handleClickStorageItem(project.projectId)}>
-            <img src={project.exampleImage} alt="item1" />
+            <Image src={project.exampleImage} alt="projectExampleImage" width={168} height={168} />
             <ItemText>{project.createdAt}</ItemText>
             <ItemText>{project.description}</ItemText>
           </StorageItem>
@@ -69,6 +70,7 @@ const StorageItem = styled.button`
 
   & > img {
     width: 100%;
+    height: auto;
     border-radius: 8px;
   }
 

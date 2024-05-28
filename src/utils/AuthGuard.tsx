@@ -4,19 +4,14 @@ import useGlobalStore from '@/store/globalStore';
 import { Fragment, useEffect } from 'react';
 
 const AuthGuard: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const { isLogin, setIsLogin } = useGlobalStore();
+  const { setIsLogin } = useGlobalStore();
 
   const handleSetIsLogin = () => {
     if (typeof window === 'undefined') {
       return;
     }
 
-    if (localStorage.getItem('token') && !isLogin) {
-      setIsLogin(true);
-    }
-    if (!localStorage.getItem('token') && isLogin) {
-      setIsLogin(false);
-    }
+    setIsLogin(!!localStorage.getItem('token'));
   };
 
   useEffect(() => {

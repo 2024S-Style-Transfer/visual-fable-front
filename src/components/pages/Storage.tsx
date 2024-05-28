@@ -1,10 +1,12 @@
 'use client';
 
-import { MOCK_USER_DATA } from '@/mock/data';
+import { MOCK_PROJECT_LIST, MOCK_USER_DATA } from '@/mock/data';
 import { getUserInfo } from '@/service/user';
+import { getUserProjectList } from '@/service/project';
 import useGlobalStore from '@/store/globalStore';
-import { UserResponse } from '@/types/service';
+import { ProjectResponse, UserResponse } from '@/types/service';
 import { wait } from '@/utils/time';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -16,6 +18,7 @@ const Storage: React.FC = () => {
   const { isLogin } = useGlobalStore();
 
   const [userData, setUserData] = useState<UserResponse | null>(null);
+  const [projectList, setProjectList] = useState<ProjectResponse[]>([]);
 
   // FIXME: API 호출 적용 시 데이터 교체 필요
   const loadUserData = async () => {
@@ -23,6 +26,12 @@ const Storage: React.FC = () => {
     // setUserData(userInfo);
     await wait(1);
     setUserData(MOCK_USER_DATA);
+  };
+  const loadProjectList = async () => {
+    // const projects = await getUserProjectList();
+    // setProjectList(projects);
+    await wait(1);
+    setProjectList(MOCK_PROJECT_LIST);
   };
 
   const handleClickStorageItem = (id: string) => {
@@ -36,22 +45,28 @@ const Storage: React.FC = () => {
     }
 
     loadUserData();
+    loadProjectList();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (!userData) {
+    return;
+  }
+
   return (
     <>
       <Title>My Storage</Title>
 
-      <ProfileWrapper />
-      <UserName>{userData?.name}</UserName>
+      <ProfileWrapper $profileImageUrl={userData.profileImage} />
+      <UserName>{userData.name}</UserName>
 
       <StorageDataWrapper>
-        {userData?.projects.map((project) => (
+        {projectList.map((project) => (
           <StorageItem key={project.projectId} onClick={() => handleClickStorageItem(project.projectId)}>
             <Image src={project.exampleImage} alt="projectExampleImage" width={168} height={168} />
-            <ItemText>{project.createdAt}</ItemText>
-            <ItemText>{project.description}</ItemText>
+            <ItemText>{project.time}</ItemText>
+            <ItemText>{project.summary}</ItemText>
           </StorageItem>
         ))}
       </StorageDataWrapper>
@@ -93,14 +108,14 @@ const UserName = styled.p`
   font-size: 24px;
   font-weight: 600;
 `;
-// FIXME: 이미지 props로 받아 적용 (background-image or 이름 첫 글자)
-const ProfileWrapper = styled.div`
+const ProfileWrapper = styled.div<{ $profileImageUrl: string }>`
   width: 120px;
   height: 120px;
   border-radius: 50%;
   overflow: hidden;
   margin-bottom: 8px;
-  background-color: #f0f0f0;
+  background-image: ${({ $profileImageUrl }) => css`url(${$profileImageUrl})`};
+  background-size: cover;
 `;
 const Title = styled.p`
   font-size: 28px;

@@ -25,13 +25,12 @@ export interface GenerateImagesResponse {
   generatedItems: GeneratedItem[];
 }
 
-export interface ProjectInterface {
+export interface ProjectResponse {
   projectId: string;
+  summary: string;
   exampleImage: string;
-  name: string;
-  description: string;
   generatedItems: GeneratedItem[];
-  createdAt: string;
+  time: string;
 }
 
 export interface AuthenticateUserWithGoogleRequest {
@@ -45,7 +44,7 @@ export interface UserResponse {
   id: string;
   email: string;
   name: string;
-  projects: ProjectInterface[];
+  profileImage: string;
 }
 
 export const HTTP_METHOD = {

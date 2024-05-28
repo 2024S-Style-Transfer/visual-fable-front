@@ -90,7 +90,6 @@ const Banner = () => {
   return (
     <BannerContents className={RedHatText.className}>
       <BannerText>Create your</BannerText>
-      
       <BannerText className="highlight">own Fable images</BannerText>
     </BannerContents>
   );
@@ -122,35 +121,35 @@ const Cards = () => {
         </CardImage>
       </Card>
       <UserCard>
-        {!isLogin && (
-          <>
-            <CardContents>
-              <CardTitle>Premium benefits</CardTitle>
-              <CardText>로그인한 유저는 더 많은 혜택을 누릴 수 있습니다.</CardText>
-            </CardContents>
+        {typeof isLogin === 'boolean' &&
+          (isLogin ? (
+            <>
+              <UserCardContents>
+                <UserHelloText>
+                  강종연 <span> 님 환영합니다!</span>
+                </UserHelloText>
+                <UserButtonWrapper>
+                  <Button className="Cancel" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                  <Button className="Storage" onClick={handleLinkToStorage}>
+                    My storage
+                  </Button>
+                </UserButtonWrapper>
+              </UserCardContents>
 
-            <Login />
-          </>
-        )}
-        {isLogin && (
-          <>
-            <UserCardContents>
-              <UserHelloText>
-                강종연 <span> 님 환영합니다!</span>
-              </UserHelloText>
-              <UserButtonWrapper>
-                <Button className="Cancel" onClick={handleLogout}>
-                  Logout
-                </Button>
-                <Button className="Storage" onClick={handleLinkToStorage}>
-                  My storage
-                </Button>
-              </UserButtonWrapper>
-            </UserCardContents>
+              <SvgUserIcon />
+            </>
+          ) : (
+            <>
+              <CardContents>
+                <CardTitle>Premium benefits</CardTitle>
+                <CardText>로그인한 유저는 더 많은 혜택을 누릴 수 있습니다.</CardText>
+              </CardContents>
 
-            <SvgUserIcon />
-          </>
-        )}
+              <Login />
+            </>
+          ))}
       </UserCard>
     </Contents>
   );

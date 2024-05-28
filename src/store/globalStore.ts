@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 type State = {
   isGlobalLoading: boolean;
-  isLogin: boolean;
+  isLogin: boolean | null;
 };
 type Action = {
   setIsGlobalLoading: (isGlobalLoading: boolean) => void;
@@ -12,7 +12,7 @@ type Action = {
 
 const useGlobalStore = create<State & Action>((set) => ({
   isGlobalLoading: false,
-  isLogin: false,
+  isLogin: null,
   setIsGlobalLoading: (isGlobalLoading) => set({ isGlobalLoading }),
   toggleGlobalLoading: () => set((state) => ({ isGlobalLoading: !state.isGlobalLoading })),
   setIsLogin: (isLogin) => set({ isLogin }),

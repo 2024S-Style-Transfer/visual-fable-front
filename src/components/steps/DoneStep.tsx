@@ -51,7 +51,7 @@ const DoneStep: React.FC<Props> = ({ generatedItems }) => {
               targetText: promptText,
               targetIndex: index,
               currentIndex: pageNumber / 2,
-              isLogin: isLogin,
+              isLogin: !!isLogin,
             })}
             onClick={() => {
               if (!flipBookRef.current) {

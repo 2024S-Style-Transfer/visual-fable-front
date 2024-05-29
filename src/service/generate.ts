@@ -11,6 +11,7 @@ import { AxiosResponse } from 'axios';
 import { serviceHeaderWithAuth } from '@/utils/serviceHeaderWithAuth';
 
 const generateExampleImages = async (page: number, size: number, text: string) => {
+  //FIXME: 서버 연결 시 client로 변경 필요
   const response = await testclient.post<ExampleResponse, AxiosResponse<ExampleResponse>, GenerateExampleImagesRequest>(
     `/images?page=${page}&size=${size}`,
     { text },

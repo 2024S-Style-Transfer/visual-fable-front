@@ -9,9 +9,8 @@ import { Button } from '../common/styled';
 import { ColorTheme } from '@/theme/theme';
 import { wait } from '@/utils/time';
 import { Dialog, DialogActions } from '@mui/material';
-
-const SIZE = 6;
 import { generateExampleImages } from '@/service/generate';
+import { EXAMPLE_REQ_SIZE} from '@/constants/generate';
 
 interface useIntersectionObserverProps {
   root?: null;
@@ -46,16 +45,14 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isPageEnd, setIsPageEnd] = useState<boolean>(false);
-  const [ItemIndex, setItemIndex] = useState<number>(6);
-  const [ItemData, setItemData] = useState<ExampleItem[]>([]);
-  const [ItemPage, setItemPage] = useState(0);
+  const [itemDataList, setItemDataList] = useState<ExampleItem[]>([]);
+  const [itemPage, setItemPage] = useState(0);
 
   // initial modal page
   useEffect(() => {
-      setItemData(exampleResponse.content);
-      setItemIndex(exampleResponse.content.length);
+      setItemDataList(exampleResponse.content);
       setItemPage(1);
-      if (exampleResponse.last == true || exampleResponse.content.length < 6) {
+      if (exampleResponse.last == true || exampleResponse.content.length < EXAMPLE_REQ_SIZE) {
         setIsPageEnd(true);
       }
   }, []);
@@ -64,11 +61,10 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
     if (!isGlobalLoading) {
       try {
         setIsLoaded(true);
-        const moreExampleResponse = await generateExampleImages(ItemPage, SIZE, exampleText);
-        setItemData((prevItemData) => [...prevItemData, ...moreExampleResponse.content]);
-        setItemIndex((prevItemIndex) => prevItemIndex + moreExampleResponse.content.length);
+        const moreExampleResponse = await generateExampleImages(itemPage, EXAMPLE_REQ_SIZE, exampleText);
+        setItemDataList((prevItemDataList) => [...prevItemDataList, ...moreExampleResponse.content]);
         setItemPage((prevItemPage) => prevItemPage + 1);
-        if (moreExampleResponse.last == true || moreExampleResponse.content.length < 6) {
+        if (moreExampleResponse.last == true || moreExampleResponse.content.length < EXAMPLE_REQ_SIZE) {
           setIsPageEnd(true);
         }
       } catch (error) {
@@ -77,7 +73,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
         setIsLoaded(false);
       }
     }
-  }, [isGlobalLoading, ItemPage, exampleText]);
+  }, [isGlobalLoading, itemPage, exampleText]);
 
   const onIntersect: IntersectionObserverCallback = useCallback(
     async ([entry], observer) => {
@@ -122,7 +118,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
       <ExampleImageSelectModalWrapper>
         <Title>예시 이미지 선택</Title>
         <ImagesBox>
-          {ItemData.map((e) => (
+          {itemDataList.map((e) => (
             <SelectableImage
               key={e.id}
               src={e.data}

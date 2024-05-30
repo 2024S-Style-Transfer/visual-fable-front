@@ -25,8 +25,6 @@ const CardTitle = styled.p`
 const CardText = styled.p``;
 const CardImage = styled.div`
   float: right;
-  width: 36.5%;
-  height: 100px; 
 `;
 
 export { Card, CardContents, CardTitle, CardText, CardImage };

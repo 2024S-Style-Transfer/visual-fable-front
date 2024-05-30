@@ -94,11 +94,11 @@ const Button = styled.button`
 
 const BannerContents = styled.div`
   width: 100%;
-  padding-bottom: 80px;
+  padding-bottom: 40px;
   text-align: center;
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 const BannerText = styled.h1`
   display: inline-block;
@@ -118,12 +118,18 @@ const BannerText = styled.h1`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  &.subtitle {
+    color: ${ColorTheme.backColor};
+    -webkit-text-stroke-width: 1px; /* 테두리 두께 */
+    -webkit-text-stroke-color: ${ColorTheme.primaryColor};
+  }
 `;
 
 // 균등 정렬 아티클
 const Contents = styled.div`
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 `;
 
@@ -145,7 +151,7 @@ const CommonWrapper = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: auto;
+  overflow: fix;
 `;
 
 export {

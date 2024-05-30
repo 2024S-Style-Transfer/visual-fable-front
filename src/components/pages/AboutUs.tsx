@@ -4,6 +4,8 @@ import { Button, BannerContents, BannerText, Contents } from '../common/styled';
 import { Card, CardContents, CardText, CardImage } from '../common/cards';
 import { RedHatText } from '../../theme/fontsGroup';
 import styled from '@emotion/styled';
+import { ColorTheme } from '@/theme/theme';
+import { SvgStarIcon } from '@/svgs';
 
 const AboutUs: React.FC = () => {
   return (
@@ -48,9 +50,13 @@ const AuBannerText = styled(BannerText)`
     display: inline-block;
     content: 'Visual Fable';
     color: black;
+    background-image: linear-gradient(to right, ${ColorTheme.primaryColor}, ${ColorTheme.secondaryColor});
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     overflow: hidden;
     border-right: 1px solid black;
-    animation: typing 6s steps(31);
+    animation: typing 3s steps(12);
   }
 
   @keyframes typing {
@@ -69,13 +75,25 @@ const Banner = () => {
       <AuH3> 짧은 시간에 당신이 상상한 세계를 생성할 수 있는 visual fable을 만나보세요</AuH3>
       <Contents>
         <div style={{ width: 40 }}></div>
-        <AuSpan>Support long sentences</AuSpan>
-        <AuSpan>Unlimited generations</AuSpan>
-        <AuSpan>No watermark</AuSpan>
-        <AuSpan>Storage space</AuSpan>
+        <AuSpanGroup>
+          <SvgStarIcon />
+          <AuSpan>Support long sentences</AuSpan>
+        </AuSpanGroup>
+        <AuSpanGroup>
+          <SvgStarIcon />
+          <AuSpan>Unlimited generations</AuSpan>
+        </AuSpanGroup>
+        <AuSpanGroup>
+          <SvgStarIcon />
+          <AuSpan>No watermark</AuSpan>
+        </AuSpanGroup>
+        <AuSpanGroup>
+          <SvgStarIcon />
+          <AuSpan>Storage space</AuSpan>
+        </AuSpanGroup>
         <div style={{ width: 40 }}></div>
       </Contents>
-      <Button> Start Free Trial</Button>
+      <Button className="Dr"> Start</Button>
     </BannerContents>
   );
 };
@@ -87,8 +105,17 @@ const AuCard = styled(Card)`
 const AuH3 = styled.h3`
   margin-bottom: 80px;
 `;
-const AuSpan = styled.span`
+const AuSpan = styled.p`
   margin-bottom: 80px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  float: right;
+  margin: 0;
+`;
+const AuSpanGroup = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
 `;
 
 export default AboutUs;

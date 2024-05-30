@@ -98,6 +98,7 @@ const BannerContents = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 const BannerText = styled.h1`
   display: inline-block;

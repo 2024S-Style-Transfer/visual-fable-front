@@ -1,17 +1,16 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import useGenerateStore, { STEP } from '@/store/generateStore';
 import useGlobalStore from '@/store/globalStore';
-import { ExampleItem } from '@/types/service';
+import { ExampleItem, ExampleResponse } from '@/types/service';
 import styled from '@emotion/styled';
 import { Button } from '../common/styled';
 import { ColorTheme } from '@/theme/theme';
-import axios, { AxiosResponse } from 'axios';
 import { wait } from '@/utils/time';
 import { Dialog, DialogActions } from '@mui/material';
-
-const SIZE = 6;
+import { generateExampleImages } from '@/service/generate';
+import { EXAMPLE_REQ_SIZE} from '@/constants/generate';
 
 interface useIntersectionObserverProps {
   root?: null;
@@ -34,58 +33,38 @@ const useIntersectionObserver = ({ root, rootMargin, threshold, onIntersect }: u
   return { setTarget };
 };
 
-type Props = {
-  modalResponse?: AxiosResponse<any, any>;
+type ExampleImageSlectModalProps = {
+  exampleResponse: ExampleResponse;
   exampleText: string;
   onClose: () => void;
 };
 
-const ExampleImageSelectModal: React.FC<Props> = ({ modalResponse, exampleText, onClose }) => {
+const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampleResponse, exampleText, onClose }) => {
   const { isGlobalLoading, setIsGlobalLoading } = useGlobalStore();
   const { setStep, selectedExampleItem, setSelectedExampleItem } = useGenerateStore();
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isPageEnd, setIsPageEnd] = useState<boolean>(false);
-  const [itemIndex, setItemIndex] = useState<number>(6);
-  const [data, setData] = useState<ExampleItem[]>([]);
+  const [itemDataList, setItemDataList] = useState<ExampleItem[]>([]);
   const [itemPage, setItemPage] = useState(0);
-  const testFetch = (delay = 1000) => new Promise((res) => setTimeout(res, delay));
 
   // initial modal page
   useEffect(() => {
-    if (modalResponse?.data?.content) {
-      const moreItems: ExampleItem[] = modalResponse.data.content.map((item: any) => ({
-        id: item.id,
-        data: item.data,
-      }));
-      setData((prevData) => [...prevData, ...moreItems]);
-      setItemIndex(data.length);
+      setItemDataList(exampleResponse.content);
       setItemPage(1);
-      if (modalResponse?.data?.last == true || itemIndex < 6) {
+      if (exampleResponse.last == true || exampleResponse.content.length < EXAMPLE_REQ_SIZE) {
         setIsPageEnd(true);
       }
-    }
   }, []);
 
   const getMoreItem = useCallback(async () => {
     if (!isGlobalLoading) {
       try {
         setIsLoaded(true);
-        // FIXME: 추후 도메인 변경 필요
-        // Postman 활용한 api test용
-        // 참고 : https://www.postman.com/orbital-module-specialist-3006193/workspace/my-workspace
-        const moreDataResponse = await axios.post(
-          `https://cda4a83b-0e18-443b-a847-adbbb6c61377.mock.pstmn.io/api/images?page=${itemPage}&size=${SIZE}`,
-          { exampleText }
-        );
-        const moreItems: ExampleItem[] = moreDataResponse.data.content.map((item: any) => ({
-          id: item.id,
-          data: item.data,
-        }));
-        setData((prevData) => [...prevData, ...moreItems]);
-        setItemIndex((prevItemIndex) => prevItemIndex + moreItems.length);
+        const moreExampleResponse = await generateExampleImages(itemPage, EXAMPLE_REQ_SIZE, exampleText);
+        setItemDataList((prevItemDataList) => [...prevItemDataList, ...moreExampleResponse.content]);
         setItemPage((prevItemPage) => prevItemPage + 1);
-        if (moreDataResponse?.data?.last == true || moreItems.length < 6) {
+        if (moreExampleResponse.last == true || moreExampleResponse.content.length < EXAMPLE_REQ_SIZE) {
           setIsPageEnd(true);
         }
       } catch (error) {
@@ -139,7 +118,7 @@ const ExampleImageSelectModal: React.FC<Props> = ({ modalResponse, exampleText, 
       <ExampleImageSelectModalWrapper>
         <Title>예시 이미지 선택</Title>
         <ImagesBox>
-          {data.map((e, index) => (
+          {itemDataList.map((e) => (
             <SelectableImage
               key={e.id}
               src={e.data}

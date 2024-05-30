@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { shadowOpts } from './styled';
 import { SvgMainLogo } from '@/svgs';
 import Link from 'next/link';
+import useGenerateStore from '@/store/generateStore';
 
 const NAV_ITEMS = [
   {
@@ -19,26 +20,29 @@ const NAV_ITEMS = [
   },
 ] as const;
 
-const handleHomeClick = (textname: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-  if (textname === 'Home') {
-    e.preventDefault(); // Prevent default link behavior
-    window.location.href = '/';
-  }
+const Navigator = () => {
+  const { clearStore } = useGenerateStore();
+
+  const handleHomeClick = (textname: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (textname === 'Home') {
+      clearStore(); // store 초기화
+    }
+  };
+
+  return (
+    <Nav>
+      <Logo href={'/'} onClick={handleHomeClick('Home')}>
+        <SvgMainLogo />
+      </Logo>
+
+      {NAV_ITEMS.map((item) => (
+        <NavText key={item.name} href={item.path} onClick={handleHomeClick(item.name)}>
+          {item.name}
+        </NavText>
+      ))}
+    </Nav>
+  );
 };
-
-const Navigator = () => (
-  <Nav >
-    <Logo href={'/'} onClick={handleHomeClick('Home')}>
-      <SvgMainLogo />
-    </Logo>
-
-    {NAV_ITEMS.map((item) => (
-      <NavText key={item.name} href={item.path} onClick={handleHomeClick(item.name)}>
-        {item.name}
-      </NavText>
-    ))}
-  </Nav>
-);
 const Nav = styled.div`
   position: relative;
   display: flex;

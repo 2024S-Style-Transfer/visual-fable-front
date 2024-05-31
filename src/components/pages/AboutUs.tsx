@@ -50,8 +50,16 @@ const AuBannerText = styled(BannerText)`
     }
   }
 `;
+
+const BannerTexts = ['Support long sentences', 'Unlimited generations', 'No watermark', 'Storage space'];
+
+const CardTexts = [
+    'Large Language Model (LLM)을 사용하여 긴 문장을 하나의 문장으로 요약.',
+    'OpneAI CLIP 모델을 사용하여 각 이미지와 텍스트 사이 유사도를 계산하여 유사도가 높은 장르로 분류.',
+    'DDIM 역변환을 사용하여 선택한 스타일을 바탕으로 이미지 생성.',
+  ];
+
 const Banner = () => {
-  const text = ['Support long sentences', 'Unlimited generations', 'No watermark', 'Storage space'];
   const handleStart = () => {
     window.location.href = '/';
   };
@@ -62,7 +70,7 @@ const Banner = () => {
       <h3 style={{ marginBottom: 80 }}> 짧은 시간에 당신이 상상한 세계를 생성할 수 있는 visual fable을 만나보세요</h3>
       <Contents>
         <div style={{ width: 40 }}></div>
-        {text.map((text) => (
+        {BannerTexts.map((text) => (
           <AuTextGroup>
             <SvgButterflyIcon />
             <div style={{ width: 8 }}></div>
@@ -97,15 +105,9 @@ const AuContentsWrapper = styled.div`
   }
 `;
 const AuCards = () => {
-  const idx = [0, 1, 2];
-  const cardtexts = [
-    'Large Language Model (LLM)을 사용하여 긴 문장을 하나의 문장으로 요약.',
-    'OpneAI CLIP 모델을 사용하여 각 이미지와 텍스트 사이 유사도를 계산하여 유사도가 높은 장르로 분류.',
-    'DDIM 역변환을 사용하여 선택한 스타일을 바탕으로 이미지 생성.',
-  ];
   return (
     <Contents style={{ justifyContent: 'center' }}>
-      {idx.map((index) => (
+      {CardTexts.map((text, index) => (
         <AuCard>
           <AuIndexImage>
             <SvgNums idx={index} />
@@ -114,7 +116,7 @@ const AuCards = () => {
             <SvgModelImages idx={index} />
           </AuCardImage>
           <div style={{ height: 28 }} />
-          <AuText>{cardtexts[index]}</AuText>
+          <AuText>{text}</AuText>
         </AuCard>
       ))}
     </Contents>

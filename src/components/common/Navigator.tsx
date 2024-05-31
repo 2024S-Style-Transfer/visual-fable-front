@@ -23,20 +23,22 @@ const NAV_ITEMS = [
 const Navigator = () => {
   const { clearStore } = useGenerateStore();
 
-  const handleHomeClick = (textname: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (textname === 'Home') {
-      clearStore(); // store 초기화
+  const handleHomeClick = (navName: (typeof NAV_ITEMS)[number]['name']) => {
+    if (window.location.pathname !== '/' || navName !== 'Home') {
+      return;
     }
+
+    clearStore(); // store 초기화
   };
 
   return (
     <Nav>
-      <Logo href={'/'} onClick={handleHomeClick('Home')}>
+      <Logo href={'/'} onClick={() => handleHomeClick('Home')}>
         <SvgMainLogo />
       </Logo>
 
       {NAV_ITEMS.map((item) => (
-        <NavText key={item.name} href={item.path} onClick={handleHomeClick(item.name)}>
+        <NavText key={item.name} href={item.path} onClick={() => handleHomeClick(item.name)}>
           {item.name}
         </NavText>
       ))}

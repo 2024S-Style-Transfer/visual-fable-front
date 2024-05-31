@@ -12,6 +12,7 @@ import { Dialog, DialogActions } from '@mui/material';
 import { generateExampleImages } from '@/service/generate';
 import { EXAMPLE_REQ_SIZE } from '@/constants/generate';
 import Image from 'next/image';
+import { client } from '@/service/client';
 
 interface useIntersectionObserverProps {
   root?: null;
@@ -95,10 +96,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
   const handleConfirmExampleItem = async () => {
     try {
       setIsGlobalLoading(true);
-
-      // FIXME: API 호출로 변경 필요
-      await wait(3);
-      // await client.post('/step/1', { exampleImageId: selectedExampleItemId });
+      await client.post('/step/1', { exampleImageId: selectedExampleItem });
       setStep(STEP.GENERATE);
     } catch (error) {
       console.error(error);
@@ -116,9 +114,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
             <SelectableImage
               width={200}
               height={200}
-              //FIXME : API 연결 후
-              //src={e.url}
-              src=''
+              src={e.url}
               alt={`example ${e.id} Base 64`}
               $isSelected={selectedExampleItem?.id === e.id}
               onClick={() => setSelectedExampleItem(e)}
@@ -139,7 +135,6 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
   );
 };
 
-// TODO: 추후 next/image로 변경
 const SelectableImage = styled(Image)<{ $isSelected: boolean }>`
   border: 2px solid ${({ $isSelected }) => ($isSelected ? `${ColorTheme.primaryColor}` : 'transparent')};
   cursor: pointer;

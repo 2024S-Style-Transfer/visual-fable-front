@@ -7,12 +7,10 @@ import { ExampleItem, ExampleResponse } from '@/types/service';
 import styled from '@emotion/styled';
 import { Button } from '../common/styled';
 import { ColorTheme } from '@/theme/theme';
-import { wait } from '@/utils/time';
 import { Dialog, DialogActions } from '@mui/material';
 import { generateExampleImages } from '@/service/generate';
 import { EXAMPLE_REQ_SIZE } from '@/constants/generate';
 import Image from 'next/image';
-import { client } from '@/service/client';
 
 interface useIntersectionObserverProps {
   root?: null;
@@ -35,16 +33,15 @@ const useIntersectionObserver = ({ root, rootMargin, threshold, onIntersect }: u
   return { setTarget };
 };
 
-type ExampleImageSlectModalProps = {
+type ExampleImageSelectModalProps = {
   exampleResponse: ExampleResponse;
   exampleText: string;
   onClose: () => void;
 };
-
-const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampleResponse, exampleText, onClose }) => {
+const ExampleImageSelectModal: React.FC<ExampleImageSelectModalProps> = ({ exampleResponse, exampleText, onClose }) => {
   const { isGlobalLoading, setIsGlobalLoading } = useGlobalStore();
-  const { setStep, selectedExampleItem, setSelectedExampleItem } = useGenerateStore();
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [localSelectedExampleItem, setLocalSelectedExampleItem] = useState<ExampleItem | null>(null);
+  const { setStep, setSelectedExampleItem } = useGenerateStore();
   const [itemDataList, setItemDataList] = useState<ExampleItem[]>(exampleResponse.content);
   const [itemPage, setItemPage] = useState(1);
   const [isPageEnd, setIsPageEnd] = useState(exampleResponse.last || exampleResponse.content.length < EXAMPLE_REQ_SIZE);
@@ -52,18 +49,19 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
   const getMoreItem = useCallback(async () => {
     if (!isGlobalLoading) {
       try {
-        setIsLoaded(true);
+        setIsGlobalLoading(true);
+
         const moreExampleResponse = await generateExampleImages(itemPage, EXAMPLE_REQ_SIZE, exampleText);
-        console.log(moreExampleResponse)
         setItemDataList((prevItemDataList) => [...prevItemDataList, ...moreExampleResponse.content]);
         setItemPage((prevItemPage) => prevItemPage + 1);
+
         if (moreExampleResponse.last == true || moreExampleResponse.content.length < EXAMPLE_REQ_SIZE) {
           setIsPageEnd(true);
         }
       } catch (error) {
         console.error(error);
       } finally {
-        setIsLoaded(false);
+        setIsGlobalLoading(false);
       }
     }
   }, [isGlobalLoading, itemPage, exampleText]);
@@ -94,9 +92,14 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
   };
 
   const handleConfirmExampleItem = async () => {
+    if (!localSelectedExampleItem) {
+      alert('예시 이미지를 선택해주세요.');
+      return;
+    }
+
     try {
       setIsGlobalLoading(true);
-      await client.post('/step/1', { exampleImageId: selectedExampleItem });
+      setSelectedExampleItem(localSelectedExampleItem);
       setStep(STEP.GENERATE);
     } catch (error) {
       console.error(error);
@@ -110,14 +113,15 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
       <ExampleImageSelectModalWrapper>
         <Title>예시 이미지 선택</Title>
         <ImagesBox>
-          {itemDataList.map((e) => (
+          {itemDataList.map((item) => (
             <SelectableImage
+              key={item.id}
               width={200}
               height={200}
-              src={e.url}
-              alt={`example ${e.id} Base 64`}
-              $isSelected={selectedExampleItem?.id === e.id}
-              onClick={() => setSelectedExampleItem(e)}
+              src={item.url}
+              alt={`example ${item.id} Base 64`}
+              $isSelected={localSelectedExampleItem?.id === item.id}
+              onClick={() => setLocalSelectedExampleItem(item)}
             />
           ))}
           <div ref={setTarget} />
@@ -126,7 +130,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
           <Button className="Cancel" onClick={handleClose}>
             취소
           </Button>
-          <Button className="Dr" onClick={handleConfirmExampleItem} disabled={!selectedExampleItem}>
+          <Button className="Dr" onClick={handleConfirmExampleItem} disabled={!localSelectedExampleItem}>
             선택
           </Button>
         </DialogActions>

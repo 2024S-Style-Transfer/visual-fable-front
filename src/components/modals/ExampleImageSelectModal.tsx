@@ -11,6 +11,7 @@ import { wait } from '@/utils/time';
 import { Dialog, DialogActions } from '@mui/material';
 import { generateExampleImages } from '@/service/generate';
 import { EXAMPLE_REQ_SIZE } from '@/constants/generate';
+import Image from 'next/image';
 
 interface useIntersectionObserverProps {
   root?: null;
@@ -52,6 +53,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
       try {
         setIsLoaded(true);
         const moreExampleResponse = await generateExampleImages(itemPage, EXAMPLE_REQ_SIZE, exampleText);
+        console.log(moreExampleResponse)
         setItemDataList((prevItemDataList) => [...prevItemDataList, ...moreExampleResponse.content]);
         setItemPage((prevItemPage) => prevItemPage + 1);
         if (moreExampleResponse.last == true || moreExampleResponse.content.length < EXAMPLE_REQ_SIZE) {
@@ -67,12 +69,11 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
 
   const onIntersect: IntersectionObserverCallback = useCallback(
     async ([entry], observer) => {
-      if (entry.isIntersecting&& !isPageEnd) {
+      if (entry.isIntersecting && !isPageEnd) {
         observer.unobserve(entry.target);
         await getMoreItem();
-        observer.observe(entry.target); 
-      }
-      else if(isPageEnd){
+        observer.observe(entry.target);
+      } else if (isPageEnd) {
         observer.disconnect();
       }
     },
@@ -113,14 +114,17 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
         <ImagesBox>
           {itemDataList.map((e) => (
             <SelectableImage
-              key={e.id}
-              src={e.data}
+              width={200}
+              height={200}
+              //FIXME : API 연결 후
+              //src={e.url}
+              src=''
               alt={`example ${e.id} Base 64`}
               $isSelected={selectedExampleItem?.id === e.id}
               onClick={() => setSelectedExampleItem(e)}
             />
           ))}
-          <div ref={setTarget}/>
+          <div ref={setTarget} />
         </ImagesBox>
         <DialogActions>
           <Button className="Cancel" onClick={handleClose}>
@@ -136,11 +140,9 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
 };
 
 // TODO: 추후 next/image로 변경
-const SelectableImage = styled.img<{ $isSelected: boolean }>`
+const SelectableImage = styled(Image)<{ $isSelected: boolean }>`
   border: 2px solid ${({ $isSelected }) => ($isSelected ? `${ColorTheme.primaryColor}` : 'transparent')};
   cursor: pointer;
-  width: 200px;
-  height: 200px;
   margin-bottom: 3.7%;
   background-color: pink;
   border-radius: 10px;

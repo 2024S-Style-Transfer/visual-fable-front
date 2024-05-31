@@ -10,7 +10,7 @@ import { ColorTheme } from '@/theme/theme';
 import { wait } from '@/utils/time';
 import { Dialog, DialogActions } from '@mui/material';
 import { generateExampleImages } from '@/service/generate';
-import { EXAMPLE_REQ_SIZE} from '@/constants/generate';
+import { EXAMPLE_REQ_SIZE } from '@/constants/generate';
 
 interface useIntersectionObserverProps {
   root?: null;
@@ -42,20 +42,10 @@ type ExampleImageSlectModalProps = {
 const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampleResponse, exampleText, onClose }) => {
   const { isGlobalLoading, setIsGlobalLoading } = useGlobalStore();
   const { setStep, selectedExampleItem, setSelectedExampleItem } = useGenerateStore();
-
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [isPageEnd, setIsPageEnd] = useState<boolean>(false);
-  const [itemDataList, setItemDataList] = useState<ExampleItem[]>([]);
-  const [itemPage, setItemPage] = useState(0);
-
-  // initial modal page
-  useEffect(() => {
-      setItemDataList(exampleResponse.content);
-      setItemPage(1);
-      if (exampleResponse.last == true || exampleResponse.content.length < EXAMPLE_REQ_SIZE) {
-        setIsPageEnd(true);
-      }
-  }, []);
+  const [itemDataList, setItemDataList] = useState<ExampleItem[]>(exampleResponse.content);
+  const [itemPage, setItemPage] = useState(1);
+  const [isPageEnd, setIsPageEnd] = useState(exampleResponse.last || exampleResponse.content.length < EXAMPLE_REQ_SIZE);
 
   const getMoreItem = useCallback(async () => {
     if (!isGlobalLoading) {
@@ -77,10 +67,13 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
 
   const onIntersect: IntersectionObserverCallback = useCallback(
     async ([entry], observer) => {
-      if (entry.isIntersecting && !isLoaded && !isPageEnd) {
+      if (entry.isIntersecting&& !isPageEnd) {
         observer.unobserve(entry.target);
         await getMoreItem();
-        observer.observe(entry.target);
+        observer.observe(entry.target); 
+      }
+      else if(isPageEnd){
+        observer.disconnect();
       }
     },
     [getMoreItem, isPageEnd]
@@ -104,7 +97,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
 
       // FIXME: API 호출로 변경 필요
       await wait(3);
-      // await api.post('/api/step/1', { exampleImageId: selectedExampleItemId });
+      // await client.post('/step/1', { exampleImageId: selectedExampleItemId });
       setStep(STEP.GENERATE);
     } catch (error) {
       console.error(error);
@@ -127,7 +120,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSlectModalProps> = ({ exampl
               onClick={() => setSelectedExampleItem(e)}
             />
           ))}
-          <div ref={setTarget}></div>
+          <div ref={setTarget}/>
         </ImagesBox>
         <DialogActions>
           <Button className="Cancel" onClick={handleClose}>

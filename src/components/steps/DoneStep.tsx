@@ -30,7 +30,7 @@ const DoneStep: React.FC<Props> = ({ generatedItems }) => {
       );
       const imgPage = (
         <PageWrapper key={item.id + 'img'}>
-          <Image src={item.generatedImage} alt="generatedImage" width={100} height={100} />
+          <Image src={item.generatedImage} alt="generatedImage" width={100} height={100}/>
           <PageFooter $isRightmost>{index * 2 + 2}</PageFooter>
         </PageWrapper>
       );

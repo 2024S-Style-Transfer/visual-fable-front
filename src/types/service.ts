@@ -1,6 +1,7 @@
 export interface ExampleItem {
   id: string;
-  data: string;
+  url: string;
+  description: string;
 }
 
 export interface GenerateExampleImagesRequest {

@@ -82,7 +82,7 @@ const Banner = () => {
   return (
     <BannerContents className={RedHatText.className}>
       <BannerText>Create your</BannerText>
-      
+
       <BannerText className="highlight">own Fable images</BannerText>
     </BannerContents>
   );

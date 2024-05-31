@@ -51,9 +51,9 @@ const AuBannerText = styled(BannerText)`
   }
 `;
 
-const BannerTexts = ['Support long sentences', 'Unlimited generations', 'No watermark', 'Storage space'];
+const bannerTexts = ['Support long sentences', 'Unlimited generations', 'No watermark', 'Storage space'];
 
-const CardTexts = [
+const cardTexts = [
     'Large Language Model (LLM)을 사용하여 긴 문장을 하나의 문장으로 요약.',
     'OpneAI CLIP 모델을 사용하여 각 이미지와 텍스트 사이 유사도를 계산하여 유사도가 높은 장르로 분류.',
     'DDIM 역변환을 사용하여 선택한 스타일을 바탕으로 이미지 생성.',
@@ -70,7 +70,7 @@ const Banner = () => {
       <h3 style={{ marginBottom: 80 }}> 짧은 시간에 당신이 상상한 세계를 생성할 수 있는 visual fable을 만나보세요</h3>
       <Contents>
         <div style={{ width: 40 }}></div>
-        {BannerTexts.map((text) => (
+        {bannerTexts.map((text) => (
           <AuTextGroup>
             <SvgButterflyIcon />
             <div style={{ width: 8 }}></div>
@@ -107,7 +107,7 @@ const AuContentsWrapper = styled.div`
 const AuCards = () => {
   return (
     <Contents style={{ justifyContent: 'center' }}>
-      {CardTexts.map((text, index) => (
+      {cardTexts.map((text, index) => (
         <AuCard>
           <AuIndexImage>
             <SvgNums idx={index} />

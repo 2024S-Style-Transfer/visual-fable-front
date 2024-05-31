@@ -20,7 +20,7 @@ import { SvgUserIcon } from '@/svgs';
 import { useRouter } from 'next/navigation';
 import { SvgBookIcon } from '@/svgs';
 import { generateExampleImages } from '@/service/generate';
-import { ExampleResponse, GenerateExampleImagesRequest } from '@/types/service';
+import { ExampleResponse } from '@/types/service';
 import { EXAMPLE_REQ_SIZE } from '@/constants/generate';
 
 const PreGenerateStep: React.FC = () => {

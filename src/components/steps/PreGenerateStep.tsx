@@ -62,7 +62,7 @@ const PreGenerateStep: React.FC = () => {
           />
         </PreDrTextAreaBorder>
 
-        <PreDrButton className="Dr" style={{ height: `${textAreaHeight}px` }} onClick={handleCreateExampleImages}>
+        <PreDrButton className="Dr" style={{ height: `${textAreaHeight}px`}} onClick={handleCreateExampleImages}>
           Draw
         </PreDrButton>
       </InputArea>

@@ -5,6 +5,7 @@ import useGlobalStore from '@/store/globalStore';
 import { GlobalLoading } from '../common/Loading';
 import { CommonWrapper, Section } from '../common/styled';
 import Navigator from '../common/Navigator';
+import Footer from '../common/Footer';
 
 const DefaultLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { isGlobalLoading } = useGlobalStore();
@@ -15,7 +16,10 @@ const DefaultLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         <Navigator />
 
         <Section>{children}</Section>
+        
       </CommonWrapper>
+      <Footer/>
+      
       {isGlobalLoading && <GlobalLoading />}
     </>
   );

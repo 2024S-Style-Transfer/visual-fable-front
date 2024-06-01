@@ -1,5 +1,4 @@
 import {
-  ExampleItem,
   GenerateExampleImagesRequest,
   GenerateImagesRequest,
   GenerateImagesResponse,

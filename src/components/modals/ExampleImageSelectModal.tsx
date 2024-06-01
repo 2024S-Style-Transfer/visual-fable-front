@@ -64,6 +64,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSelectModalProps> = ({ examp
         setIsGlobalLoading(false);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGlobalLoading, itemPage, exampleText]);
 
   const onIntersect: IntersectionObserverCallback = useCallback(
@@ -148,7 +149,7 @@ const SelectableImage = styled(Image)<{ $isSelected: boolean }>`
 `;
 const ImagesBox = styled.div`
   display: flex;
-  justyfy-content: space-between;
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 3.1%;

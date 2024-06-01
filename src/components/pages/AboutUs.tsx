@@ -54,10 +54,10 @@ const AuBannerText = styled(BannerText)`
 const BANNER_TEXTS = ['Support long sentences', 'Unlimited generations', 'No watermark', 'Storage space'];
 
 const CARD_TEXTS = [
-    'Large Language Model (LLM)을 사용하여 긴 문장을 하나의 문장으로 요약.',
-    'OpneAI CLIP 모델을 사용하여 각 이미지와 텍스트 사이 유사도를 계산하여 유사도가 높은 장르로 분류.',
-    'DDIM 역변환을 사용하여 선택한 스타일을 바탕으로 이미지 생성.',
-  ];
+  'Large Language Model (LLM)을 사용하여 긴 문장을 하나의 문장으로 요약.',
+  'OpneAI CLIP 모델을 사용하여 각 이미지와 텍스트 사이 유사도를 계산하여 유사도가 높은 장르로 분류.',
+  'DDIM 역변환을 사용하여 선택한 스타일을 바탕으로 이미지 생성.',
+];
 
 const Banner = () => {
   const handleStart = () => {
@@ -71,7 +71,7 @@ const Banner = () => {
       <Contents>
         <div style={{ width: 40 }}></div>
         {BANNER_TEXTS.map((text) => (
-          <AuTextGroup>
+          <AuTextGroup key={text}>
             <SvgButterflyIcon />
             <div style={{ width: 8 }}></div>
             <AuText>{text}</AuText>
@@ -108,7 +108,7 @@ const AuCards = () => {
   return (
     <Contents style={{ justifyContent: 'center' }}>
       {CARD_TEXTS.map((text, index) => (
-        <AuCard>
+        <AuCard key={text}>
           <AuIndexImage>
             <SvgNums idx={index} />
           </AuIndexImage>

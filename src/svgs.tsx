@@ -112,7 +112,7 @@ export const SvgMainLogo = () => (
 
 export const SvgBookIcon = () => (
   <svg
-    width="180"
+    width="180*100vw"
     height="110"
     viewBox="0 0 248 136"
     fill="none"

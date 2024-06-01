@@ -4,8 +4,10 @@ import { Global, css } from '@emotion/react';
 
 
 const globalStyles = css`
-  html,
-  body,
+  html, body{
+    overflow-x: hidden;
+    margin: 0;
+  }
   #__next {
     margin: 0;
     padding: 0;

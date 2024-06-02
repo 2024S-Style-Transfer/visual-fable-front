@@ -122,7 +122,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSelectModalProps> = ({ examp
               height={200}
               src={getBase64ImageUrlWithPrefix(item.data)}
               alt={`example ${item.id} Base 64`}
-              $isSelected={localSelectedExampleItem?.id === item.id}
+              $selected={localSelectedExampleItem?.id === item.id}
               onClick={() => setLocalSelectedExampleItem(item)}
             />
           ))}
@@ -141,8 +141,8 @@ const ExampleImageSelectModal: React.FC<ExampleImageSelectModalProps> = ({ examp
   );
 };
 
-const SelectableImage = styled(Image)<{ $isSelected: boolean }>`
-  border: 2px solid ${({ $isSelected }) => ($isSelected ? `${ColorTheme.primaryColor}` : 'transparent')};
+const SelectableImage = styled(Image)<{ $selected: boolean }>`
+  border: 2px solid ${({ $selected }) => ($selected ? `${ColorTheme.primaryColor}` : 'transparent')};
   cursor: pointer;
   margin-bottom: 3.7%;
   background-color: pink;

@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import useGlobalStore from '@/store/globalStore';
+import { getBase64ImageUrlWithPrefix } from '@/utils/getBase64ImageUrlWithPrefix';
 
 const Storage: React.FC = () => {
   const { userData } = useGlobalStore();
@@ -48,7 +49,12 @@ const Storage: React.FC = () => {
       <StorageDataWrapper>
         {projectList.map((project) => (
           <StorageItem key={project.projectId} onClick={() => handleClickStorageItem(project.projectId)}>
-            <Image src={project.exampleImage} alt="projectExampleImage" width={168} height={168} />
+            <Image
+              src={getBase64ImageUrlWithPrefix(project.exampleImage)}
+              alt="projectExampleImage"
+              width={168}
+              height={168}
+            />
             <ItemText>{project.time}</ItemText>
             <ItemText>{project.summary}</ItemText>
           </StorageItem>

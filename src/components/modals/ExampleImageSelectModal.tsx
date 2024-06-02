@@ -11,6 +11,7 @@ import { Dialog, DialogActions } from '@mui/material';
 import { generateExampleImages } from '@/service/generate';
 import { EXAMPLE_REQ_SIZE } from '@/constants/generate';
 import Image from 'next/image';
+import { getBase64ImageUrlWithPrefix } from '@/utils/getBase64ImageUrlWithPrefix';
 
 interface useIntersectionObserverProps {
   root?: null;
@@ -119,7 +120,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSelectModalProps> = ({ examp
               key={item.id}
               width={200}
               height={200}
-              src={item.data}
+              src={getBase64ImageUrlWithPrefix(item.data)}
               alt={`example ${item.id} Base 64`}
               $isSelected={localSelectedExampleItem?.id === item.id}
               onClick={() => setLocalSelectedExampleItem(item)}

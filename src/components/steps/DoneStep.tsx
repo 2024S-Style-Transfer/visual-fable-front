@@ -8,6 +8,7 @@ import useGlobalStore from '@/store/globalStore';
 import { GeneratedItem } from '@/types/service';
 import Image from 'next/image';
 import { PageFlipRef } from '@/types/pageflip';
+import { getBase64ImageUrlWithPrefix } from '@/utils/getBase64ImageUrlWithPrefix';
 
 type Props = {
   generatedItems: GeneratedItem[];
@@ -30,7 +31,7 @@ const DoneStep: React.FC<Props> = ({ generatedItems }) => {
       );
       const imgPage = (
         <PageWrapper key={item.id + 'img'}>
-          <Image src={item.generatedImage} alt="generatedImage" width={100} height={100}/>
+          <Image src={getBase64ImageUrlWithPrefix(item.generatedImage)} alt="generatedImage" width={100} height={100} />
           <PageFooter $isRightmost>{index * 2 + 2}</PageFooter>
         </PageWrapper>
       );

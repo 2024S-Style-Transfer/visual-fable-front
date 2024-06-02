@@ -31,8 +31,8 @@ const Footer = () => {
   return (
     <FooterWrapper>
       <FooterContents>
-        <h3 style={{fontWeight:"normal"}}>Link</h3>
-        <hr/>
+        <h3 style={{ fontWeight: 'normal' }}>Link</h3>
+        <hr />
         <ContentsWrapper>
           {NAV_ITEMS.map((item) => (
             <LinkText key={item.name} href={item.path} onClick={() => handleHomeClick(item.name)}>
@@ -43,8 +43,8 @@ const Footer = () => {
       </FooterContents>
 
       <FooterContents>
-        <h3 style={{fontWeight:"normal"}}>Suggestion</h3>
-        <hr/>
+        <h3 style={{ fontWeight: 'normal' }}>Suggestion</h3>
+        <hr />
         <ContactForm />
       </FooterContents>
     </FooterWrapper>

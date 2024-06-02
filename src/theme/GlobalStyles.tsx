@@ -2,12 +2,9 @@
 
 import { Global, css } from '@emotion/react';
 
-
 const globalStyles = css`
-  html, body{
-    overflow-x: hidden;
-    margin: 0;
-  }
+  html,
+  body,
   #__next {
     margin: 0;
     padding: 0;

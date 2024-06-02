@@ -145,7 +145,7 @@ const SelectableImage = styled(Image)<{ $selected: boolean }>`
   border: 2px solid ${({ $selected }) => ($selected ? `${ColorTheme.primaryColor}` : 'transparent')};
   cursor: pointer;
   margin-bottom: 3.7%;
-  background-color: pink;
+  background-color: transparent;
   border-radius: 10px;
 `;
 const ImagesBox = styled.div`

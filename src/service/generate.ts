@@ -18,7 +18,7 @@ const generateExampleImages = async (page: number, size: number, text: string) =
   return response.data;
 };
 
-const generateImages = async (exampleImageData: string, texts: string[]) => {
+const generateImages = async (exampleImageId: string, texts: string[]) => {
   const randomProjectId = uuidv4();
 
   const basicItems = texts.map((promptText, index) => ({
@@ -34,7 +34,7 @@ const generateImages = async (exampleImageData: string, texts: string[]) => {
     '/generate-images',
     {
       projectId: randomProjectId,
-      exampleImage: exampleImageData,
+      id: exampleImageId,
       basicItems,
     },
     { ...serviceHeaderWithAuth() }

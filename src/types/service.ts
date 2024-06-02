@@ -23,7 +23,7 @@ export interface BasicItem {
 }
 export interface GenerateImagesRequest {
   projectId: string;
-  exampleImage: string;
+  id: string; // exampleImageId
   basicItems: BasicItem[];
 }
 export interface GenerateImagesResponse {
@@ -69,4 +69,3 @@ export interface ApiMethodCategory {
   name: string;
   methods: ApiMethodItem[];
 }
-

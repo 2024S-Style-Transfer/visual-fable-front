@@ -1,14 +1,13 @@
 export interface ExampleItem {
   id: string;
-  url: string;
-  description: string;
+  data: string;
 }
 
 export interface GenerateExampleImagesRequest {
   text: string;
 }
 
-export interface ExampleResponse{
+export interface ExampleResponse {
   content: ExampleItem[];
   last: boolean;
 }

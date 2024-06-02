@@ -119,7 +119,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSelectModalProps> = ({ examp
               key={item.id}
               width={200}
               height={200}
-              src={item.url}
+              src={item.data}
               alt={`example ${item.id} Base 64`}
               $isSelected={localSelectedExampleItem?.id === item.id}
               onClick={() => setLocalSelectedExampleItem(item)}

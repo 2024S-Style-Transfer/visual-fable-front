@@ -6,53 +6,43 @@ export const MOCK_IMG_DATA =
 export const MOCK_EXAMPLE_IMAGES: ExampleItem[] = [
   {
     id: '1',
-    url: MOCK_IMG_DATA,
-    description: 'description1',
+    data: MOCK_IMG_DATA,
   },
   {
     id: '2',
-    url: MOCK_IMG_DATA,
-    description: 'description1',
+    data: MOCK_IMG_DATA,
   },
   {
     id: '3',
-    url: MOCK_IMG_DATA,
-    description: 'description1',
+    data: MOCK_IMG_DATA,
   },
   {
     id: '4',
-    url: MOCK_IMG_DATA,
-    description: 'description1',
+    data: MOCK_IMG_DATA,
   },
   {
     id: '5',
-    url: MOCK_IMG_DATA,
-    description: 'description1',
+    data: MOCK_IMG_DATA,
   },
   {
     id: '6',
-    url: MOCK_IMG_DATA,
-    description: 'description1',
+    data: MOCK_IMG_DATA,
   },
   {
     id: '7',
-    url: MOCK_IMG_DATA,
-    description: 'description1',
+    data: MOCK_IMG_DATA,
   },
   {
     id: '8',
-    url: MOCK_IMG_DATA,
-    description: 'description1',
+    data: MOCK_IMG_DATA,
   },
   {
     id: '9',
-    url: MOCK_IMG_DATA,
-    description: 'description1',
+    data: MOCK_IMG_DATA,
   },
   {
     id: '10',
-    url: MOCK_IMG_DATA,
-    description: 'description1',
+    data: MOCK_IMG_DATA,
   },
 ];
 

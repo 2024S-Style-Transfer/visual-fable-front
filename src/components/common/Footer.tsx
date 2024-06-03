@@ -4,20 +4,11 @@ import { ColorTheme } from '@/theme/theme';
 import Link from 'next/link';
 import useGenerateStore from '@/store/generateStore';
 import emailjs from '@emailjs/browser';
-const NAV_ITEMS = [
-  {
-    name: 'Home',
-    path: '/',
-  },
-  {
-    name: 'About Us',
-    path: '/about',
-  },
-  {
-    name: 'API Docs',
-    path: '/methods',
-  },
-];
+import { NAV_ITEMS } from '@/constants/rotuer';
+
+const EMAILJS_USER_ID = '';
+const EMAILJS_SERVICE_ID = '';
+const EMAILJS_TEMPLATE_ID = '';
 
 const Footer = () => {
   const { clearStore } = useGenerateStore();
@@ -67,7 +58,7 @@ const FooterContents = styled.div`
 `;
 const ContactForm: React.FC = () => {
   useEffect(() => {
-    emailjs.init('E7AgmKR_LRG6gQAVL');
+    emailjs.init(EMAILJS_USER_ID);
   }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -77,7 +68,7 @@ const ContactForm: React.FC = () => {
     const contactNumberInput = form.contact_number as HTMLInputElement;
     contactNumberInput.value = ((Math.random() * 100000) | 0).toString();
 
-    emailjs.sendForm('service_nbcmz6k', 'template_ue4ltrg', form).then(
+    emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form).then(
       () => {
         window.alert('전송 완료되었습니다.');
         form.reset();

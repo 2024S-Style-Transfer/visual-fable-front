@@ -4,21 +4,7 @@ import { shadowOpts } from './styled';
 import { SvgMainLogo } from '@/svgs';
 import Link from 'next/link';
 import useGenerateStore from '@/store/generateStore';
-
-const NAV_ITEMS = [
-  {
-    name: 'Home',
-    path: '/',
-  },
-  {
-    name: 'About Us',
-    path: '/about',
-  },
-  {
-    name: 'API Docs',
-    path: '/methods',
-  },
-] as const;
+import { NAV_ITEMS } from '@/constants/rotuer';
 
 const Navigator = () => {
   const { clearStore } = useGenerateStore();

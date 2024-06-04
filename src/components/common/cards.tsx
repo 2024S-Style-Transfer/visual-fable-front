@@ -24,6 +24,7 @@ const CardTitle = styled.p`
 
 const CardText = styled.p``;
 const CardImage = styled.div`
+  width: 45%;
   float: right;
 `;
 

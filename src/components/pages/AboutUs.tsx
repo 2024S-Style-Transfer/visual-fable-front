@@ -89,19 +89,21 @@ const Banner = () => {
 };
 
 const AuContentsWrapper = styled.div`
-  position: relative;
-  width: 100%;
+position: relative;
+width: 100%;
+padding: 40px 0;
+&::before {
+  content: '';
   padding: 40px 0;
-  &::before {
-    content: '';
-    padding: 40px 0;
-    position: absolute;
-    width: 200%;
-    top: -40px;
-    left: -50%;
-    height: 100%;
-    background-color: #ffd3a2;
-    z-index: -1;
+  position: absolute;
+  width: 100vw;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  background-color: #ffd3a2;
+  z-index: -1;
+}
   }
 `;
 const AuCards = () => {
@@ -152,8 +154,8 @@ const AuTextGroup = styled.div`
   margin-bottom: 40px;
 `;
 const BorderGradient = styled.div`
-  width: 150%;
   height: 80px;
+  width: 100vw;
   &.top {
     background-image: linear-gradient(to bottom, ${ColorTheme.backColor}, #ffd3a2);
   }

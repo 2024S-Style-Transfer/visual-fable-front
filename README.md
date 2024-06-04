@@ -6,6 +6,10 @@
 
 ---
 
+## Preview (TBD)
+
+---
+
 ## Usage
 
 1. Git Clone
@@ -14,7 +18,7 @@
 $ git clone https://github.com/2024S-Style-Transfer/visual-fable-front.git
 ```
 
-2. Install package (* yarn을 추천드립니다.)
+2. Install package (\* yarn을 추천드립니다.)
 
 ```cmd
 $ yarn
@@ -46,9 +50,36 @@ $ npm run build
 
 ---
 
+## Path
+
+- `/`: 메인 페이지 (로그인, 이미지 생성 기능)
+- `/about`: 서비스 소개 페이지
+- `/storage`: 이전에 생성했던 이미지들 모음 페이지
+- `/storage/:id`: 이전에 생성했던 이미지들의 상세 페이지
+- `/methods`: 서비스 외부 호출용으로 제공하는 API 목록 페이지
+
+---
+
+## Simple Project Structure
+
+- `/src/components/pages/**`: 각 Page들을 구성하는 파일들
+- `/src/app/**`: 각 Page파일들을 routing 해주는 기능
+- `/src/theme/**`, `/src/components/common/**`, `/src/components/templates/**`: 디자인 관련 파일들 (GlobalStyle, Reusing Components)
+- `/src/service/**`, `/src/types/service.ts`, `/src/mock/**`: 서버 통신과 관련한 파일들 & Mock Data
+- `/src/store/globalStore.ts`: 로딩, 로그인 여부 등 전역으로 저장하는 Data State를 모아두는 state management (Store)
+- `/src/components/steps/**`, `/src/store/generateStore.ts`: 이미지 생성 시 사용되는 파일들 (step 별 컴포넌트 모음, 각각의 State를 모아두는 state management)
+- `/src/utils/**`: front에서 필요한 custom utils
+- `/src/svgs.tsx`: 페이지를 그릴 때 이용되는 svg 모음
+
+---
+
 ## Used Tech Stack List
+
 - Next.js(v14) & TypeScript(v5)
-- styled-components
+- emotion.js
 - zustand
-- @tanstack/react-query
-- ...
+- axios
+- react-pageflip
+- uuid
+- @react-oauth/google
+- next/image

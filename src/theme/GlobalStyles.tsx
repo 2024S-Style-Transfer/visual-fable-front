@@ -1,16 +1,18 @@
 'use client';
 
-import { createGlobalStyle } from 'styled-components';
+import { Global, css } from '@emotion/react';
 
-const GlobalStyle = createGlobalStyle`
-  html, body, #__next {
+const globalStyles = css`
+  html,
+  body,
+  #__next {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     min-height: 100%;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: auto;
   }
   * {
     box-sizing: border-box;
@@ -22,6 +24,15 @@ const GlobalStyle = createGlobalStyle`
   p {
     margin: 0;
   }
+  button {
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: none;
+  }
 `;
+
+const GlobalStyle = () => <Global styles={globalStyles} />;
 
 export default GlobalStyle;

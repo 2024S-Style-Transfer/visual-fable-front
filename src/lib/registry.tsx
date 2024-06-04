@@ -2,20 +2,26 @@
 
 import React, { useState } from 'react';
 import { useServerInsertedHTML } from 'next/navigation';
-import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 
 export default function StyledComponentsRegistry({ children }: { children: React.ReactNode }) {
-  // Only create stylesheet once with lazy initial state
-  // x-ref: https://reactjs.org/docs/hooks-reference.html#lazy-initial-state
-  const [styledComponentsStyleSheet] = useState(() => new ServerStyleSheet());
-
-  useServerInsertedHTML(() => {
-    const styles = styledComponentsStyleSheet.getStyleElement();
-    styledComponentsStyleSheet.instance.clearTag();
-    return <>{styles}</>;
+  const [cache] = useState(() => {
+    const cache = createCache({ key: 'css' });
+    cache.compat = true;
+    return cache;
   });
 
-  if (typeof window !== 'undefined') return <>{children}</>;
+  useServerInsertedHTML(() => {
+    return (
+      <style
+        data-emotion={`${cache.key} ${Object.keys(cache.inserted).join(' ')}`}
+        dangerouslySetInnerHTML={{
+          __html: Object.values(cache.inserted).join(' '),
+        }}
+      />
+    );
+  });
 
-  return <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>{children}</StyleSheetManager>;
+  return <CacheProvider value={cache}>{children}</CacheProvider>;
 }

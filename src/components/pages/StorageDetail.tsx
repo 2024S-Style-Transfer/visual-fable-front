@@ -17,10 +17,11 @@ const StorageDetail: React.FC<Props> = ({ id }) => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      alert('로그인이 필요합니다.');
-      window.location.href = '/';
-    }
+    // TODO: 로그인 기능 도입 후 주석 해제
+    // if (!localStorage.getItem('token')) {
+    //   alert('로그인이 필요합니다.');
+    //   window.location.href = '/';
+    // }
 
     loadGeneratedItems();
 

@@ -15,7 +15,8 @@ type Action = {
 
 const useGlobalStore = create<State & Action>((set) => ({
   isGlobalLoading: false,
-  isLogin: null,
+  // TODO: 로그인 기능 도입 후 false로 변경
+  isLogin: true,
   userData: null,
   setIsGlobalLoading: (isGlobalLoading) => set({ isGlobalLoading }),
   toggleGlobalLoading: () => set((state) => ({ isGlobalLoading: !state.isGlobalLoading })),

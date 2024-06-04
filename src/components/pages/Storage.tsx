@@ -11,7 +11,7 @@ import useGlobalStore from '@/store/globalStore';
 import { getBase64ImageUrlWithPrefix } from '@/utils/getBase64ImageUrlWithPrefix';
 
 const Storage: React.FC = () => {
-  const { userData } = useGlobalStore();
+  // const { userData } = useGlobalStore();
 
   const router = useRouter();
   const [projectList, setProjectList] = useState<ProjectResponse[]>([]);
@@ -26,25 +26,27 @@ const Storage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      alert('로그인이 필요합니다.');
-      window.location.href = '/';
-    }
+    // TODO: 로그인 기능 도입 후 주석 해제
+    // if (!localStorage.getItem('token')) {
+    //   alert('로그인이 필요합니다.');
+    //   window.location.href = '/';
+    // }
 
     loadProjectList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!userData) {
-    return;
-  }
+  // if (!userData) {
+  //   return;
+  // }
 
   return (
     <>
-      <Title>My Storage</Title>
+      <Title>Storage</Title>
 
+      {/* TODO: 로그인 기능 도입 후 주석 해제
       <ProfileWrapper $profileImageUrl={userData.profileImage} />
-      <UserName>{userData.name}</UserName>
+      <UserName>{userData.name}</UserName> */}
 
       <StorageDataWrapper>
         {projectList.map((project) => (

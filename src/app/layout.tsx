@@ -23,13 +23,20 @@ export default function RootLayout({
     <html lang="ko">
       <body className={pretendard.className} suppressHydrationWarning={true}>
         <GoogleOAuthProvider clientId={googleClientId}>
+          {/* // TODO: 로그인 기능 도입 후 주석 해제
           <AuthGuard>
             <StyledComponentsRegistry>
               <GlobalStyle />
 
               <DefaultLayout>{children}</DefaultLayout>
             </StyledComponentsRegistry>
-          </AuthGuard>
+          </AuthGuard> */}
+
+          <StyledComponentsRegistry>
+            <GlobalStyle />
+
+            <DefaultLayout>{children}</DefaultLayout>
+          </StyledComponentsRegistry>
         </GoogleOAuthProvider>
       </body>
     </html>

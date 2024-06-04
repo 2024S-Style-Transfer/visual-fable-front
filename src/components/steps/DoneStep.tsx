@@ -8,6 +8,7 @@ import useGlobalStore from '@/store/globalStore';
 import { GeneratedItem } from '@/types/service';
 import Image from 'next/image';
 import { PageFlipRef } from '@/types/pageflip';
+import { getBase64ImageUrlWithPrefix } from '@/utils/getBase64ImageUrlWithPrefix';
 
 type Props = {
   generatedItems: GeneratedItem[];
@@ -24,13 +25,13 @@ const DoneStep: React.FC<Props> = ({ generatedItems }) => {
     generatedItems.forEach((item, index) => {
       const textPage = (
         <PageWrapper key={item.id + 'page'}>
-          {item.promptText}
+          <PageTextWrapper>{item.promptText}</PageTextWrapper>
           <PageFooter>{index * 2 + 1}</PageFooter>
         </PageWrapper>
       );
       const imgPage = (
         <PageWrapper key={item.id + 'img'}>
-          <Image src={item.generatedImage} alt="generatedImage" width={100} height={100}/>
+          <Image src={getBase64ImageUrlWithPrefix(item.generatedImage)} alt="generatedImage" width={100} height={100} />
           <PageFooter $isRightmost>{index * 2 + 2}</PageFooter>
         </PageWrapper>
       );
@@ -111,12 +112,16 @@ const PageFooter = styled.div<{ $isRightmost?: boolean }>`
 
   ${({ $isRightmost }) => ($isRightmost ? 'right: 20px;' : 'left: 20px;')}
 `;
+const PageTextWrapper = styled.p`
+  height: 97%;
+  word-break: break-all;
+  color: #785e3a;
+  overflow-y: auto;
+`;
 const PageWrapper = styled.div`
   padding: 20px;
   background-color: #fdfaf7;
-  color: #785e3a;
   border: 1px solid #c2b5a3;
-  overflow: hidden;
   position: relative;
   transform-style: preserve-3d;
   border-right: 0;

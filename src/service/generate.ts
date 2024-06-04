@@ -1,19 +1,16 @@
 import {
-  ExampleItem,
   GenerateExampleImagesRequest,
   GenerateImagesRequest,
   GenerateImagesResponse,
   ExampleResponse,
 } from '@/types/service';
-import { client, testclient } from './client';
+import { client } from './client';
 import { v4 as uuidv4 } from 'uuid';
 import { AxiosResponse } from 'axios';
 import { serviceHeaderWithAuth } from '@/utils/serviceHeaderWithAuth';
 
 const generateExampleImages = async (page: number, size: number, text: string) => {
-  //FIXME: 서버 연결 시 client로 변경 필요
-  //const response = await client.post<ExampleResponse, AxiosResponse<ExampleResponse>, GenerateExampleImagesRequest>(
-  const response = await testclient.post<ExampleResponse, AxiosResponse<ExampleResponse>, GenerateExampleImagesRequest>(
+  const response = await client.post<ExampleResponse, AxiosResponse<ExampleResponse>, GenerateExampleImagesRequest>(
     `/images?page=${page}&size=${size}`,
     { text },
     { ...serviceHeaderWithAuth() }
@@ -21,7 +18,7 @@ const generateExampleImages = async (page: number, size: number, text: string) =
   return response.data;
 };
 
-const generateImages = async (exampleImageData: string, texts: string[]) => {
+const generateImages = async (exampleImageId: string, texts: string[]) => {
   const randomProjectId = uuidv4();
 
   const basicItems = texts.map((promptText, index) => ({
@@ -37,7 +34,7 @@ const generateImages = async (exampleImageData: string, texts: string[]) => {
     '/generate-images',
     {
       projectId: randomProjectId,
-      exampleImage: exampleImageData,
+      id: exampleImageId,
       basicItems,
     },
     { ...serviceHeaderWithAuth() }

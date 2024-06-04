@@ -1,14 +1,13 @@
 export interface ExampleItem {
   id: string;
-  url: string;
-  description: string;
+  data: string;
 }
 
 export interface GenerateExampleImagesRequest {
   text: string;
 }
 
-export interface ExampleResponse{
+export interface ExampleResponse {
   content: ExampleItem[];
   last: boolean;
 }
@@ -24,7 +23,7 @@ export interface BasicItem {
 }
 export interface GenerateImagesRequest {
   projectId: string;
-  exampleImage: string;
+  id: string; // exampleImageId
   basicItems: BasicItem[];
 }
 export interface GenerateImagesResponse {
@@ -70,4 +69,3 @@ export interface ApiMethodCategory {
   name: string;
   methods: ApiMethodItem[];
 }
-

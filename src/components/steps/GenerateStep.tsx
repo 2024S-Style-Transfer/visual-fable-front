@@ -4,11 +4,10 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { TextArea, Button, TextAreaBorder } from '../common/styled';
 import useGlobalState from '@/store/globalStore';
-import { wait } from '@/utils/time';
 import useGenerateStore, { STEP } from '@/store/generateStore';
-import { MOCK_GENERATED_ITEMS } from '@/mock/data';
 import { MAX_GENERATE_TEXT_LENGTH } from '@/constants/generate';
 import { IndexButton, IndexButtonWrapper, getIndexButtonStatus } from '../common/IndexButton';
+import { generateImages } from '@/service/generate';
 
 const GenerateStep: React.FC = () => {
   const { setIsGlobalLoading, isLogin } = useGlobalState();
@@ -35,6 +34,10 @@ const GenerateStep: React.FC = () => {
   };
 
   const handleCreateTextToImages = async () => {
+    if (!selectedExampleItem) {
+      return;
+    }
+
     const filteredFableTexts = fableTexts.filter((text) => text !== '');
 
     // 중간에 빈 텍스트가 있는 경우 예외처리
@@ -46,12 +49,8 @@ const GenerateStep: React.FC = () => {
     try {
       setIsGlobalLoading(true);
 
-      // FIXME: API 호출로 변경 필요
-      // const data = await generateImages(selectedExampleItem?.data, filteredFableTexts);
-      // setGeneratedItems(data.generatedItems);
-      await wait(1);
-      console.log(selectedExampleItem?.data, filteredFableTexts);
-      setGeneratedItems(MOCK_GENERATED_ITEMS);
+      const data = await generateImages(selectedExampleItem.id, filteredFableTexts);
+      setGeneratedItems(data.generatedItems);
       setStep(STEP.DONE);
     } catch (error) {
       console.error(error);
@@ -81,7 +80,7 @@ const GenerateStep: React.FC = () => {
           {fableTexts.map((text, index) => (
             <IndexButton
               key={index}
-              $status={getIndexButtonStatus({ targetText: text, targetIndex: index, currentIndex, isLogin })}
+              $status={getIndexButtonStatus({ targetText: text, targetIndex: index, currentIndex, isLogin: isLogin! })}
               onClick={() => handleChangeIndex(index)}
             >
               {index + 1}

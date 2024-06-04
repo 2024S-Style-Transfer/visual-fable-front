@@ -1,15 +1,14 @@
 'use client';
 
-import { MOCK_PROJECT_LIST } from '@/mock/data';
 import { getUserProjectList } from '@/service/project';
 import { ProjectResponse } from '@/types/service';
-import { wait } from '@/utils/time';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import useGlobalStore from '@/store/globalStore';
+import { getBase64ImageUrlWithPrefix } from '@/utils/getBase64ImageUrlWithPrefix';
 
 const Storage: React.FC = () => {
   const { userData } = useGlobalStore();
@@ -17,12 +16,9 @@ const Storage: React.FC = () => {
   const router = useRouter();
   const [projectList, setProjectList] = useState<ProjectResponse[]>([]);
 
-  // FIXME: API 호출 적용 시 데이터 교체 필요
   const loadProjectList = async () => {
-    // const projects = await getUserProjectList();
-    // setProjectList(projects);
-    await wait(1);
-    setProjectList(MOCK_PROJECT_LIST);
+    const projects = await getUserProjectList();
+    setProjectList(projects);
   };
 
   const handleClickStorageItem = (id: string) => {
@@ -53,7 +49,12 @@ const Storage: React.FC = () => {
       <StorageDataWrapper>
         {projectList.map((project) => (
           <StorageItem key={project.projectId} onClick={() => handleClickStorageItem(project.projectId)}>
-            <Image src={project.exampleImage} alt="projectExampleImage" width={168} height={168} />
+            <Image
+              src={getBase64ImageUrlWithPrefix(project.exampleImage)}
+              alt="projectExampleImage"
+              width={168}
+              height={168}
+            />
             <ItemText>{project.time}</ItemText>
             <ItemText>{project.summary}</ItemText>
           </StorageItem>

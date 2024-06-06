@@ -7,9 +7,9 @@ export const client = axios.create({
   },
 });
 
-export const testclient = axios.create({
+/*export const testclient = axios.create({
   baseURL: 'https://9e7dae8f-b4f3-49b1-a205-b8efed9ee705.mock.pstmn.io/api',
   headers: {
     'Content-Type': 'application/json',
   },
-});
+});*/

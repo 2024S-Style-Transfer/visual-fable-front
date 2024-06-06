@@ -17,8 +17,8 @@ Content-Type: application/json
         responseExample: `{
   "content": [
     {
-      "imageUrl": "https://example.com/generatedImage1.jpg",
-      "description": "Generated image 1"
+      "id": "https://example.com/generatedImage1.jpg",
+      "data": "Generated image 1"
     }
   ],
   "pageable": {

@@ -52,7 +52,7 @@ $ npm run build
 
 ## Path
 
-- `/`: 메인 페이지 (로그인, 이미지 생성 기능)
+- `/`: 메인 페이지 (이미지 생성 기능)
 - `/about`: 서비스 소개 페이지
 - `/storage`: 이전에 생성했던 이미지들 모음 페이지
 - `/storage/:id`: 이전에 생성했던 이미지들의 상세 페이지
@@ -66,7 +66,7 @@ $ npm run build
 - `/src/app/**`: 각 Page파일들을 routing 해주는 기능
 - `/src/theme/**`, `/src/components/common/**`, `/src/components/templates/**`: 디자인 관련 파일들 (GlobalStyle, Reusing Components)
 - `/src/service/**`, `/src/types/service.ts`, `/src/mock/**`: 서버 통신과 관련한 파일들 & Mock Data
-- `/src/store/globalStore.ts`: 로딩, 로그인 여부 등 전역으로 저장하는 Data State를 모아두는 state management (Store)
+- `/src/store/globalStore.ts`: 로딩 등 전역으로 저장하는 Data State를 모아두는 state management (Store)
 - `/src/components/steps/**`, `/src/store/generateStore.ts`: 이미지 생성 시 사용되는 파일들 (step 별 컴포넌트 모음, 각각의 State를 모아두는 state management)
 - `/src/utils/**`: front에서 필요한 custom utils
 - `/src/svgs.tsx`: 페이지를 그릴 때 이용되는 svg 모음

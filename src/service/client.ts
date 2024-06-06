@@ -7,6 +7,7 @@ export const client = axios.create({
   },
 });
 
+//FIXME 빌드 시 제거
 /*export const testclient = axios.create({
   baseURL: 'https://9e7dae8f-b4f3-49b1-a205-b8efed9ee705.mock.pstmn.io/api',
   headers: {

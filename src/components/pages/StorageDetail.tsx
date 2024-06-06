@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import DoneStep from '../steps/DoneStep';
 import { getUserProject } from '@/service/project';
-import { GeneratedItem } from '@/types/service';
+import { GeneratedItem, ProjectContent } from '@/types/service';
 
 type Props = {
   id: string;

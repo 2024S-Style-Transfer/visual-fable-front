@@ -112,13 +112,13 @@ const Storage: React.FC = () => {
         {projectList.map((project) => (
           <StorageItem key={project.projectId} onClick={() => handleClickStorageItem(project.projectId)}>
               <Image
-              src={getBase64ImageUrlWithPrefix(project.generatedItems[0].imageurl)}
+              src={getBase64ImageUrlWithPrefix(project.generatedItems[0].generatedImage)}
               alt={`projectExampleImage${project.projectId}`}
               width={168}
               height={168}
             />
             <ItemText>{project.time}</ItemText>
-            <ItemText>{project.generatedItems[0].description}</ItemText>
+            <ItemText>{project.generatedItems[0].promptText}</ItemText>
           </StorageItem>
         ))}
         <div ref ={setTarget}/>

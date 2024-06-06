@@ -1,4 +1,4 @@
-import { ProjectDetailResponse, ProjectResponse } from '@/types/service';
+import { ProjectDetail, ProjectResponse } from '@/types/service';
 import { serviceHeaderWithAuth } from '@/utils/serviceHeaderWithAuth';
 import { client } from './client';
 
@@ -11,9 +11,7 @@ const getUserProjectList = async (page: number, size: number) => {
 };
 
 const getUserProject = async (projectId: string) => {
-  const response = await client.get<ProjectDetailResponse>(`/user/project/${projectId}`, {
-    ...serviceHeaderWithAuth(),
-  });
+  const response = await client.get<ProjectDetail>(`/user/project/${projectId}`, { ...serviceHeaderWithAuth() });
   return response.data;
 };
 

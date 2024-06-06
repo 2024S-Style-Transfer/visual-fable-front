@@ -24,13 +24,13 @@ const DoneStep: React.FC<Props> = ({ generatedItems }) => {
 
     generatedItems.forEach((item, index) => {
       const textPage = (
-        <PageWrapper key={item.id + 'page'}>
+        <PageWrapper key={item.index + 'page'}>
           <PageTextWrapper>{item.promptText}</PageTextWrapper>
           <PageFooter>{index * 2 + 1}</PageFooter>
         </PageWrapper>
       );
       const imgPage = (
-        <PageWrapper key={item.id + 'img'}>
+        <PageWrapper key={item.index + 'img'}>
           <Image src={getBase64ImageUrlWithPrefix(item.generatedImage)} alt="generatedImage" width={100} height={100} />
           <PageFooter $isRightmost>{index * 2 + 2}</PageFooter>
         </PageWrapper>

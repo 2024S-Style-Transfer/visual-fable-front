@@ -66,7 +66,6 @@ const Storage: React.FC = () => {
       if (entry.isIntersecting && !isPageEnd) {
         observer.unobserve(entry.target);
         await loadProjectList();
-        console.log(isPageEnd);
         observer.observe(entry.target);
       } else if (isPageEnd) {
         observer.disconnect();

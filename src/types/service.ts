@@ -21,6 +21,7 @@ export interface BasicItem {
   index: number;
   promptText: string;
 }
+
 export interface GenerateImagesRequest {
   projectId: string;
   id: string; // exampleImageId

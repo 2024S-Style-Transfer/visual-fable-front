@@ -43,7 +43,6 @@ const Storage: React.FC = () => {
   const loadProjectList = useCallback(async () => {
     if (!isGlobalLoading && !isPageEnd) {
       try {
-        console.log("Start request");
         setIsGlobalLoading(true);
         const projectResponse = await getUserProjectList(projectPage, PROJECT_REQ_SIZE);
         setProjectPage((prevProjectPage) => prevProjectPage + 1);

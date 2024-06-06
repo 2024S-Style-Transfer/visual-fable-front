@@ -13,7 +13,7 @@ export interface ExampleResponse {
 }
 
 export interface GeneratedItem {
-  id: string;
+  index: number;
   promptText: string;
   generatedImage: string;
 }
@@ -21,6 +21,7 @@ export interface BasicItem {
   index: number;
   promptText: string;
 }
+
 export interface GenerateImagesRequest {
   projectId: string;
   id: string; // exampleImageId
@@ -31,10 +32,21 @@ export interface GenerateImagesResponse {
   generatedItems: GeneratedItem[];
 }
 
-export interface ProjectResponse {
+export interface ProjectResponse {  
+  content: ProjectContent[];
+  last: boolean;
+  numberOfElements: number;
+}
+export interface ProjectContent {
   projectId: string;
   summary: string;
   exampleImage: string;
+  generatedItems: GeneratedItem[];
+  time: string;
+}
+
+export interface ProjectDetail{
+  projectId: string;
   generatedItems: GeneratedItem[];
   time: string;
 }

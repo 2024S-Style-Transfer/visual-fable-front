@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import DoneStep from '../steps/DoneStep';
 import { getUserProject } from '@/service/project';
-import { GeneratedItem } from '@/types/service';
+import { GeneratedItem, ProjectContent } from '@/types/service';
 
 type Props = {
   id: string;
@@ -17,10 +17,11 @@ const StorageDetail: React.FC<Props> = ({ id }) => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      alert('로그인이 필요합니다.');
-      window.location.href = '/';
-    }
+    // TODO: 로그인 기능 도입 후 주석 해제
+    // if (!localStorage.getItem('token')) {
+    //   alert('로그인이 필요합니다.');
+    //   window.location.href = '/';
+    // }
 
     loadGeneratedItems();
 

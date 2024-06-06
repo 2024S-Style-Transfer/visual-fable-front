@@ -120,6 +120,10 @@ const Cards = () => {
             <>
               <UserCardContents>
                 <UserHelloText>
+                  경북대학교 <span> 님 환영합니다!</span>
+                </UserHelloText>
+                {/* TODO: 로그인 기능 도입 후 주석 해제
+                <UserHelloText>
                   {userData?.name} <span> 님 환영합니다!</span>
                 </UserHelloText>
                 <UserButtonWrapper>
@@ -129,7 +133,7 @@ const Cards = () => {
                   <Button className="Storage" onClick={handleLinkToStorage}>
                     My storage
                   </Button>
-                </UserButtonWrapper>
+                </UserButtonWrapper> */}
               </UserCardContents>
 
               <SvgUserIcon />

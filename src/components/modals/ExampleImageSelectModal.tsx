@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import useGenerateStore, { STEP } from '@/store/generateStore';
 import useGlobalStore from '@/store/globalStore';
 import { ExampleItem, ExampleResponse } from '@/types/service';
@@ -46,7 +46,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSelectModalProps> = ({ examp
   const { setStep, setSelectedExampleItem } = useGenerateStore();
   const [itemDataList, setItemDataList] = useState<ExampleItem[]>(exampleResponse.content);
   const [itemPage, setItemPage] = useState(1);
-  const [isPageEnd, setIsPageEnd] = useState(exampleResponse.last || exampleResponse.content.length < EXAMPLE_REQ_SIZE);
+  const isPageEnd = useRef(exampleResponse.last || exampleResponse.content.length < EXAMPLE_REQ_SIZE);
 
   const getMoreItem = useCallback(async () => {
     if (!isGlobalLoading) {
@@ -58,7 +58,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSelectModalProps> = ({ examp
         setItemPage((prevItemPage) => prevItemPage + 1);
 
         if (moreExampleResponse.last == true || moreExampleResponse.content.length < EXAMPLE_REQ_SIZE) {
-          setIsPageEnd(true);
+          isPageEnd.current = true;
         }
       } catch (error) {
         console.error(error);
@@ -71,15 +71,15 @@ const ExampleImageSelectModal: React.FC<ExampleImageSelectModalProps> = ({ examp
 
   const onIntersect: IntersectionObserverCallback = useCallback(
     async ([entry], observer) => {
-      if (entry.isIntersecting && !isPageEnd) {
+      if (entry.isIntersecting && !isPageEnd.current) {
         observer.unobserve(entry.target);
         await getMoreItem();
         observer.observe(entry.target);
-      } else if (isPageEnd) {
+      } else if (isPageEnd.current) {
         observer.disconnect();
       }
     },
-    [getMoreItem, isPageEnd]
+    [getMoreItem, isPageEnd.current]
   );
 
   const { setTarget } = useIntersectionObserver({

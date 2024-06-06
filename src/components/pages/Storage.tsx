@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import useGlobalStore from '@/store/globalStore';
 import { getBase64ImageUrlWithPrefix } from '@/utils/getBase64ImageUrlWithPrefix';
 import { PROJECT_REQ_SIZE } from '@/constants/generate';
-
+import { formatDate } from '@/utils/date';
 
 interface useIntersectionObserverProps {
   root?: null;
@@ -116,7 +116,7 @@ const Storage: React.FC = () => {
               width={168}
               height={168}
             />
-            <ItemText>{project.time}</ItemText>
+            <ItemText>{project.time ? formatDate(project.time) : project.time}</ItemText>
             <ItemText>{project.generatedItems[0].promptText}</ItemText>
           </StorageItem>
         ))}

@@ -129,6 +129,10 @@ const Storage: React.FC = () => {
 const ItemText = styled.p`
   text-align: left;
   font-size: 18px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
 `;
 const StorageItem = styled.button`
   padding: 16px;

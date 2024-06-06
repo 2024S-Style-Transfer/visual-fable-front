@@ -73,7 +73,10 @@ export const HTTP_METHOD = {
 export interface ApiMethodItem {
   httpMethod: keyof typeof HTTP_METHOD;
   url: string;
-  example: string;
+  description: string;
+
+  requestExample: string;
+  responseExample: string;
 }
 export interface ApiMethodCategory {
   name: string;

@@ -6,23 +6,24 @@ import { ApiMethodCategory, ApiMethodItem, HTTP_METHOD } from '@/types/service';
 import { MOCK_API_METHODS } from '@/mock/data';
 import { SvgChevronDown } from '@/svgs';
 import { css } from '@emotion/react';
+import { PUBLIC_API_METHODS } from '@/constants/methods';
 
 const APIMethods: React.FC = () => {
-  const [apiCategories, setApiCategories] = useState<ApiMethodCategory[]>([]);
+  // const [apiCategories, setApiCategories] = useState<ApiMethodCategory[]>([]);
 
-  // FIXME: API 구현 후 수정
-  const loadApiCategories = async () => {
-    setApiCategories(MOCK_API_METHODS);
-  };
+  // // FIXME: API 구현 후 수정
+  // const loadApiCategories = async () => {
+  //   setApiCategories(MOCK_API_METHODS);
+  // };
 
-  useEffect(() => {
-    loadApiCategories();
-  }, []);
+  // useEffect(() => {
+  //   loadApiCategories();
+  // }, []);
   return (
     <APIMethodsWrapper>
       <Title>API Docs</Title>
 
-      {apiCategories.map((category) => (
+      {PUBLIC_API_METHODS.map((category) => (
         <CategoryItem key={category.name} {...category} />
       ))}
     </APIMethodsWrapper>
@@ -71,7 +72,7 @@ const HTTP_METHOD_COLOR = {
   [HTTP_METHOD.DELETE]: '#ff7b7b',
 } as const;
 type MethodColor = (typeof HTTP_METHOD_COLOR)[keyof typeof HTTP_METHOD_COLOR];
-const MethodItem: React.FC<ApiMethodItem> = ({ httpMethod, url, example }) => {
+const MethodItem: React.FC<ApiMethodItem> = ({ httpMethod, url, description, requestExample, responseExample }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -89,8 +90,14 @@ const MethodItem: React.FC<ApiMethodItem> = ({ httpMethod, url, example }) => {
 
       {isOpen && (
         <>
-          <ExampleTitle>Example</ExampleTitle>
-          <ExampleBox>{example}</ExampleBox>
+          <DetailTitle>Description</DetailTitle>
+          <DetailDescription>{description}</DetailDescription>
+
+          <DetailTitle>Request Example</DetailTitle>
+          <ExampleBox>{requestExample}</ExampleBox>
+
+          <DetailTitle>Response Example</DetailTitle>
+          <ExampleBox>{responseExample}</ExampleBox>
         </>
       )}
     </MethodItemWrapper>
@@ -114,8 +121,17 @@ const ExampleBox = styled.div`
   border-radius: 10px;
   padding: 16px;
   white-space: pre;
+  overflow-x: auto;
+
+  margin-bottom: 12px;
 `;
-const ExampleTitle = styled.p`
+const DetailDescription = styled.p`
+  padding: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 12px;
+`;
+const DetailTitle = styled.p`
   padding: 8px;
   font-size: 18px;
   font-weight: 600;

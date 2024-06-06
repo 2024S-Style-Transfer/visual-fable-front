@@ -181,91 +181,188 @@ export const MOCK_PROJECT_LIST: ProjectResponse[] = [
 
 export const MOCK_API_METHODS: ApiMethodCategory[] = [
   {
+    name: 'Generate Image',
+    methods: [
+      {
+        httpMethod: 'POST',
+        url: '/api/images',
+        description: '프롬프트를 토대로 예시 이미지 생성을 요청하고, 결과를 페이지네이션하여 반환합니다.',
+        requestExample: `POST /api/images?page=0&size=10
+Content-Type: application/json
+  
+  {
+    "text": "example text"
+  }`,
+        responseExample: `{
+    "content": [
+      {
+        "imageUrl": "https://example.com/generatedImage1.jpg",
+        "description": "Generated image 1"
+      }
+    ],
+    "pageable": {
+      "sort": {
+        "empty": true,
+        "unsorted": true,
+        "sorted": false
+      },
+      "offset": 0,
+      "pageNumber": 0,
+      "pageSize": 10,
+      "paged": true,
+      "unpaged": false
+    },
+    "totalPages": 1,
+    "totalElements": 1,
+    "last": true,
+    "size": 10,
+    "number": 0,
+    "sort": {
+      "empty": true,
+      "unsorted": true,
+      "sorted": false
+    },
+    "numberOfElements": 1,
+    "first": true,
+    "empty": false
+  }`,
+      },
+      {
+        httpMethod: 'POST',
+        url: '/api/generate-images',
+        description: '생성된 예시 이미지와 함께 프롬프트 요청에 따라 이미지를 생성하고, 결과를 반환합니다.',
+        requestExample: `POST /api/generate-images
+Content-Type: application/json
+
+{
+  "projectId": "12345",
+  "id": "exampleId",
+  "basicItems": [
+    {
+      "index": 0,
+      "promptText": "example prompt 1"
+    },
+    {
+      "index": 1,
+      "promptText": "example prompt 2"
+    }
+  ]
+}`,
+        responseExample: `{
+  "id": "exampleId",
+  "generatedItems": [
+    {
+      "id": "1",
+      "promptText": "example prompt 1",
+      "generatedImage": "https://example.com/generatedImage1.jpg"
+    },
+    {
+      "id": "2",
+      "promptText": "example prompt 2",
+      "generatedImage": "https://example.com/generatedImage2.jpg"
+    }
+  ]
+}`,
+      },
+    ],
+  },
+  {
+    name: 'Projects',
+    methods: [
+      {
+        httpMethod: 'GET',
+        url: '/api/projects',
+        description: '프로젝트 목록을 요청하고, 생성된 이미지 목록을 반환합니다.',
+        requestExample: `GET /api/projects
+Content-Type: application/json`,
+        responseExample: `{
+  "projects": [
+    {
+      "projectId": "12345",
+      "summary": "example summary",
+      "exampleImage": "https://example.com/exampleImage.jpg",
+      "generatedItems": [
+        {
+          "id": "1",
+          "promptText": "example prompt",
+          "generatedImage": "https://example.com/generatedImage.jpg"
+        }
+      ],
+      "time": "2024.05.13"
+    }
+  ]
+}`,
+      },
+      {
+        httpMethod: 'POST',
+        url: '/api/projects',
+        description: '프로젝트를 생성하고, 생성된 이미지 목록을 반환합니다.',
+        requestExample: `POST /api/projects
+Content-Type: application/json
+  
+  {
+    "summary": "example summary",
+    "exampleImage": "https://example.com/exampleImage.jpg",
+    "generatedItems": [
+      {
+        "id": "1",
+        "promptText": "example prompt",
+        "generatedImage": "https://example.com/generatedImage.jpg"
+      }
+    ],
+    "time": "2024.05.13"
+  }`,
+        responseExample: `{
+    "projectId": "12345",
+    "summary": "example summary",
+    "exampleImage": "https://example.com/exampleImage.jpg",
+    "generatedItems": [
+      {
+        "id": "1",
+        "promptText": "example prompt",
+        "generatedImage": "https://example.com/generatedImage.jpg"
+      }
+    ],
+    "time": "2024.05.13"
+  }`,
+      },
+    ],
+  },
+  {
     name: 'User',
     methods: [
       {
         httpMethod: 'GET',
-        url: '/user',
-        example: `{   
-  "projectId": "12345",  
-  "exampleImage": "Base64인코딩된이미지데이터1", 
-  "basicItems": [ 
-    { 
-      "index": "item1",
-       "promptText": "이미지 설명 예시 1" 
-    }, 
-    {
-       "index": "item2", 
-      "promptText": "이미지 설명 예시 2"
-     }
-   ]
-   "text": "string"
- }`,
+        url: '/api/user',
+        description: '사용자 정보를 요청하고, 사용자 정보를 반환합니다.',
+        requestExample: `GET /api/user
+Content-Type: application/json`,
+
+        responseExample: `{
+  "id": "1",
+  "email": "abc@acb.com",
+  "name": "example name",
+  "profileImage": "https://example.com/profileImage.jpg"
+}`,
       },
       {
         httpMethod: 'POST',
-        url: '/user',
-        example: 'Create user',
-      },
-      {
-        httpMethod: 'PUT',
-        url: '/user',
-        example: 'Update user information',
-      },
-      {
-        httpMethod: 'DELETE',
-        url: '/user',
-        example: 'Delete user',
-      },
-    ],
-  },
+        url: '/api/user',
+        description: '사용자 정보를 생성하고, 사용자 정보를 반환합니다.',
+        requestExample: `POST /api/user
+Content-Type: application/json
+  
   {
-    name: 'Project',
-    methods: [
-      {
-        httpMethod: 'GET',
-        url: '/project',
-        example: 'Get project information',
-      },
-      {
-        httpMethod: 'POST',
-        url: '/project',
-        example: 'Create project',
-      },
-      {
-        httpMethod: 'PUT',
-        url: '/project',
-        example: 'Update project information',
-      },
-      {
-        httpMethod: 'DELETE',
-        url: '/project',
-        example: 'Delete project',
-      },
-    ],
-  },
-  {
-    name: 'Image',
-    methods: [
-      {
-        httpMethod: 'GET',
-        url: '/image',
-        example: 'Get image information',
-      },
-      {
-        httpMethod: 'POST',
-        url: '/image',
-        example: 'Create image',
-      },
-      {
-        httpMethod: 'PUT',
-        url: '/image',
-        example: 'Update image information',
-      },
-      {
-        httpMethod: 'DELETE',
-        url: '/image',
-        example: 'Delete image',
+    "email": "abc@acb.com",
+    "name": "example name",
+    "profileImage": "https://example.com/profileImage.jpg"
+  }`,
+        responseExample: `{
+    "id": "1", 
+    "email": "abc@acb.com",
+    "name": "example name",
+    "profileImage": "https://example.com/profileImage.jpg"
+  }`,
       },
     ],
   },

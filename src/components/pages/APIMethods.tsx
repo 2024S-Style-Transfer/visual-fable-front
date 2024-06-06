@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { ApiMethodCategory, ApiMethodItem, HTTP_METHOD } from '@/types/service';
-import { MOCK_API_METHODS } from '@/mock/data';
 import { SvgChevronDown } from '@/svgs';
 import { css } from '@emotion/react';
 import { PUBLIC_API_METHODS } from '@/constants/methods';

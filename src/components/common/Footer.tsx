@@ -62,8 +62,6 @@ const ContactForm: React.FC = () => {
       return;
     }
 
-    console.log(emailjs_user_id);
-
     emailjs.init(emailjs_user_id);
   }, [emailjs_user_id]);
 

@@ -1,30 +1,91 @@
 'use client';
 
 import { getUserProjectList } from '@/service/project';
-import { ProjectResponse } from '@/types/service';
+import { ProjectContent, ProjectResponse } from '@/types/service';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import useGlobalStore from '@/store/globalStore';
 import { getBase64ImageUrlWithPrefix } from '@/utils/getBase64ImageUrlWithPrefix';
+import { PROJECT_REQ_SIZE } from '@/constants/generate';
+
+
+interface useIntersectionObserverProps {
+  root?: null;
+  rootMargin?: string;
+  threshold?: number;
+  onIntersect: IntersectionObserverCallback;
+}
+
+const useIntersectionObserver = ({ root, rootMargin, threshold, onIntersect }: useIntersectionObserverProps) => {
+  const [target, setTarget] = useState<HTMLElement | null | undefined>(null);
+  useEffect(() => {
+    if (!target) return;
+    const observer: IntersectionObserver = new IntersectionObserver(onIntersect, { root, rootMargin, threshold });
+    observer.observe(target);
+
+    return () => observer.unobserve(target);
+  }, [onIntersect, root, rootMargin, target, threshold]);
+
+  return { setTarget };
+};
 
 const Storage: React.FC = () => {
   // const { userData } = useGlobalStore();
-
+  const { isGlobalLoading, setIsGlobalLoading } = useGlobalStore();
   const router = useRouter();
-  const [projectList, setProjectList] = useState<ProjectResponse[]>([]);
+  const [projectList, setProjectList] = useState<ProjectContent[]>([]);
+  const [projectPage, setProjectPage] = useState(0);
+  const [isPageEnd, setIsPageEnd] = useState(false);
 
-  const loadProjectList = async () => {
-    const projects = await getUserProjectList();
-    setProjectList(projects);
-  };
+  const loadProjectList = useCallback(async () => {
+    if (!isGlobalLoading && !isPageEnd) {
+      try {
+        console.log("Start request");
+        setIsGlobalLoading(true);
+        const projectResponse = await getUserProjectList(projectPage, PROJECT_REQ_SIZE);
+        setProjectPage((prevProjectPage) => prevProjectPage + 1);
+        
+        setProjectList((prevProjectList) => [...prevProjectList, ...projectResponse.content]);
+        if (projectResponse.last===true || projectResponse.numberOfElements < PROJECT_REQ_SIZE) {
+          setIsPageEnd(true);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsGlobalLoading(false);
+      }
+    }
+  }, [isGlobalLoading, projectPage, isPageEnd]);
+
+  
+
+  const onIntersect: IntersectionObserverCallback = useCallback(
+    async ([entry], observer) => {
+      if (entry.isIntersecting && !isPageEnd) {
+        observer.unobserve(entry.target);
+        await loadProjectList();
+        console.log(isPageEnd);
+        observer.observe(entry.target);
+      } else if (isPageEnd) {
+        observer.disconnect();
+      }
+    },
+    [loadProjectList, isPageEnd]
+  );
+
+  const { setTarget } = useIntersectionObserver({
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.5,
+    onIntersect,
+  });
 
   const handleClickStorageItem = (id: string) => {
     router.push(`/storage/${id}`);
   };
-
   useEffect(() => {
     // TODO: 로그인 기능 도입 후 주석 해제
     // if (!localStorage.getItem('token')) {
@@ -32,7 +93,7 @@ const Storage: React.FC = () => {
     //   window.location.href = '/';
     // }
 
-    loadProjectList();
+    //loadProjectList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -51,16 +112,17 @@ const Storage: React.FC = () => {
       <StorageDataWrapper>
         {projectList.map((project) => (
           <StorageItem key={project.projectId} onClick={() => handleClickStorageItem(project.projectId)}>
-            <Image
-              src={getBase64ImageUrlWithPrefix(project.exampleImage)}
-              alt="projectExampleImage"
+              <Image
+              src={getBase64ImageUrlWithPrefix(project.generatedItems[0].imageurl)}
+              alt={`projectExampleImage${project.projectId}`}
               width={168}
               height={168}
             />
             <ItemText>{project.time}</ItemText>
-            <ItemText>{project.summary}</ItemText>
+            <ItemText>{project.generatedItems[0].description}</ItemText>
           </StorageItem>
         ))}
+        <div ref ={setTarget}/>
       </StorageDataWrapper>
     </>
   );

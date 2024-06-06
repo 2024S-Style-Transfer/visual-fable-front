@@ -39,6 +39,7 @@ type ExampleImageSelectModalProps = {
   exampleText: string;
   onClose: () => void;
 };
+
 const ExampleImageSelectModal: React.FC<ExampleImageSelectModalProps> = ({ exampleResponse, exampleText, onClose }) => {
   const { isGlobalLoading, setIsGlobalLoading } = useGlobalStore();
   const [localSelectedExampleItem, setLocalSelectedExampleItem] = useState<ExampleItem | null>(null);

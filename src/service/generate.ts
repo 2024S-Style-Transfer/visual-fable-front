@@ -12,8 +12,9 @@ import { serviceHeaderWithAuth } from '@/utils/serviceHeaderWithAuth';
 const generateExampleImages = async (page: number, size: number, text: string) => {
   const response = await client.post<ExampleResponse, AxiosResponse<ExampleResponse>, GenerateExampleImagesRequest>(
     `/images?page=${page}&size=${size}`,
-    { text },
-    { ...serviceHeaderWithAuth() }
+    { text }
+    // user Oauth 로직 제거
+    //{ ...serviceHeaderWithAuth() }
   );
   return response.data;
 };
@@ -36,8 +37,9 @@ const generateImages = async (exampleImageId: string, texts: string[]) => {
       projectId: randomProjectId,
       id: exampleImageId,
       basicItems,
-    },
-    { ...serviceHeaderWithAuth() }
+    }
+    // user Oauth 로직 제거
+    //{ ...serviceHeaderWithAuth() }
   );
 
   return response.data;

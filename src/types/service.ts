@@ -32,7 +32,7 @@ export interface GenerateImagesResponse {
   generatedItems: GeneratedItem[];
 }
 
-export interface ProjectResponse {  
+export interface ProjectResponse {
   content: ProjectContent[];
   last: boolean;
   numberOfElements: number;
@@ -45,7 +45,7 @@ export interface ProjectContent {
   time: string;
 }
 
-export interface ProjectDetail{
+export interface ProjectDetail {
   projectId: string;
   generatedItems: GeneratedItem[];
   time: string;
@@ -75,7 +75,9 @@ export const HTTP_METHOD = {
 export interface ApiMethodItem {
   httpMethod: keyof typeof HTTP_METHOD;
   url: string;
-  example: string;
+  description: string;
+  requestExample: string;
+  responseExample: string;
 }
 export interface ApiMethodCategory {
   name: string;

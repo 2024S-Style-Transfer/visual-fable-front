@@ -1,7 +1,7 @@
 'use client';
 
 import { getUserProjectList } from '@/service/project';
-import { ProjectContent, ProjectResponse } from '@/types/service';
+import { ProjectContent } from '@/types/service';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
@@ -11,26 +11,7 @@ import useGlobalStore from '@/store/globalStore';
 import { getBase64ImageUrlWithPrefix } from '@/utils/getBase64ImageUrlWithPrefix';
 import { PROJECT_REQ_SIZE } from '@/constants/generate';
 import { formatDate } from '@/utils/date';
-
-interface useIntersectionObserverProps {
-  root?: null;
-  rootMargin?: string;
-  threshold?: number;
-  onIntersect: IntersectionObserverCallback;
-}
-
-const useIntersectionObserver = ({ root, rootMargin, threshold, onIntersect }: useIntersectionObserverProps) => {
-  const [target, setTarget] = useState<HTMLElement | null | undefined>(null);
-  useEffect(() => {
-    if (!target) return;
-    const observer: IntersectionObserver = new IntersectionObserver(onIntersect, { root, rootMargin, threshold });
-    observer.observe(target);
-
-    return () => observer.unobserve(target);
-  }, [onIntersect, root, rootMargin, target, threshold]);
-
-  return { setTarget };
-};
+import { useIntersectionObserver } from '@/utils/useIntersectionObserver';
 
 const Storage: React.FC = () => {
   // const { userData } = useGlobalStore();
@@ -57,7 +38,7 @@ const Storage: React.FC = () => {
         setIsGlobalLoading(false);
       }
     }
-  }, [isGlobalLoading, projectPage, isPageEnd.current]);
+  }, [isGlobalLoading, setIsGlobalLoading, projectPage]);
 
   const onIntersect: IntersectionObserverCallback = useCallback(
     async ([entry], observer) => {
@@ -69,7 +50,7 @@ const Storage: React.FC = () => {
         observer.disconnect();
       }
     },
-    [loadProjectList, isPageEnd.current]
+    [loadProjectList]
   );
 
   const { setTarget } = useIntersectionObserver({

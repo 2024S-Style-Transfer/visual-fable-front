@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import useGenerateStore, { STEP } from '@/store/generateStore';
 import useGlobalStore from '@/store/globalStore';
 import { ExampleItem, ExampleResponse } from '@/types/service';
@@ -12,27 +12,7 @@ import { generateExampleImages } from '@/service/generate';
 import { EXAMPLE_REQ_SIZE } from '@/constants/generate';
 import Image from 'next/image';
 import { getBase64ImageUrlWithPrefix } from '@/utils/getBase64ImageUrlWithPrefix';
-
-interface useIntersectionObserverProps {
-  root?: null;
-  rootMargin?: string;
-  threshold?: number;
-  onIntersect: IntersectionObserverCallback;
-}
-
-const useIntersectionObserver = ({ root, rootMargin, threshold, onIntersect }: useIntersectionObserverProps) => {
-  const [target, setTarget] = useState<HTMLElement | null | undefined>(null);
-
-  useEffect(() => {
-    if (!target) return;
-    const observer: IntersectionObserver = new IntersectionObserver(onIntersect, { root, rootMargin, threshold });
-    observer.observe(target);
-
-    return () => observer.unobserve(target);
-  }, [onIntersect, root, rootMargin, target, threshold]);
-
-  return { setTarget };
-};
+import { useIntersectionObserver } from '@/utils/useIntersectionObserver';
 
 type ExampleImageSelectModalProps = {
   exampleResponse: ExampleResponse;
@@ -79,7 +59,7 @@ const ExampleImageSelectModal: React.FC<ExampleImageSelectModalProps> = ({ examp
         observer.disconnect();
       }
     },
-    [getMoreItem, isPageEnd.current]
+    [getMoreItem]
   );
 
   const { setTarget } = useIntersectionObserver({

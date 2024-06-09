@@ -89,21 +89,20 @@ const Banner = () => {
 };
 
 const AuContentsWrapper = styled.div`
-position: relative;
-width: 100%;
-padding: 40px 0;
-&::before {
-  content: '';
+  position: relative;
+  width: 100%;
   padding: 40px 0;
-  position: absolute;
-  width: 100vw;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 100%;
-  background-color: #ffd3a2;
-  z-index: -1;
-}
+  &::before {
+    content: '';
+    padding: 40px 0;
+    position: absolute;
+    width: 100vw;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    background-color: #ffd3a2;
+    z-index: -1;
   }
 `;
 const AuCards = () => {

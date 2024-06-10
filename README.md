@@ -6,7 +6,23 @@
 
 ---
 
-## Preview (TBD)
+## Preview
+### MainPage
+![VisualFable_Main](https://github.com/2024S-Style-Transfer/visual-fable-front/assets/55488800/439fa113-e505-4f4b-b1bc-e6a65ac903ba)
+![VisualFable_GenerateStep](https://github.com/2024S-Style-Transfer/visual-fable-front/assets/55488800/84ed1369-39e3-4b7c-8ead-74d9b20d4b6e)
+![VisualFable_DonePage](https://github.com/2024S-Style-Transfer/visual-fable-front/assets/55488800/2f722c3e-fac2-41c5-8daf-e7b0bf934753)
+
+<details>
+<summary>나머지 페이지들 확인</summary>
+<div markdown="1">
+  <h3>AboutUs Page</h3>
+  <img src="https://github.com/2024S-Style-Transfer/visual-fable-front/assets/55488800/7e64b331-b228-4689-9847-df1b4b01b37b" alt="about_us" />
+  <h3>Api Docs Page</h3>
+  <img src="https://github.com/2024S-Style-Transfer/visual-fable-front/assets/55488800/002b2c4e-719d-4cf8-8589-4d665f43ec5a" alt="api_docs" />
+  <h3>Storage Page</h3>
+  <img src="https://github.com/2024S-Style-Transfer/visual-fable-front/assets/55488800/9f284d23-4330-4863-8404-0ec4a716f8cd" alt="storage" />
+</div>
+</details>
 
 ---
 

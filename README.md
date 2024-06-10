@@ -76,10 +76,12 @@ $ npm run build
 ## Used Tech Stack List
 
 - Next.js(v14) & TypeScript(v5)
-- emotion.js
-- zustand
-- axios
+- emotion.js (= Styling)
+- zustand (= State Management)
+- axios (= HTTP Client)
 - react-pageflip
+- next/image (= Image Optimization)
+- @emailjs/browser
 - uuid
-- @react-oauth/google
-- next/image
+- prettier (= Code Formatting)
+- eslint (= Code Rule)
